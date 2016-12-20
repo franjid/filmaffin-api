@@ -1,0 +1,64 @@
+# app/config/config_dev.yml
+
+imports:
+    - { resource: config.yml }
+    - { resource: parameters_dev.yml }
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        strict_requirements: true
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: INFO
+                VERBOSITY_VERY_VERBOSE: DEBUG
+            channels: ["!doctrine"]
+        console_very_verbose:
+            type:   console
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: NOTICE
+                VERBOSITY_VERY_VERBOSE: NOTICE
+                VERBOSITY_DEBUG: DEBUG
+            channels: ["doctrine"]
+
+        crowd_read_query:
+            type:   stream
+            path:   "%kernel.logs_dir%/crowd_%kernel.environment%_read_query.log"
+            level:  debug
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: NOTICE
+                VERBOSITY_VERY_VERBOSE: NOTICE
+                VERBOSITY_DEBUG: DEBUG
+            channels: ["read_query"]
+            type:  rotating_file
+            max_files: 10
+        crowd_write_query:
+            type:   stream
+            path:   "%kernel.logs_dir%/crowd_%kernel.environment%_write_query.log"
+            level:  debug
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: NOTICE
+                VERBOSITY_VERY_VERBOSE: NOTICE
+                VERBOSITY_DEBUG: DEBUG
+            channels: ["write_query"]
+            type:  rotating_file
+            max_files: 10
+assetic:
+    use_controller: true

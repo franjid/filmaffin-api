@@ -1,0 +1,15 @@
+services:
+    # Format Log
+    Monolog.Formatter.Default:
+        class: Monolog\Formatter\LineFormatter
+        arguments:
+            - "[%%datetime%%] | %%channel%%.%%level_name%%: | %%message%% %%context%% %%extra%%\n"
+            - ~
+            - ~
+            - true
+
+    Monolog.Formatter.Query:
+        class: Component\Log\Formatter\SqlFormatter
+        arguments:
+            - "%%datetime%% | %%level_name%% | %%context%% | %%message%%\n"
+            - "Y-m-d H:i:s:u"

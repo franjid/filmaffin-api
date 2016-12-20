@@ -1,0 +1,9 @@
+imports:
+  - { resource: component.yml }
+
+services:
+##### Queries
+
+##### Repositories
+
+##### Services

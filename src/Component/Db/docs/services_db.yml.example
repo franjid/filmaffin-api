@@ -1,0 +1,23 @@
+# crowd/src/Crowd/CrowdBundle/Resources/config/component_db.yml
+services:
+    # Base queries
+    Component.Db.QueryAbstract:
+        class: Component\Db\QueryAbstract
+        abstract: true
+    Component.Db.ReadMasterQuery:
+        class: Component\Db\ReadMasterQuery
+        parent: Component.Db.QueryAbstract
+        arguments: [@doctrine.dbal.crowd_read_master_connection]
+        tags:
+            - { name: logger, channel: read_query }
+    Component.Db.ReadSlaveQuery:
+        class: Component\Db\ReadSlaveQuery
+        parent: Component.Db.QueryAbstract
+        arguments: [@doctrine.dbal.crowd_read_slave_connection]
+        tags:
+            - { name: logger, channel: read_query }
+    Component.Db.WriteDefaultQuery:
+        class: Component\Db\WriteDefaultQuery
+        arguments: [@doctrine.dbal.crowd_write_default_connection]
+        tags:
+            - { name: logger, channel: write_query }
