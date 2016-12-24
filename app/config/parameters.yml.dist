@@ -28,3 +28,6 @@ parameters:
 
     elasticsearch_hosts:
         - 192.168.33.99:9200
+    elasticsearch_index: filmaffin
+    elasticsearch_type_film: film
+

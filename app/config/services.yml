@@ -1,10 +1,21 @@
 imports:
+  - { resource: business_case.yml }
   - { resource: component.yml }
   - { resource: elasticsearch.yml }
 
 services:
-##### Queries
-
 ##### Repositories
+    Repository.RepositoryAbstract:
+        class: Repository\RepositoryAbstract
+        abstract: true
+        arguments: [@service_container]
+    Repository.Film.FilmRepositoryInterface:
+        class: Repository\Film\FilmRepository
+        parent: Repository.RepositoryAbstract
+
+##### Queries
+    Query.Film.GetFilms:
+        class: Query\Film\GetFilms
+        parent: Component.Db.ReadSlaveQuery
 
 ##### Services

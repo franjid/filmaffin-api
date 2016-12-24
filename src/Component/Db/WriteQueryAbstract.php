@@ -1,9 +1,8 @@
 <?php
 
-
 namespace Component\Db;
 
-use Component\Util\Util;
+use Component\Util\DateTimeUtil;
 use Doctrine\DBAL\DBALException;
 
 abstract class WriteQueryAbstract extends QueryAbstract
@@ -28,9 +27,9 @@ abstract class WriteQueryAbstract extends QueryAbstract
      */
     protected function executeUpdate($query)
     {
-        $startTimeMs = Util::getTime();
+        $startTimeMs = DateTimeUtil::getTime();
         $numberRowsAffected = $this->getConnection()->executeUpdate($query);
-        $endTimeMs = Util::getTime();
+        $endTimeMs = DateTimeUtil::getTime();
         $extraData = ['Time' => $endTimeMs-$startTimeMs, 'RowsAffected' => $numberRowsAffected];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 
