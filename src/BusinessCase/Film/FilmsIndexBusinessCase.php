@@ -47,17 +47,16 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
             'properties' => [
                 'idFilm' => ['type' => 'long'],
                 'title' => [
-                    'type' => 'text',
-                    'fields' => [
-                        'raw' => ['type' => 'keyword']
-                    ]
-                ]
+                    'type' => 'string',
+                    'analyzer' => 'spanish',
+                ],
+                'numRatings' => ['type' => 'integer']
             ]
         ];
 
         $indexParams = $this->indexParams;
         $indexParams['body']['mappings'][$this->elasticsearchTypeFilm] = $mapping;
-        $this->elasticsearchClient->indices()->create($this->indexParams);
+        $this->elasticsearchClient->indices()->create($indexParams);
     }
 
     public function index(array $films)
@@ -69,7 +68,8 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         foreach ($films as $film) {
             $filmForIndex = [
                 'idFilm' => $film->getIdFilm(),
-                'title' => $film->getTitle()
+                'title' => $film->getTitle(),
+                'numRatings' => $film->getNumRatings()
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";
@@ -80,7 +80,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
             $this->elasticsearchClient->bulk($this->indexParams);
         } catch (Exception $e) {
             print_r($this->indexParams);
-            die($e->getMessage());
+            throw new Exception($e);
         }
     }
 

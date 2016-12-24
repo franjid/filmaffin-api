@@ -4,11 +4,14 @@ namespace Entity;
 
 class Film
 {
-    /** @var  int $idFilm */
+    /** @var int $idFilm */
     protected $idFilm;
 
-    /** @var  string $title */
+    /** @var string $title */
     protected $title;
+
+    /** @var int $numRatings */
+    protected $numRatings;
 
     /**
      * @return int
@@ -40,5 +43,21 @@ class Film
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumRatings()
+    {
+        return $this->numRatings;
+    }
+
+    /**
+     * @param int $numRatings
+     */
+    public function setNumRatings($numRatings)
+    {
+        $this->numRatings = $numRatings;
     }
 }

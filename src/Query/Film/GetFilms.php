@@ -19,6 +19,7 @@ class GetFilms extends GlobalReadQuery
         $query = 'SELECT';
         $query .=  ' idFilm';
         $query .=  ' , title';
+        $query .=  ' , numRatings';
         $query .= ' FROM';
         $query .=  ' film';
         $query .= ' LIMIT ' . (int) $offset . ', ' . (int) $limit;
