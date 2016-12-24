@@ -1,5 +1,6 @@
 imports:
   - { resource: component.yml }
+  - { resource: elasticsearch.yml }
 
 services:
 ##### Queries

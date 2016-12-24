@@ -25,3 +25,6 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            yt9g8398fg87gf87g7gf874g
+
+    elasticsearch_hosts:
+        - 192.168.33.99:9200
