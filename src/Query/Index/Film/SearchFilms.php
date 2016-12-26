@@ -16,17 +16,14 @@ class SearchFilms extends Query
     {
         $query = <<<EOT
 {
-    "query": {
-        "function_score": {
-            "query": {
-                "multi_match": {
-                    "query":    "$title",
-              "fields": ["title", "originalTitle"]
+    "_source": ["idFilm", "title", "originalTitle", "numRatings"],
+    "suggest": {
+        "film-suggest" : {
+            "prefix" : "$title",
+            "completion" : {
+                "field" : "suggest",
+                "size" : 10
             }
-          },
-          "field_value_factor": {
-                "field": "numRatings"
-          }
         }
     }
 }
