@@ -46,12 +46,15 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         $mapping = [
             'properties' => [
                 'idFilm' => ['type' => 'long'],
+                'suggest' => [
+                    'type' => 'completion'
+                ],
                 'title' => [
-                    'type' => 'string',
+                    'type' => 'text',
                     'analyzer' => 'spanish',
                 ],
                 'originalTitle' => [
-                    'type' => 'string',
+                    'type' => 'text',
                     'analyzer' => 'english',
                 ],
                 'numRatings' => ['type' => 'integer']
@@ -72,21 +75,66 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         foreach ($films as $film) {
             $filmForIndex = [
                 'idFilm' => $film->getIdFilm(),
+                'suggest' => [
+                    'input' => array_values(
+                        array_unique(
+                            array_merge(
+                                $this->getWordPermutations($film->getTitle()),
+                                $this->getWordPermutations($film->getOriginalTitle())
+                            )
+                        )
+                    ),
+                    'weight' => $film->getNumRatings()
+                    ],
                 'title' => $film->getTitle(),
                 'originalTitle' => $film->getOriginalTitle(),
                 'numRatings' => $film->getNumRatings()
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";
-            $this->indexParams['body'] .= json_encode($filmForIndex, JSON_NUMERIC_CHECK) . "\n";
+            $this->indexParams['body'] .= json_encode($filmForIndex) . "\n";
         }
 
         try {
+            $jsonError = json_last_error();
+            if ($jsonError) {
+                throw new Exception('Json malformed. Error code ' . $jsonError . '. Film id: ' . $film->getIdFilm());
+            }
             $this->elasticsearchClient->bulk($this->indexParams);
         } catch (Exception $e) {
             print_r($this->indexParams);
             throw new Exception($e);
         }
+    }
+
+    private function getWordPermutations($inStr)
+    {
+        $inStr = mb_ereg_replace(
+            '#[[:punct:]]#', '', trim(str_replace(['(c)', '(s)'], ['', ''], mb_strtolower($inStr)))
+        );
+
+        $outArr = [];
+        $tokenArr = explode(' ', $inStr);
+        $pointer = 0;
+
+        for ($i = 0; $i < count($tokenArr); $i++) {
+            if (!empty($tokenArr[$i])) {
+                $outArr[$pointer] = $tokenArr[$i];
+            }
+            $tokenString = $tokenArr[$i];
+            $pointer++;
+
+            for ($j = $i + 1; $j < count($tokenArr); $j++) {
+                $tokenString .= ' ' . $tokenArr[$j];
+                if (!empty($tokenString)) {
+                    $outArr[$pointer] = $tokenString;
+                }
+
+                $pointer++;
+            }
+        }
+
+        return $outArr;
     }
 
     public function deletePreviousIndexes()
