@@ -10,6 +10,9 @@ class Film
     /** @var string $title */
     protected $title;
 
+    /** @var string $originalTitle */
+    protected $originalTitle;
+
     /** @var int $numRatings */
     protected $numRatings;
 
@@ -43,6 +46,22 @@ class Film
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalTitle()
+    {
+        return $this->originalTitle;
+    }
+
+    /**
+     * @param string $originalTitle
+     */
+    public function setOriginalTitle($originalTitle)
+    {
+        $this->originalTitle = $originalTitle;
     }
 
     /**

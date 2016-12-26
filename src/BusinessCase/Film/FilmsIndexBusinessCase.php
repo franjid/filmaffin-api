@@ -50,6 +50,10 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                     'type' => 'string',
                     'analyzer' => 'spanish',
                 ],
+                'originalTitle' => [
+                    'type' => 'string',
+                    'analyzer' => 'english',
+                ],
                 'numRatings' => ['type' => 'integer']
             ]
         ];
@@ -69,6 +73,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
             $filmForIndex = [
                 'idFilm' => $film->getIdFilm(),
                 'title' => $film->getTitle(),
+                'originalTitle' => $film->getOriginalTitle(),
                 'numRatings' => $film->getNumRatings()
             ];
 
