@@ -1,13 +1,13 @@
 <?php
 
-namespace Query\Film;
+namespace Query\Db\Film;
 
 use Component\Db\GlobalReadQuery;
 use Entity\Film;
 
 class GetFilms extends GlobalReadQuery
 {
-    const DIC_NAME = 'Query.Film.GetFilms';
+    const DIC_NAME = 'Query.Db.Film.GetFilms';
 
     /**
      * @param int $offset

@@ -1,7 +1,6 @@
 imports:
   - { resource: business_case.yml }
   - { resource: component.yml }
-  - { resource: elasticsearch.yml }
 
 services:
 ##### Repositories
@@ -9,13 +8,26 @@ services:
         class: Repository\RepositoryAbstract
         abstract: true
         arguments: [@service_container]
-    Repository.Film.FilmRepositoryInterface:
-        class: Repository\Film\FilmRepository
+
+    Repository.Db.Film.FilmRepositoryInterface:
+        class: Repository\Db\Film\FilmRepository
+        parent: Repository.RepositoryAbstract
+
+    Repository.Index.Film.FilmRepositoryInterface:
+        class: Repository\Index\Film\FilmRepository
         parent: Repository.RepositoryAbstract
 
 ##### Queries
-    Query.Film.GetFilms:
-        class: Query\Film\GetFilms
+    Query.Db.Film.GetFilms:
+        class: Query\Db\Film\GetFilms
         parent: Component.Db.ReadSlaveQuery
 
+    Query.Index.Film.SearchFilms:
+        class: Query\Index\Film\SearchFilms
+        parent: Component.Elasticsearch.Query
+
 ##### Services
+    Service.Elasticsearch.ElasticsearchServiceInterface:
+        class: Service\Elasticsearch\ElasticsearchService
+        arguments:
+            - @ElasticsearchClient

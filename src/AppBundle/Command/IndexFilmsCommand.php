@@ -3,7 +3,7 @@
 namespace AppBundle\Command;
 
 use BusinessCase\Film\FilmsIndexBusinessCaseInterface;
-use Repository\Film\FilmRepositoryInterface;
+use Repository\Db\Film\FilmRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;

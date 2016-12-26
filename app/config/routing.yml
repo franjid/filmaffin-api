@@ -1,4 +1,4 @@
-index:
-    path:     /
-    defaults: { _controller: AppBundle:Index:index }
+films:
+    path:     /films
+    defaults: { _controller: AppBundle:Films:index }
     methods:  [GET]

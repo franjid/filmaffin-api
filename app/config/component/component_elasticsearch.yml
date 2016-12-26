@@ -8,7 +8,10 @@ services:
         arguments:
             - %elasticsearch_hosts%
 
-    Service.Elasticsearch.ElasticsearchServiceInterface:
-        class: Service\Elasticsearch\ElasticsearchService
+    Component.Elasticsearch.Query:
+        class: Component\Elasticsearch\Query
         arguments:
             - @ElasticsearchClient
+            - %elasticsearch_index%
+        tags:
+            - { name: logger, channel: elasticsearch_query }

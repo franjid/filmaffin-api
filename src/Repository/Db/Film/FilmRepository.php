@@ -1,8 +1,8 @@
 <?php
 
-namespace Repository\Film;
+namespace Repository\Db\Film;
 
-use Query\Film\GetFilms;
+use Query\Db\Film\GetFilms;
 use Repository\RepositoryAbstract;
 
 class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterface

@@ -2,6 +2,7 @@ monolog:
     channels:
         - "read_query"
         - "write_query"
+        - "elasticsearch_query"
     handlers:
         main:
             type:   stream
@@ -30,6 +31,15 @@ monolog:
             bubble: false
             level: info
             channels: ["write_query"]
+            type:  rotating_file
+            max_files: 10
+        elasticsearch_query:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%_elasticsearch_query.log"
+            formatter: Monolog.Formatter.Query
+            bubble: false
+            level: info
+            channels: ["elasticsearch_query"]
             type:  rotating_file
             max_files: 10
         console:
