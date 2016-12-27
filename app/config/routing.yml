@@ -6,3 +6,7 @@ film:
     path:     /films/{idFilm}
     defaults: { _controller: AppBundle:Films:getFilm }
     methods:  [GET]
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc

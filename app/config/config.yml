@@ -37,6 +37,8 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
 
+nelmio_api_doc: ~
+
 # Doctrine Configuration
 doctrine:
     dbal:
