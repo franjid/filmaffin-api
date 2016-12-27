@@ -2,6 +2,7 @@
 
 namespace BusinessCase\Film;
 
+use Component\Util\StringUtil;
 use Service\Elasticsearch\ElasticsearchServiceInterface;
 use Elasticsearch\Client;
 use Entity\Film;
@@ -79,8 +80,8 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                     'input' => array_values(
                         array_unique(
                             array_merge(
-                                $this->getWordPermutations($film->getTitle()),
-                                $this->getWordPermutations($film->getOriginalTitle())
+                                $this->getSanitizedWordPermutations($film->getTitle()),
+                                $this->getSanitizedWordPermutations($film->getOriginalTitle())
                             )
                         )
                     ),
@@ -107,8 +108,9 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         }
     }
 
-    private function getWordPermutations($inStr)
+    private function getSanitizedWordPermutations($inStr)
     {
+        $inStr = StringUtil::removeDiacritics($inStr);
         $inStr = mb_ereg_replace(
             '#[[:punct:]]#', '', trim(str_replace(['(c)', '(s)'], ['', ''], mb_strtolower($inStr)))
         );

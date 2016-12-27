@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Component\Util\StringUtil;
 use Repository\Index\Film\FilmRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,7 @@ class FilmsController extends BaseController
 
     public function searchAction(Request $request)
     {
-        $title = $request->get('title');
+        $title = StringUtil::removeDiacritics($request->get('title'));
 
         /** @var FilmRepositoryInterface $filmIndexRepository */
         $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
