@@ -2,9 +2,9 @@
 
 namespace Query\Index\Film;
 
-use Component\Elasticsearch\Query;
+use Component\Elasticsearch\SuggestionQuery;
 
-class SearchFilms extends Query
+class SearchFilms extends SuggestionQuery
 {
     const DIC_NAME = 'Query.Index.Film.SearchFilms';
 

@@ -24,7 +24,11 @@ services:
 
     Query.Index.Film.SearchFilms:
         class: Query\Index\Film\SearchFilms
-        parent: Component.Elasticsearch.Query
+        parent: Component.Elasticsearch.SuggestionQuery
+
+    Query.Index.Film.GetFilm:
+        class: Query\Index\Film\GetFilm
+        parent: Component.Elasticsearch.SuggestionQuery
 
 ##### Services
     Service.Elasticsearch.ElasticsearchServiceInterface:

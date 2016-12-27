@@ -3,10 +3,9 @@
 namespace Component\Elasticsearch;
 
 use Component\Log\LogTrait;
-use Component\Util\DateTimeUtil;
 use Elasticsearch\Client;
 
-class Query
+abstract class QueryAbstract
 {
     const TIME_QUERY = 'Time';
     const TOTAL_RESULTS = 'RowsAffected';
@@ -55,25 +54,10 @@ class Query
 
     /**
      * @param string $query
-     *
-     * @return array
      */
-    protected function fetchAll($query)
-    {
-        $startTimeMs = DateTimeUtil::getTime();
-        $originalResult = $this->search($query);
-        $endTimeMs = DateTimeUtil::getTime();
+    abstract protected function fetchAll($query);
 
-        $extraData = [
-            static::TIME_QUERY => ($endTimeMs - $startTimeMs) / 1000,
-            static::TOTAL_RESULTS => count($originalResult['suggest']['film-suggest'][0]['options'])
-        ];
-        $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
-
-        return array_column($originalResult['suggest']['film-suggest'][0]['options'], '_source');
-    }
-
-    private function search($query)
+    protected function search($query)
     {
         $searchParams = '{
             "index": "' . $this->elasticsearchIndexName . '",
@@ -81,6 +65,8 @@ class Query
         }';
 
         $searchParams = json_decode($searchParams, true);
+
+        $this->getClient()->search($searchParams);
 
         return $this->getClient()->search($searchParams);
     }

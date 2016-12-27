@@ -7,7 +7,14 @@ interface FilmRepositoryInterface
     const DIC_NAME = 'Repository.Index.Film.FilmRepositoryInterface';
 
     /**
-     * @return array
+     * @param string $title
+     * @return [][]
      */
     public function searchFilms($title);
+
+    /**
+     * @param int $idFilm
+     * @return array
+     */
+    public function getFilm($idFilm);
 }

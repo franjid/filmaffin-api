@@ -8,8 +8,12 @@ services:
         arguments:
             - %elasticsearch_hosts%
 
-    Component.Elasticsearch.Query:
-        class: Component\Elasticsearch\Query
+    Component.Elasticsearch.QueryAbstract:
+        class: Component\Elasticsearch\QueryAbstract
+        abstract: true
+
+    Component.Elasticsearch.SuggestionQuery:
+        class: Component\Elasticsearch\SuggestionQuery
         arguments:
             - @ElasticsearchClient
             - %elasticsearch_index%

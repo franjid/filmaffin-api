@@ -1,4 +1,8 @@
 films:
     path:     /films
-    defaults: { _controller: AppBundle:Films:index }
+    defaults: { _controller: AppBundle:Films:search }
+    methods:  [GET]
+film:
+    path:     /films/{idFilm}
+    defaults: { _controller: AppBundle:Films:getFilm }
     methods:  [GET]
