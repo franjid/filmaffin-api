@@ -74,6 +74,8 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
 
         /** @var Film $film */
         foreach ($films as $film) {
+            $numRatings = $film->getNumRatings() ? $film->getNumRatings() : 0;
+
             $filmForIndex = [
                 'idFilm' => $film->getIdFilm(),
                 'suggest' => [
@@ -85,11 +87,11 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                             )
                         )
                     ),
-                    'weight' => $film->getNumRatings()
+                    'weight' => $numRatings
                     ],
                 'title' => $film->getTitle(),
                 'originalTitle' => $film->getOriginalTitle(),
-                'numRatings' => $film->getNumRatings()
+                'numRatings' => $numRatings
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";
