@@ -17,12 +17,23 @@ class GetFilms extends GlobalReadQuery
     public function getResult($offset, $limit)
     {
         $query = 'SELECT';
-        $query .=  ' idFilm';
+        $query .=  '   idFilm';
         $query .=  ' , title';
         $query .=  ' , originalTitle';
+        $query .=  ' , rating';
         $query .=  ' , numRatings';
+        $query .=  ' , year';
+        $query .=  ' , duration';
+        $query .=  ' , country';
+        $query .=  ' , GROUP_CONCAT(DISTINCT director.name ORDER BY idAssocFilmDirector) AS directors';
+        $query .=  ' , GROUP_CONCAT(DISTINCT actor.name ORDER BY idAssocFilmActor) AS actors';
         $query .= ' FROM';
         $query .=  ' film';
+        $query .= ' LEFT JOIN assocFilmDirector USING(idFilm)';
+        $query .= ' LEFT JOIN director USING(idDirector)';
+        $query .= ' LEFT JOIN assocFilmActor USING(idFilm)';
+        $query .= ' LEFT JOIN actor USING(idActor)';
+        $query .= ' GROUP BY idFilm';
         $query .= ' LIMIT ' . (int) $offset . ', ' . (int) $limit;
 
         return $this->fetchAllObject($query, Film::class);

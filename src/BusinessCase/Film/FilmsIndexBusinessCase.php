@@ -58,7 +58,25 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                     'type' => 'text',
                     'analyzer' => 'english',
                 ],
-                'numRatings' => ['type' => 'integer']
+                'rating' => ['type' => 'float'],
+                'numRatings' => ['type' => 'integer'],
+                'year' => ['type' => 'integer'],
+                'duration' => ['type' => 'integer'],
+                'country' => [
+                    'type' => 'keyword',
+                    'index' => 'false',
+                ],
+                'directors' => [
+                    'type' => 'keyword',
+                    'index' => 'true',
+                ],
+                'actors' => [
+                    'type' => 'keyword',
+                    'index' => 'true',
+                ],
+                'posterImages' => [
+                    'type' => 'object',
+                ],
             ]
         ];
 
@@ -91,7 +109,14 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                     ],
                 'title' => $film->getTitle(),
                 'originalTitle' => $film->getOriginalTitle(),
-                'numRatings' => $numRatings
+                'rating' => $film->getRating(),
+                'numRatings' => $numRatings,
+                'year' => $film->getYear(),
+                'duration' => $film->getDuration(),
+                'country' => $film->getCountry(),
+                'directors' => explode(',', $film->getDirectors()),
+                'actors' => explode(',', $film->getActors()),
+                'posterImages' => $this->getImagePosters($film->getIdFilm())
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";
@@ -170,5 +195,21 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         }
 
         return $indexes;
+    }
+
+    /**
+     * @param int $idFilm
+     *
+     * @return array
+     */
+    private function getImagePosters($idFilm)
+    {
+        $imagePath ='/' . implode('/', str_split($idFilm, 2)) . '/';
+
+        return [
+            'small' => $imagePath . $idFilm . '-msmall.jpg',
+            'medium' => $imagePath . $idFilm . '-mmed.jpg',
+            'large' => $imagePath . $idFilm . '-large.jpg',
+        ];
     }
 }
