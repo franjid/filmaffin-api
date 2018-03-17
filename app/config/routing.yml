@@ -2,6 +2,10 @@ films:
     path:     /films
     defaults: { _controller: AppBundle:Films:search }
     methods:  [GET]
+films_popular:
+    path:     /films/popular
+    defaults: { _controller: AppBundle:Films:getPopularFilms }
+    methods:  [GET]
 film:
     path:     /films/{idFilm}
     defaults: { _controller: AppBundle:Films:getFilm }

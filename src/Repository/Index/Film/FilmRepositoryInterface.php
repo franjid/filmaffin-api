@@ -17,4 +17,9 @@ interface FilmRepositoryInterface
      * @return array
      */
     public function getFilm($idFilm);
+
+    /**
+     * @return array
+     */
+    public function getPopularFilms();
 }

@@ -32,7 +32,6 @@ class FilmsController extends BaseController
      *
      * @return JsonResponse
      */
-
     public function searchAction(Request $request)
     {
         $title = StringUtil::removeDiacritics($request->get('title'));
@@ -69,13 +68,37 @@ class FilmsController extends BaseController
      *
      * @return JsonResponse
      */
-
     public function getFilmAction($idFilm)
     {
         /** @var FilmRepositoryInterface $filmIndexRepository */
         $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
 
         $film = $filmIndexRepository->getFilm($idFilm);
+        $response = empty($film) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
+
+        return new JsonResponse($film, $response);
+    }
+
+    /**
+     * @Nelmio\ApiDocBundle\Annotation\ApiDoc(
+     *  section="Films",
+     *  resource=true,
+     *  description="Get popular films",
+     *  statusCodes={
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the id does not exist"
+     *  }
+     * )
+     *
+     *
+     * @return JsonResponse
+     */
+    public function getPopularFilmsAction()
+    {
+        /** @var FilmRepositoryInterface $filmIndexRepository */
+        $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
+
+        $film = $filmIndexRepository->getPopularFilms();
         $response = empty($film) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
 
         return new JsonResponse($film, $response);

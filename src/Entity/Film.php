@@ -19,6 +19,9 @@ class Film
     /** @var int $numRatings */
     protected $numRatings;
 
+    /** @var int $numRatings */
+    protected $popularityRanking;
+
     /** @var int $year */
     protected $year;
 
@@ -113,6 +116,22 @@ class Film
     public function setNumRatings($numRatings)
     {
         $this->numRatings = $numRatings;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPopularityRanking()
+    {
+        return $this->popularityRanking;
+    }
+
+    /**
+     * @param int $popularityRanking
+     */
+    public function setPopularityRanking($popularityRanking)
+    {
+        $this->popularityRanking = $popularityRanking;
     }
 
     /**

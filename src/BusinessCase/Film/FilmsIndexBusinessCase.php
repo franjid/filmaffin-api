@@ -60,6 +60,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 ],
                 'rating' => ['type' => 'float'],
                 'numRatings' => ['type' => 'integer'],
+                'popularityRanking' => ['type' => 'integer'],
                 'year' => ['type' => 'integer'],
                 'duration' => ['type' => 'integer'],
                 'country' => [
@@ -111,6 +112,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 'originalTitle' => $film->getOriginalTitle(),
                 'rating' => $film->getRating(),
                 'numRatings' => $numRatings,
+                'popularityRanking' => $film->getPopularityRanking(),
                 'year' => $film->getYear(),
                 'duration' => $film->getDuration(),
                 'country' => $film->getCountry(),

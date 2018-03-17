@@ -30,6 +30,10 @@ services:
         class: Query\Index\Film\GetFilm
         parent: Component.Elasticsearch.SuggestionQuery
 
+    Query.Index.Film.GetPopularFilms:
+        class: Query\Index\Film\GetPopularFilms
+        parent: Component.Elasticsearch.SuggestionQuery
+
 ##### Services
     Service.Elasticsearch.ElasticsearchServiceInterface:
         class: Service\Elasticsearch\ElasticsearchService

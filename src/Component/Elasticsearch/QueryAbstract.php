@@ -20,6 +20,7 @@ abstract class QueryAbstract
 
     /**
      * @param Client $client
+     * @param string $elasticsearchIndexName
      */
     public function __construct(
         Client $client,
@@ -65,8 +66,6 @@ abstract class QueryAbstract
         }';
 
         $searchParams = json_decode($searchParams, true);
-
-        $this->getClient()->search($searchParams);
 
         return $this->getClient()->search($searchParams);
     }

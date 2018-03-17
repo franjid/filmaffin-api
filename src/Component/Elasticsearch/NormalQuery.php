@@ -24,6 +24,7 @@ class NormalQuery extends QueryAbstract
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 
         $result = array_column($originalResult['hits']['hits'], '_source');
-        return $result ? $result[0] : [];
+
+        return $result ? $result : [];
     }
 }
