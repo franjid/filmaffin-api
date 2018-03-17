@@ -15,7 +15,7 @@ class GetPopularFilms extends NormalQuery
     {
         $query = <<<EOT
 {
-    "_source": ["idFilm", "title", "originalTitle", "rating", "numRatings", "year", "duration", "country", "directors", "popularityRanking"],
+    "_source": ["idFilm", "title", "originalTitle", "rating", "numRatings", "year", "duration", "country", "directors", "actors", "popularityRanking"],
     "sort": [{
         "popularityRanking": {
             "order": "asc"
