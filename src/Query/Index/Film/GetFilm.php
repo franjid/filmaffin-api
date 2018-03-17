@@ -16,7 +16,24 @@ class GetFilm extends NormalQuery
     {
         $query = <<<EOT
 {
-    "_source": ["idFilm", "title", "originalTitle", "rating", "numRatings", "year", "duration", "country", "directors", "actors"],
+    "_source": [
+        "idFilm",
+        "title",
+        "originalTitle",
+        "rating",
+        "numRatings",
+        "year",
+        "duration",
+        "country",
+        "directors",
+        "actors",
+        "posterImages",
+        "synopsis",
+        "topics",
+        "screenplayers",
+        "musicians",
+        "cinematographers"
+    ],
     "query": {
         "ids" : {
             "values" : [$idFilm]

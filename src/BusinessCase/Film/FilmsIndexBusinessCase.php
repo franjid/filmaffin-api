@@ -78,6 +78,26 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 'posterImages' => [
                     'type' => 'object',
                 ],
+                'synopsis' => [
+                    'type' => 'keyword',
+                    'index' => 'false',
+                ],
+                'topics' => [
+                    'type' => 'keyword',
+                    'index' => 'true',
+                ],
+                'screenplayers' => [
+                    'type' => 'keyword',
+                    'index' => 'true',
+                ],
+                'musicians' => [
+                    'type' => 'keyword',
+                    'index' => 'true',
+                ],
+                'cinematographers' => [
+                    'type' => 'keyword',
+                    'index' => 'true',
+                ],
             ]
         ];
 
@@ -118,7 +138,12 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 'country' => $film->getCountry(),
                 'directors' => explode(',', $film->getDirectors()),
                 'actors' => explode(',', $film->getActors()),
-                'posterImages' => $this->getImagePosters($film->getIdFilm())
+                'posterImages' => $this->getImagePosters($film->getIdFilm()),
+                'synopsis' => !is_null($film->getSynopsis()) ? $film->getSynopsis() : '',
+                'topics' => explode(',', $film->getTopics()),
+                'screenplayers' => explode(',', $film->getScreenplayers()),
+                'musicians' => explode(',', $film->getMusicians()),
+                'cinematographers' => explode(',', $film->getCinematographers()),
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";
