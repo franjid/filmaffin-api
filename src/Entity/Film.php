@@ -31,6 +31,12 @@ class Film
     /** @var string $country */
     protected $country;
 
+    /** @var boolean $inTheatres */
+    protected $inTheatres;
+
+    /** @var string $releaseDate */
+    protected $releaseDate;
+
     /** @var string $directors */
     protected $directors;
 
@@ -194,6 +200,38 @@ class Film
     public function setCountry($country)
     {
         $this->country = $country;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInTheatres()
+    {
+        return $this->inTheatres;
+    }
+
+    /**
+     * @param bool $inTheatres
+     */
+    public function setInTheatres($inTheatres)
+    {
+        $this->inTheatres = $inTheatres;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReleaseDate()
+    {
+        return $this->releaseDate;
+    }
+
+    /**
+     * @param string $releaseDate
+     */
+    public function setReleaseDate($releaseDate)
+    {
+        $this->releaseDate = $releaseDate;
     }
 
     /**

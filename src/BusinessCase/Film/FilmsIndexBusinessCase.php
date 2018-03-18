@@ -67,6 +67,12 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                     'type' => 'keyword',
                     'index' => 'false',
                 ],
+                'inTheatres' => [
+                    'type' => 'boolean',
+                ],
+                'releaseDate' => [
+                    'type' => 'date',
+                ],
                 'directors' => [
                     'type' => 'keyword',
                     'index' => 'true',
@@ -136,6 +142,8 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 'year' => $film->getYear(),
                 'duration' => $film->getDuration(),
                 'country' => $film->getCountry(),
+                'inTheatres' => $film->isInTheatres(),
+                'releaseDate' => $film->getReleaseDate(),
                 'directors' => explode(',', $film->getDirectors()),
                 'actors' => explode(',', $film->getActors()),
                 'posterImages' => $this->getImagePosters($film->getIdFilm()),
