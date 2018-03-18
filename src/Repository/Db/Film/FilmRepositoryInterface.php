@@ -3,6 +3,7 @@
 namespace Repository\Db\Film;
 
 use Entity\Film;
+use Entity\FilmExtraInfo;
 
 interface FilmRepositoryInterface
 {
@@ -14,4 +15,10 @@ interface FilmRepositoryInterface
      * @return Film[]
      */
     public function getFilms($offset, $limit);
+
+    /**
+     * @param array $idFilms
+     * @return FilmExtraInfo[]
+     */
+    public function getFilmExtraInfo(array $idFilms);
 }

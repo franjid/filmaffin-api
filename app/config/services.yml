@@ -22,6 +22,10 @@ services:
         class: Query\Db\Film\GetFilms
         parent: Component.Db.ReadSlaveQuery
 
+    Query.Db.Film.GetFilmExtraInfo:
+        class: Query\Db\Film\GetFilmExtraInfo
+        parent: Component.Db.ReadSlaveQuery
+
     Query.Index.Film.SearchFilms:
         class: Query\Index\Film\SearchFilms
         parent: Component.Elasticsearch.SuggestionQuery

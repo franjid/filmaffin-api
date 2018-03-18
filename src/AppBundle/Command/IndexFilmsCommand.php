@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class IndexFilmsCommand extends ContainerAwareCommand
 {
-    const MAX_FILMS_PER_ITERATION = 1000;
+    const MAX_FILMS_PER_ITERATION = 100;
 
     protected function configure()
     {
@@ -46,10 +46,32 @@ class IndexFilmsCommand extends ContainerAwareCommand
             $filmsAvailable = count($films);
 
             if ($filmsAvailable) {
-                $filmsIndexBC->index($films);
+                $idFilms = [];
+                foreach ($films as $film) {
+                    $idFilms[] = $film->getIdFilm();
+                }
 
-                $progressBar->advance(static::MAX_FILMS_PER_ITERATION);
-                $offset += static::MAX_FILMS_PER_ITERATION;
+                $filmExtraInfo = $filmRepository->getFilmExtraInfo($idFilms);
+
+                $i = 0;
+                foreach ($films as $film) {
+                    $film->setDirectors($filmExtraInfo[$i]->getDirectors());
+                    $film->setActors($filmExtraInfo[$i]->getActors());
+                    $film->setActors($filmExtraInfo[$i]->getActors());
+                    $film->setScreenplayers($filmExtraInfo[$i]->getScreenplayers());
+                    $film->setMusicians($filmExtraInfo[$i]->getMusicians());
+                    $film->setCinematographers($filmExtraInfo[$i]->getCinematographers());
+                    $film->setTopics($filmExtraInfo[$i]->getTopics());
+
+                    $i++;
+                }
+
+                if ($filmsAvailable) {
+                    $filmsIndexBC->index($films);
+
+                    $progressBar->advance(static::MAX_FILMS_PER_ITERATION);
+                    $offset += static::MAX_FILMS_PER_ITERATION;
+                }
             }
         } while ($filmsAvailable);
 
