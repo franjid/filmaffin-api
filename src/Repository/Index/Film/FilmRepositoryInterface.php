@@ -22,4 +22,9 @@ interface FilmRepositoryInterface
      * @return array
      */
     public function getPopularFilms();
+
+    /**
+     * @return array
+     */
+    public function getFilmsInTheatres();
 }

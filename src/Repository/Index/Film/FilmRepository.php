@@ -3,6 +3,7 @@
 namespace Repository\Index\Film;
 
 use Query\Index\Film\GetFilm;
+use Query\Index\Film\GetFilmsInTheatres;
 use Query\Index\Film\GetPopularFilms;
 use Query\Index\Film\SearchFilms;
 use Repository\RepositoryAbstract;
@@ -38,6 +39,17 @@ class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterfa
     {
         /** @var GetPopularFilms $query */
         $query = $this->getQuery(GetPopularFilms::DIC_NAME);
+
+        return $query->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilmsInTheatres()
+    {
+        /** @var GetFilmsInTheatres $query */
+        $query = $this->getQuery(GetFilmsInTheatres::DIC_NAME);
 
         return $query->getResult();
     }

@@ -6,6 +6,10 @@ films_popular:
     path:     /films/popular
     defaults: { _controller: AppBundle:Films:getPopularFilms }
     methods:  [GET]
+films_in_theatres:
+    path:     /films/in-theatres
+    defaults: { _controller: AppBundle:Films:getFilmsInTheatres }
+    methods:  [GET]
 film:
     path:     /films/{idFilm}
     defaults: { _controller: AppBundle:Films:getFilm }

@@ -103,4 +103,29 @@ class FilmsController extends BaseController
 
         return new JsonResponse($film, $response);
     }
+
+    /**
+     * @Nelmio\ApiDocBundle\Annotation\ApiDoc(
+     *  section="Films",
+     *  resource=true,
+     *  description="Get current films in theatres",
+     *  statusCodes={
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the id does not exist"
+     *  }
+     * )
+     *
+     *
+     * @return JsonResponse
+     */
+    public function getFilmsInTheatresAction()
+    {
+        /** @var FilmRepositoryInterface $filmIndexRepository */
+        $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
+
+        $film = $filmIndexRepository->getFilmsInTheatres();
+        $response = empty($film) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
+
+        return new JsonResponse($film, $response);
+    }
 }
