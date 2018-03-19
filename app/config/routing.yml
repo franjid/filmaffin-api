@@ -13,6 +13,8 @@ films_in_theatres:
 film:
     path:     /films/{idFilm}
     defaults: { _controller: AppBundle:Films:getFilm }
+    requirements:
+        page: '\d+'
     methods:  [GET]
 
 NelmioApiDocBundle:
