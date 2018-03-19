@@ -19,9 +19,11 @@ interface FilmRepositoryInterface
     public function getFilm($idFilm);
 
     /**
+     * @param int $numResults
+     * @param int $offset
      * @return array
      */
-    public function getPopularFilms();
+    public function getPopularFilms($numResults, $offset);
 
     /**
      * @return array

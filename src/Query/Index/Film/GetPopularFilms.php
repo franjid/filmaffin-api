@@ -9,9 +9,11 @@ class GetPopularFilms extends NormalQuery
     const DIC_NAME = 'Query.Index.Film.GetPopularFilms';
 
     /**
+     * @param int $numResults
+     * @param int $offset
      * @return array
      */
-    public function getResult()
+    public function getResult($numResults, $offset)
     {
         $query = <<<EOT
 {
@@ -34,7 +36,8 @@ class GetPopularFilms extends NormalQuery
             "order": "asc"
         }
     }],
-    "size": 20,
+    "size": $numResults,
+    "from": $offset,
     "query": {
         "range" : {
             "popularityRanking" : {

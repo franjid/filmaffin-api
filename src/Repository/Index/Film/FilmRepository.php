@@ -35,12 +35,12 @@ class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getPopularFilms()
+    public function getPopularFilms($numResults, $offset)
     {
         /** @var GetPopularFilms $query */
         $query = $this->getQuery(GetPopularFilms::DIC_NAME);
 
-        return $query->getResult();
+        return $query->getResult($numResults, $offset);
     }
 
     /**
