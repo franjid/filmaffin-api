@@ -100,7 +100,7 @@ class FilmsController extends BaseController
      *          "dataType"="integer",
      *          "requirement"="\d+",
      *          "description"="Offset from the first result you want to fetch"
-     *      },
+     *      }
      *  }
      * )
      *
@@ -131,18 +131,36 @@ class FilmsController extends BaseController
      *  statusCodes={
      *     200 = "Returned when successful",
      *     404 = "Returned when the id does not exist"
+     *  },
+     *  filters={
+     *      {
+     *          "name"="sort",
+     *          "dataType"="string",
+     *          "requirement"="\w+",
+     *          "description"="Sort films by [releaseDate, rating, numRatings]"
+     *      }
      *  }
      * )
      *
      *
      * @return JsonResponse
      */
-    public function getFilmsInTheatresAction()
+    public function getFilmsInTheatresAction(Request $request)
     {
+        $availableSort = ['releaseDate', 'rating', 'numRatings'];
+
+        $sortBy = $request->query->get('sort');
+
+        if (!is_null($sortBy) && !in_array($sortBy, $availableSort)) {
+            return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
+        } else if (is_null($sortBy)) {
+            $sortBy = 'releaseDate'; // Default sort option
+        }
+
         /** @var FilmRepositoryInterface $filmIndexRepository */
         $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
 
-        $film = $filmIndexRepository->getFilmsInTheatres();
+        $film = $filmIndexRepository->getFilmsInTheatres($sortBy);
         $response = empty($film) ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
 
         return new JsonResponse($film, $response);

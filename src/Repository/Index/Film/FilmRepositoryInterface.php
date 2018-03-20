@@ -26,7 +26,8 @@ interface FilmRepositoryInterface
     public function getPopularFilms($numResults, $offset);
 
     /**
+     * @param string $sortBy
      * @return array
      */
-    public function getFilmsInTheatres();
+    public function getFilmsInTheatres($sortBy);
 }

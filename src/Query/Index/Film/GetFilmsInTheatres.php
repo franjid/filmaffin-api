@@ -9,9 +9,10 @@ class GetFilmsInTheatres extends NormalQuery
     const DIC_NAME = 'Query.Index.Film.GetFilmsInTheatres';
 
     /**
+     * @param string $sortBy
      * @return array
      */
-    public function getResult()
+    public function getResult($sortBy)
     {
         $query = <<<EOT
 {
@@ -30,7 +31,7 @@ class GetFilmsInTheatres extends NormalQuery
         "posterImages"
     ],
     "sort": [{
-        "releaseDate": {
+        "$sortBy": {
             "order": "desc"
         }
     }],

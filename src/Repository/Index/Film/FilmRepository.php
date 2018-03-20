@@ -46,11 +46,11 @@ class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getFilmsInTheatres()
+    public function getFilmsInTheatres($sortBy)
     {
         /** @var GetFilmsInTheatres $query */
         $query = $this->getQuery(GetFilmsInTheatres::DIC_NAME);
 
-        return $query->getResult();
+        return $query->getResult($sortBy);
     }
 }
