@@ -26,7 +26,8 @@ class SearchFilms extends SuggestionQuery
         "duration",
         "country",
         "directors",
-        "actors"
+        "actors",
+        "posterImages"
     ],
     "suggest": {
         "film-suggest" : {
