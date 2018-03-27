@@ -1,4 +1,4 @@
-#Filmaffin API
+# Filmaffin API
 
 API based on Filmaffinity.com data
 
@@ -17,3 +17,8 @@ And go to
 ```
 http://127.0.0.1:8000/api/doc
 ```
+
+## TODO
+
+* Add database structure
+* Add example data
