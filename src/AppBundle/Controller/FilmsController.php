@@ -105,6 +105,8 @@ class FilmsController extends BaseController
      * )
      *
      *
+     * @param Request $request
+     *
      * @return JsonResponse
      */
     public function getPopularFilmsAction(Request $request)
@@ -142,6 +144,8 @@ class FilmsController extends BaseController
      *  }
      * )
      *
+     *
+     * @param Request $request
      *
      * @return JsonResponse
      */
