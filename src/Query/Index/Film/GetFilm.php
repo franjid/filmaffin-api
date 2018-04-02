@@ -35,8 +35,22 @@ class GetFilm extends NormalQuery
         "cinematographers"
     ],
     "query": {
-        "ids" : {
-            "values" : [$idFilm]
+        "function_score": {
+            "boost_mode": "replace",
+            "query": {
+                "ids": {
+                    "values": [$idFilm]
+                }
+            },
+            "script_score" : {
+                "script" : {
+                  "lang": "painless",
+                  "params": {
+                      "ids": [$idFilm]
+                  },
+                  "inline": "int idsLength = params.ids.size(); int idsIndex = 0; long id = doc['idFilm'].value; for (int i = 0; i < idsLength; ++i) { if (id == params.ids[i]) { idsIndex = i * -1; } } return idsIndex;"
+                }
+            }
         }
     }
 }
