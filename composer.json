@@ -1,6 +1,6 @@
 {
     "name": "franjid/filmaffin-api",
-    "license": "proprietary",
+    "license": "MIT",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -21,7 +21,10 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "nelmio/api-doc-bundle": "^2.13",
-        "elasticsearch/elasticsearch": "^5.0"
+        "elasticsearch/elasticsearch": "^5.0",
+        "ext-json" : "*",
+        "ext-intl" : "*",
+        "ext-mbstring" : "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

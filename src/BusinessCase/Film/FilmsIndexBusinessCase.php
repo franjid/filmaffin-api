@@ -119,7 +119,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
 
         /** @var Film $film */
         foreach ($films as $film) {
-            $numRatings = $film->getNumRatings() ? $film->getNumRatings() : 0;
+            $numRatings = $film->getNumRatings() ?: 0;
 
             $filmForIndex = [
                 'idFilm' => $film->getIdFilm(),
@@ -147,7 +147,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 'directors' => explode(',', $film->getDirectors()),
                 'actors' => explode(',', $film->getActors()),
                 'posterImages' => $this->getImagePosters($film->getIdFilm()),
-                'synopsis' => !is_null($film->getSynopsis()) ? $film->getSynopsis() : '',
+                'synopsis' => $film->getSynopsis() !== null ? $film->getSynopsis() : '',
                 'topics' => explode(',', $film->getTopics()),
                 'screenplayers' => explode(',', $film->getScreenplayers()),
                 'musicians' => explode(',', $film->getMusicians()),
@@ -179,16 +179,17 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
 
         $outArr = [];
         $tokenArr = explode(' ', $inStr);
+        $numTokenArr = count($tokenArr);
         $pointer = 0;
 
-        for ($i = 0; $i < count($tokenArr); $i++) {
+        for ($i = 0; $i < $numTokenArr; $i++) {
             if (!empty($tokenArr[$i])) {
                 $outArr[$pointer] = $tokenArr[$i];
             }
             $tokenString = $tokenArr[$i];
             $pointer++;
 
-            for ($j = $i + 1; $j < count($tokenArr); $j++) {
+            for ($j = $i + 1; $j < $numTokenArr; $j++) {
                 $tokenString .= ' ' . $tokenArr[$j];
                 if (!empty($tokenString)) {
                     $outArr[$pointer] = $tokenString;
@@ -207,7 +208,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         $indexesNames = array_keys($previousIndexes);
 
         foreach ($indexesNames as $indexName) {
-            if (substr_count($indexName, $this->elasticsearchIndexName) && $indexName != $this->indexParams['index']) {
+            if ($indexName !== $this->indexParams['index'] && substr_count($indexName, $this->elasticsearchIndexName)) {
                 $deleteParams['index'] = $indexName;
                 $this->elasticsearchClient->indices()->delete($deleteParams);
             }
