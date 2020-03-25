@@ -7,16 +7,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class UserInformationProcessor
 {
-    /** @var TokenStorageInterface $tokenStorage */
-    private $tokenStorage;
+    private TokenStorageInterface $tokenStorage;
+    private RequestStack $requestStack;
 
-    /** @var  RequestStack $requestStack */
-    private $requestStack;
-
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     * @param RequestStack $requestStack
-     */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         RequestStack $requestStack
@@ -26,23 +19,17 @@ class UserInformationProcessor
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @param array $records
-     * @return array
-     */
-    public function processRecord(array $records)
+    public function processRecord(array $records): array
     {
         $token = $this->tokenStorage->getToken();
 
-        if ($token)
-        {
+        if ($token) {
             $records['extra']['user_id'] = $token->getUser()->getUserId();
         }
 
         $currentRequest = $this->requestStack->getCurrentRequest();
 
-        if ($currentRequest)
-        {
+        if ($currentRequest) {
             $records['extra']['client_ip'] = $currentRequest->getClientIp();
         }
 

@@ -4,10 +4,10 @@ namespace BusinessCase\Film;
 
 interface FilmsIndexBusinessCaseInterface
 {
-    const DIC_NAME = 'BusinessCase.Film.FilmsIndexBusinessCaseInterface';
+    public const DIC_NAME = 'BusinessCase.Film.FilmsIndexBusinessCaseInterface';
 
-    public function createMapping();
-    public function index(array $films);
-    public function deletePreviousIndexes();
-    public function createIndexAlias();
+    public function createMapping(): void;
+    public function index(array $films): void;
+    public function deletePreviousIndexes(): void;
+    public function createIndexAlias(): void;
 }

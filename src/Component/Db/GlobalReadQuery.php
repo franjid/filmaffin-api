@@ -4,10 +4,7 @@ namespace Component\Db;
 
 class GlobalReadQuery extends ReadQueryAbstract
 {
-    /**
-     * @return string
-     */
-    public function getDbPool()
+    public function getDbPool(): string
     {
         return DbPoolAbstract::GLOBAL_READ;
     }

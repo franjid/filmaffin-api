@@ -7,12 +7,7 @@ use Elasticsearch\ClientBuilder;
 
 class ElasticsearchClientFactory
 {
-    /**
-     * @param array $hosts
-     *
-     * @return Client
-     */
-    public function createClient(array $hosts)
+    public function createClient(array $hosts): Client
     {
         return ClientBuilder::create()->setHosts($hosts)->build();
     }

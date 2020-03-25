@@ -10,10 +10,7 @@ use Repository\RepositoryAbstract;
 
 class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function searchFilms($title)
+    public function searchFilms(string $title): array
     {
         /** @var SearchFilms $query */
         $query = $this->getQuery(SearchFilms::DIC_NAME);
@@ -21,10 +18,7 @@ class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterfa
         return $query->getResult($title);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilm($idFilm)
+    public function getFilm(int $idFilm): array
     {
         /** @var GetFilm $query */
         $query = $this->getQuery(GetFilm::DIC_NAME);
@@ -32,10 +26,7 @@ class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterfa
         return $query->getResult($idFilm);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPopularFilms($numResults, $offset)
+    public function getPopularFilms(int $numResults, int $offset): array
     {
         /** @var GetPopularFilms $query */
         $query = $this->getQuery(GetPopularFilms::DIC_NAME);
@@ -43,10 +34,7 @@ class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterfa
         return $query->getResult($numResults, $offset);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilmsInTheatres($sortBy)
+    public function getFilmsInTheatres(string $sortBy): array
     {
         /** @var GetFilmsInTheatres $query */
         $query = $this->getQuery(GetFilmsInTheatres::DIC_NAME);

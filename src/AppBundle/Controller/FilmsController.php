@@ -32,7 +32,7 @@ class FilmsController extends BaseController
      *
      * @return JsonResponse
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request): JsonResponse
     {
         $title = StringUtil::removeDiacritics($request->query->get('title'));
 
@@ -68,7 +68,7 @@ class FilmsController extends BaseController
      *
      * @return JsonResponse
      */
-    public function getFilmAction($idFilm)
+    public function getFilmAction($idFilm): JsonResponse
     {
         /** @var FilmRepositoryInterface $filmIndexRepository */
         $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
@@ -109,7 +109,7 @@ class FilmsController extends BaseController
      *
      * @return JsonResponse
      */
-    public function getPopularFilmsAction(Request $request)
+    public function getPopularFilmsAction(Request $request): JsonResponse
     {
         $numResults = $request->query->get('numResults');
         $numResults = $numResults !== null ? (int) $numResults : 10;
@@ -149,7 +149,7 @@ class FilmsController extends BaseController
      *
      * @return JsonResponse
      */
-    public function getFilmsInTheatresAction(Request $request)
+    public function getFilmsInTheatresAction(Request $request): JsonResponse
     {
         $availableSort = ['releaseDate', 'rating', 'numRatings'];
 

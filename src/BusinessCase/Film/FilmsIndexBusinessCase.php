@@ -10,27 +10,18 @@ use Exception;
 
 class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
 {
-    /** @var Client $elasticsearchClient */
-    private $elasticsearchClient;
+    private Client $elasticsearchClient;
 
-    /** @var string $elasticsearchIndexName */
-    private $elasticsearchIndexName;
+    private string $elasticsearchIndexName;
 
-    /** @var string $elasticsearchTypeFilm */
-    private $elasticsearchTypeFilm;
+    private string $elasticsearchTypeFilm;
 
-    /** @var array $indexParams */
-    private $indexParams;
+    private array $indexParams;
 
-    /**
-     * @param ElasticsearchServiceInterface $elasticsearch
-     * @param $elasticsearchIndexName
-     * @param $elasticsearchTypeFilm
-     */
     public function __construct(
         ElasticsearchServiceInterface $elasticsearch,
-        $elasticsearchIndexName,
-        $elasticsearchTypeFilm
+        string $elasticsearchIndexName,
+        string $elasticsearchTypeFilm
     )
     {
         $this->elasticsearchClient = $elasticsearch->getClient();
@@ -42,7 +33,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         ];
     }
 
-    public function createMapping()
+    public function createMapping(): void
     {
         $mapping = [
             'properties' => [
@@ -106,12 +97,13 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 ],
             ]
         ];
+
         $indexParams = $this->indexParams;
         $indexParams['body']['mappings'][$this->elasticsearchTypeFilm] = $mapping;
         $this->elasticsearchClient->indices()->create($indexParams);
     }
 
-    public function index(array $films)
+    public function index(array $films): void
     {
         $this->indexParams['type'] = $this->elasticsearchTypeFilm;
         $this->indexParams['body'] = '';
@@ -146,7 +138,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 'directors' => explode(',', $film->getDirectors()),
                 'actors' => explode(',', $film->getActors()),
                 'posterImages' => $this->getImagePosters($film->getIdFilm()),
-                'synopsis' => $film->getSynopsis() !== null ? $film->getSynopsis() : '',
+                'synopsis' => $film->getSynopsis() ?? '',
                 'topics' => explode(',', $film->getTopics()),
                 'screenplayers' => explode(',', $film->getScreenplayers()),
                 'musicians' => explode(',', $film->getMusicians()),
@@ -169,7 +161,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         }
     }
 
-    private function getSanitizedWordPermutations($inStr)
+    private function getSanitizedWordPermutations($inStr): array
     {
         $inStr = StringUtil::removeDiacritics($inStr);
         $inStr = mb_ereg_replace(
@@ -201,9 +193,14 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         return $outArr;
     }
 
-    public function deletePreviousIndexes()
+    public function deletePreviousIndexes(): void
     {
         $previousIndexes = $this->getPreviousIndexes();
+
+        if (!$previousIndexes) {
+            return;
+        }
+
         $indexesNames = array_keys($previousIndexes);
 
         foreach ($indexesNames as $indexName) {
@@ -214,14 +211,14 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
         }
     }
 
-    public function createIndexAlias()
+    public function createIndexAlias(): void
     {
         $aliasParams['index'] = $this->indexParams['index'];
         $aliasParams['name'] = $this->elasticsearchIndexName;
         $this->elasticsearchClient->indices()->putAlias($aliasParams);
     }
 
-    private function getPreviousIndexes()
+    private function getPreviousIndexes(): ?array
     {
         try {
             $indexes = $this->elasticsearchClient->indices()->getMapping();
@@ -237,7 +234,7 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
      *
      * @return array
      */
-    private function getImagePosters($idFilm)
+    private function getImagePosters($idFilm): array
     {
         $imagePath ='/' . implode('/', str_split($idFilm, 2)) . '/';
 

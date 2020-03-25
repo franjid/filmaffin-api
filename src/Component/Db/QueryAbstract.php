@@ -9,47 +9,22 @@ abstract class QueryAbstract
 {
     use LogTrait;
 
-    /** @var Connection $connection */
-    private $connection;
+    private Connection $connection;
 
-    /**
-     * @param Connection $connection
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
-    /**
-     * To know if query is read/write
-     *
-     * @return boolean
-     */
-    abstract public function isReadOnly();
+    abstract public function isReadOnly(): bool ;
+    abstract public function getDbPool(): string;
 
-    /**
-     * Get database pool connection
-     *
-     * @return string
-     */
-    abstract public function getDbPool();
-
-    /**
-     * Set connection
-     *
-     * @param Connection $connection
-     */
-    protected function setConnection(Connection $connection)
+    protected function setConnection(Connection $connection): void
     {
         $this->connection = $connection;
     }
 
-    /**
-     * Get connection object
-     *
-     * @return Connection
-     */
-    protected function getConnection()
+    protected function getConnection(): Connection
     {
         return $this->connection;
     }
@@ -58,21 +33,18 @@ abstract class QueryAbstract
      * Get DbDate in right format to save in database
      *
      * @param string $time
+     *
      * @return string
+     * @throws \Exception
      */
-    protected function getDbDate($time = 'now')
+    protected function getDbDate(string $time = 'now'): string
     {
-        $dateTime = new \DateTime($time);
+        $dateTime = new \DateTimeImmutable($time);
 
         return $this->quote($dateTime->format('Y-m-d H:i:s'));
     }
 
-    /**
-     * Get info connection
-     *
-     * @return array
-     */
-    final public function getInfoPoolConnection()
+    final public function getInfoPoolConnection(): array
     {
         return [
             'Db' => $this->connection->getDatabase(),
@@ -83,11 +55,11 @@ abstract class QueryAbstract
     }
 
     /**
-     * Get custom data to do logging
+     * Get custom data for logging
      *
      * @return array
      */
-    public function getExtraDataLog()
+    public function getExtraDataLog(): array
     {
         return [
             'Class' => static::class,
@@ -103,17 +75,12 @@ abstract class QueryAbstract
      * @param string|null $type The type of the parameter.
      * @return string The quoted parameter.
      */
-    public function quote($input, $type = null)
+    public function quote($input, ?string $type = null): string
     {
         return $this->getConnection()->quote($input, $type);
     }
 
-    /**
-     * @param [] $inputs
-     * @param string|null $type
-     * @return array
-     */
-    public function quoteFromArray(array $inputs, $type = null)
+    public function quoteFromArray(array $inputs, ?string $type = null): array
     {
         $result = [];
 

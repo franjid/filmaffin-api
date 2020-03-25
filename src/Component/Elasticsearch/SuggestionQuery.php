@@ -6,12 +6,7 @@ use Component\Util\DateTimeUtil;
 
 class SuggestionQuery extends QueryAbstract
 {
-    /**
-     * @param string $query
-     *
-     * @return array
-     */
-    protected function fetchAll($query)
+    protected function fetchAll(string $query): array
     {
         $startTimeMs = DateTimeUtil::getTime();
         $originalResult = $this->search($query);

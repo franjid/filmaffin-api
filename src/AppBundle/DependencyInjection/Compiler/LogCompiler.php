@@ -21,8 +21,7 @@ class LogCompiler implements CompilerPassInterface
 
         foreach ($taggedServices as $serviceId => $tagAttributes)
         {
-            if (!isset($tagAttributes[0]['channel']))
-            {
+            if (!isset($tagAttributes[0]['channel'])) {
                 throw new \RuntimeException('If you put a logger tag you need to add an attribute channel as well');
             }
 

@@ -7,15 +7,10 @@ use Doctrine\DBAL\DBALException;
 
 abstract class ReadQueryAbstract extends QueryAbstract
 {
-    const TIME_VAR_NAME = 'Time';
-    const ROWS_AFFECTED_VAR_NAME = 'RowsAffected';
+    public const TIME_VAR_NAME = 'Time';
+    public const ROWS_AFFECTED_VAR_NAME = 'RowsAffected';
 
-    /**
-     * Check if it's read query
-     *
-     * @return bool
-     */
-    public function isReadOnly()
+    public function isReadOnly(): bool
     {
         return true;
     }
@@ -27,7 +22,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
      *
      * @return array
      */
-    protected function fetchAssoc($query)
+    protected function fetchAssoc(string $query): array
     {
         $startTimeMs = DateTimeUtil::getTime();
 
@@ -45,14 +40,12 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * Return a object
-     *
      * @param string $query
      * @param string $class Full name class (with namespace)
      * @return mixed
      * @throws DBALException
      */
-    protected function fetchObject($query, $class = '\stdClass')
+    protected function fetchObject(string $query, string $class = '\stdClass')
     {
         $startTimeMs = DateTimeUtil::getTime();
 
@@ -76,7 +69,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
      *
      * @return array
      */
-    protected function fetchAll($query)
+    protected function fetchAll(string $query): array
     {
         $startTimeMs = DateTimeUtil::getTime();
 
@@ -96,12 +89,13 @@ abstract class ReadQueryAbstract extends QueryAbstract
     /**
      * Returns the result as an associative array of objects
      *
-     * @param string $query
+     * @param string      $query
      * @param string|null $class Full name class (with namespace).
      *
      * @return array
+     * @throws DBALException
      */
-    protected function fetchAllObject($query, $class = '\stdClass')
+    protected function fetchAllObject(string $query, ?string $class = '\stdClass'): array
     {
         $startTimeMs = DateTimeUtil::getTime();
 
@@ -119,13 +113,11 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * Returns column
-     *
      * @param string $query
      *
      * @return mixed
      */
-    protected function fetchColumn($query)
+    protected function fetchColumn(string $query)
     {
         $startTimeMs = DateTimeUtil::getTime();
 

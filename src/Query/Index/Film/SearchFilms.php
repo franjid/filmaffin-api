@@ -6,13 +6,9 @@ use Component\Elasticsearch\SuggestionQuery;
 
 class SearchFilms extends SuggestionQuery
 {
-    const DIC_NAME = 'Query.Index.Film.SearchFilms';
+    public const DIC_NAME = 'Query.Index.Film.SearchFilms';
 
-    /**
-     * @param string $title
-     * @return array
-     */
-    public function getResult($title)
+    public function getResult(string $title): array
     {
         $query = <<<EOT
 {

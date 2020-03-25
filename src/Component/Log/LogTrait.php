@@ -7,38 +7,27 @@ use Psr\Log\LogLevel;
 
 trait LogTrait
 {
-    /** @var LoggerInterface $logger */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
-     * Get logger object
-     *
      * @return LoggerInterface
      * @throws \RuntimeException
      */
-    protected function getLogger()
+    protected function getLogger(): LoggerInterface
     {
-        if (!$this->logger)
-        {
+        if (!$this->logger) {
             throw new \RuntimeException('Logger not found');
         }
 
         return $this->logger;
     }
 
-    /**
-     * Set logger
-     *
-     * @param LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
     /**
-     * Write log
-     *
      * @param string $message
      * @param array $contextData
      * @param string $level RFC5452 logging levels (debug,info,notice,warning,error,critical,alert,emergency)
@@ -46,7 +35,11 @@ trait LogTrait
      * @return void
      * @throws \RuntimeException
      */
-    protected function writeLog($message, array $contextData = [], $level = LogLevel::INFO)
+    protected function writeLog(
+        string $message,
+        array $contextData = [],
+        string $level = LogLevel::INFO
+    ): void
     {
         if (!method_exists($this->getLogger(), $level)) {
             throw new \RuntimeException('Method ' . $level . ' does not exit in LoggerInterface');
@@ -57,12 +50,7 @@ trait LogTrait
         $this->getLogger()->$level($message, $data);
     }
 
-    /**
-     * @param array $contextData
-     * @param $level
-     * @return array
-     */
-    protected function generateData(array $contextData, $level)
+    protected function generateData(array $contextData, string $level): array
     {
         $data = $contextData;
 
@@ -72,8 +60,7 @@ trait LogTrait
             LogLevel::EMERGENCY
         ];
 
-        if (in_array($level, $importantLevels))
-        {
+        if (in_array($level, $importantLevels, true)) {
             $data = [
                 'Data application' => $contextData,
                 'Debug backtrace' => debug_backtrace()

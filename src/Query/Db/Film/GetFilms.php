@@ -7,14 +7,16 @@ use Entity\Film;
 
 class GetFilms extends GlobalReadQuery
 {
-    const DIC_NAME = 'Query.Db.Film.GetFilms';
+    public const DIC_NAME = 'Query.Db.Film.GetFilms';
 
     /**
      * @param int $offset
      * @param int $limit
+     *
      * @return Film[]
+     * @throws \Doctrine\DBAL\DBALException
      */
-    public function getResult($offset, $limit)
+    public function getResult(int $offset, int $limit): array
     {
         $query = 'SELECT';
         $query .=  '   idFilm';

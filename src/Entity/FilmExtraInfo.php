@@ -4,135 +4,80 @@ namespace Entity;
 
 class FilmExtraInfo
 {
-    /** @var int $idFilm */
-    protected $idFilm;
+    private int $idFilm;
+    private ?string $directors;
+    private ?string $actors;
+    private ?string $screenplayers;
+    private ?string $musicians;
+    private ?string $cinematographers;
+    private ?string $topics;
 
-    /** @var string $directors */
-    protected $directors;
-
-    /** @var string $actors */
-    protected $actors;
-
-    /** @var string $screenplayers */
-    protected $screenplayers;
-
-    /** @var string $musicians */
-    protected $musicians;
-
-    /** @var string $cinematographers */
-    protected $cinematographers;
-
-    /** @var string $topics */
-    protected $topics;
-
-    /**
-     * @return int
-     */
-    public function getIdFilm()
+    public function getIdFilm(): int
     {
         return $this->idFilm;
     }
 
-    /**
-     * @param int $idFilm
-     */
-    public function setIdFilm($idFilm)
+    public function setIdFilm(int $idFilm): void
     {
         $this->idFilm = $idFilm;
     }
 
-    /**
-     * @return string
-     */
-    public function getDirectors()
+    public function getDirectors(): ?string
     {
         return $this->directors;
     }
 
-    /**
-     * @param string $directors
-     */
-    public function setDirectors($directors)
+    public function setDirectors(?string $directors): void
     {
         $this->directors = $directors;
     }
 
-    /**
-     * @return string
-     */
-    public function getActors()
+    public function getActors(): ?string
     {
         return $this->actors;
     }
 
-    /**
-     * @param string $actors
-     */
-    public function setActors($actors)
+    public function setActors(?string $actors): void
     {
         $this->actors = $actors;
     }
 
-    /**
-     * @return string
-     */
-    public function getScreenplayers()
+    public function getScreenplayers(): ?string
     {
         return $this->screenplayers;
     }
 
-    /**
-     * @param string $screenplayers
-     */
-    public function setScreenplayers($screenplayers)
+    public function setScreenplayers(?string $screenplayers): void
     {
         $this->screenplayers = $screenplayers;
     }
 
-    /**
-     * @return string
-     */
-    public function getMusicians()
+    public function getMusicians(): ?string
     {
         return $this->musicians;
     }
 
-    /**
-     * @param string $musicians
-     */
-    public function setMusicians($musicians)
+    public function setMusicians(?string $musicians): void
     {
         $this->musicians = $musicians;
     }
 
-    /**
-     * @return string
-     */
-    public function getCinematographers()
+    public function getCinematographers(): ?string
     {
         return $this->cinematographers;
     }
 
-    /**
-     * @param string $cinematographers
-     */
-    public function setCinematographers($cinematographers)
+    public function setCinematographers(?string $cinematographers): void
     {
         $this->cinematographers = $cinematographers;
     }
 
-    /**
-     * @return string
-     */
-    public function getTopics()
+    public function getTopics(): ?string
     {
         return $this->topics;
     }
 
-    /**
-     * @param string $topics
-     */
-    public function setTopics($topics)
+    public function setTopics(?string $topics): void
     {
         $this->topics = $topics;
     }

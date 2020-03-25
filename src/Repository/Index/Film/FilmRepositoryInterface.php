@@ -4,30 +4,10 @@ namespace Repository\Index\Film;
 
 interface FilmRepositoryInterface
 {
-    const DIC_NAME = 'Repository.Index.Film.FilmRepositoryInterface';
+    public const DIC_NAME = 'Repository.Index.Film.FilmRepositoryInterface';
 
-    /**
-     * @param string $title
-     * @return [][]
-     */
-    public function searchFilms($title);
-
-    /**
-     * @param int $idFilm
-     * @return array
-     */
-    public function getFilm($idFilm);
-
-    /**
-     * @param int $numResults
-     * @param int $offset
-     * @return array
-     */
-    public function getPopularFilms($numResults, $offset);
-
-    /**
-     * @param string $sortBy
-     * @return array
-     */
-    public function getFilmsInTheatres($sortBy);
+    public function searchFilms(string $title): array;
+    public function getFilm(int $idFilm): array;
+    public function getPopularFilms(int $numResults, int $offset): array ;
+    public function getFilmsInTheatres(string $sortBy): array;
 }

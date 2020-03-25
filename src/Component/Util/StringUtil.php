@@ -17,9 +17,11 @@ class StringUtil
      * àòùìéëü -> aouieeu
      * tiësto -> tiesto
      *
+     * @param string $string
+     *
      * @return string
      */
-    public static function removeDiacritics($string)
+    public static function removeDiacritics(string $string): string
     {
         $transliterator = Transliterator::createFromRules(
             ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',

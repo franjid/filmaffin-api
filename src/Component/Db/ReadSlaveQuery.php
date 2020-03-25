@@ -1,14 +1,10 @@
 <?php
 
-
 namespace Component\Db;
 
 class ReadSlaveQuery extends ReadQueryAbstract
 {
-    /**
-     * @return string
-     */
-    public function getDbPool()
+    public function getDbPool(): string
     {
         return DbPoolAbstract::READ_SLAVE;
     }

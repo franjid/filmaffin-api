@@ -6,13 +6,9 @@ use Component\Elasticsearch\NormalQuery;
 
 class GetFilmsInTheatres extends NormalQuery
 {
-    const DIC_NAME = 'Query.Index.Film.GetFilmsInTheatres';
+    public const DIC_NAME = 'Query.Index.Film.GetFilmsInTheatres';
 
-    /**
-     * @param string $sortBy
-     * @return array
-     */
-    public function getResult($sortBy)
+    public function getResult(string $sortBy): array
     {
         $query = <<<EOT
 {

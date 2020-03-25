@@ -7,12 +7,7 @@ use Doctrine\DBAL\DBALException;
 
 abstract class WriteQueryAbstract extends QueryAbstract
 {
-    /**
-     * Check if is read query
-     *
-     * @return bool
-     */
-    public function isReadOnly()
+    public function isReadOnly(): bool
     {
         return false;
     }
@@ -25,7 +20,7 @@ abstract class WriteQueryAbstract extends QueryAbstract
      * @return int
      * @throws DBALException
      */
-    protected function executeUpdate($query)
+    protected function executeUpdate(string $query): int
     {
         $startTimeMs = DateTimeUtil::getTime();
         $numberRowsAffected = $this->getConnection()->executeUpdate($query);
@@ -41,7 +36,7 @@ abstract class WriteQueryAbstract extends QueryAbstract
      * @return int
      * @throws DBALException
      */
-    protected function insertAndGetLastInsertedId($query)
+    protected function insertAndGetLastInsertedId(string $query): int
     {
         $this->executeUpdate($query);
 

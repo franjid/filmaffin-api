@@ -6,8 +6,7 @@ use Elasticsearch\Client;
 
 class ElasticsearchService implements ElasticsearchServiceInterface
 {
-    /** @var Client $client */
-    protected $client;
+    protected Client $client;
 
     /**
      * @param Client $client
@@ -17,10 +16,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
         $this->client = $client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }

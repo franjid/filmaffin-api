@@ -1,14 +1,10 @@
 <?php
 
-
 namespace Component\Db;
 
 class WriteDefaultQuery extends WriteQueryAbstract
 {
-    /**
-     * @return string
-     */
-    public function getDbPool()
+    public function getDbPool(): string
     {
         return DbPoolAbstract::WRITE_DEFAULT;
     }

@@ -4,12 +4,7 @@ namespace Component\Util;
 
 class DateTimeUtil
 {
-    /**
-     * Get time (ms).
-     *
-     * @return float
-     */
-    public static function getTime()
+    public static function getTime(): float
     {
         return microtime(true) * 1000;
     }

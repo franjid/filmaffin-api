@@ -7,44 +7,34 @@ use Elasticsearch\Client;
 
 abstract class QueryAbstract
 {
-    const TIME_QUERY = 'Time';
-    const TOTAL_RESULTS = 'RowsAffected';
+    protected const TIME_QUERY = 'Time';
+    protected const TOTAL_RESULTS = 'RowsAffected';
 
     use LogTrait;
 
-    /** @var Client $client */
-    private $client;
+    private Client $client;
+    private string $elasticsearchIndexName;
 
-    /** @var string $elasticsearchIndexName */
-    private $elasticsearchIndexName;
-
-    /**
-     * @param Client $client
-     * @param string $elasticsearchIndexName
-     */
     public function __construct(
         Client $client,
-        $elasticsearchIndexName
+        string $elasticsearchIndexName
     )
     {
         $this->client = $client;
         $this->elasticsearchIndexName = $elasticsearchIndexName;
     }
 
-    /**
-     * @return Client
-     */
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }
 
     /**
-     * Get custom data to do logging
+     * Get custom data for logging
      *
      * @return array
      */
-    public function getExtraDataLog()
+    public function getExtraDataLog(): array
     {
         return [
             'Class' => static::class,
@@ -53,19 +43,16 @@ abstract class QueryAbstract
         ];
     }
 
-    /**
-     * @param string $query
-     */
-    abstract protected function fetchAll($query);
+    abstract protected function fetchAll(string $query): array;
 
-    protected function search($query)
+    protected function search(string $query): array
     {
         $searchParams = '{
             "index": "' . $this->elasticsearchIndexName . '",
             "body": ' . $query . '
         }';
 
-        $searchParams = json_decode($searchParams, true);
+        $searchParams = json_decode($searchParams, true, 512, JSON_THROW_ON_ERROR);
 
         return $this->getClient()->search($searchParams);
     }

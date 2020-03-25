@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class IndexFilmsCommand extends ContainerAwareCommand
 {
-    const MAX_FILMS_PER_ITERATION = 100;
+    private const MAX_FILMS_PER_ITERATION = 100;
 
     protected function configure()
     {
@@ -21,11 +21,6 @@ class IndexFilmsCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @return null
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var FilmRepositoryInterface $filmRepository */

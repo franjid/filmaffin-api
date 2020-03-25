@@ -4,344 +4,201 @@ namespace Entity;
 
 class Film
 {
-    /** @var int $idFilm */
-    protected $idFilm;
+    private int $idFilm;
+    private string $title;
+    private string $originalTitle;
+    private ?float $rating;
+    private ?int $numRatings;
+    private ?int $popularityRanking;
+    private int $year;
+    private ?int $duration;
+    private string $country;
+    private bool $inTheatres;
+    private ?string $releaseDate;
+    private ?string $directors;
+    private ?string $actors;
+    private ?string $synopsis;
+    private ?string $topics;
+    private ?string $screenplayers;
+    private ?string $musicians;
+    private ?string $cinematographers;
 
-    /** @var string $title */
-    protected $title;
-
-    /** @var string $originalTitle */
-    protected $originalTitle;
-
-    /** @var float $rating */
-    protected $rating;
-
-    /** @var int $numRatings */
-    protected $numRatings;
-
-    /** @var int $numRatings */
-    protected $popularityRanking;
-
-    /** @var int $year */
-    protected $year;
-
-    /** @var int $duration */
-    protected $duration;
-
-    /** @var string $country */
-    protected $country;
-
-    /** @var boolean $inTheatres */
-    protected $inTheatres;
-
-    /** @var string $releaseDate */
-    protected $releaseDate;
-
-    /** @var string $directors */
-    protected $directors;
-
-    /** @var string $actors */
-    protected $actors;
-
-    /** @var string $synopsis */
-    protected $synopsis;
-
-    /** @var string $topics */
-    protected $topics;
-
-    /** @var string $screenplayers */
-    protected $screenplayers;
-
-    /** @var string $musicians */
-    protected $musicians;
-
-    /** @var string $cinematographers */
-    protected $cinematographers;
-
-    /**
-     * @return int
-     */
-    public function getIdFilm()
+    public function getIdFilm(): int
     {
         return $this->idFilm;
     }
 
-    /**
-     * @param int $idFilm
-     */
-    public function setIdFilm($idFilm)
+    public function setIdFilm(int $idFilm): void
     {
         $this->idFilm = $idFilm;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
-    public function getOriginalTitle()
+    public function getOriginalTitle(): string
     {
         return $this->originalTitle;
     }
 
-    /**
-     * @param string $originalTitle
-     */
-    public function setOriginalTitle($originalTitle)
+    public function setOriginalTitle(string $originalTitle): void
     {
         $this->originalTitle = $originalTitle;
     }
 
-    /**
-     * @return float
-     */
-    public function getRating()
+    public function getRating(): ?float
     {
         return $this->rating;
     }
 
-    /**
-     * @param float $rating
-     */
-    public function setRating($rating)
+    public function setRating(?float $rating): void
     {
         $this->rating = $rating;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumRatings()
+    public function getNumRatings(): ?int
     {
         return $this->numRatings;
     }
 
-    /**
-     * @param int $numRatings
-     */
-    public function setNumRatings($numRatings)
+    public function setNumRatings(?int $numRatings): void
     {
         $this->numRatings = $numRatings;
     }
 
-    /**
-     * @return int
-     */
-    public function getPopularityRanking()
+    public function getPopularityRanking(): ?int
     {
         return $this->popularityRanking;
     }
 
-    /**
-     * @param int $popularityRanking
-     */
-    public function setPopularityRanking($popularityRanking)
+    public function setPopularityRanking(?int $popularityRanking): void
     {
         $this->popularityRanking = $popularityRanking;
     }
 
-    /**
-     * @return int
-     */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->year;
     }
 
-    /**
-     * @param int $year
-     */
-    public function setYear($year)
+    public function setYear(int $year): void
     {
         $this->year = $year;
     }
 
-    /**
-     * @return int
-     */
-    public function getDuration()
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
 
-    /**
-     * @param int $duration
-     */
-    public function setDuration($duration)
+    public function setDuration(?int $duration): void
     {
         $this->duration = $duration;
     }
 
-    /**
-     * @return string
-     */
-    public function getCountry()
+    public function getCountry(): string
     {
         return $this->country;
     }
 
-    /**
-     * @param string $country
-     */
-    public function setCountry($country)
+    public function setCountry(string $country): void
     {
         $this->country = $country;
     }
 
-    /**
-     * @return bool
-     */
-    public function isInTheatres()
+    public function isInTheatres(): bool
     {
         return $this->inTheatres;
     }
 
-    /**
-     * @param bool $inTheatres
-     */
-    public function setInTheatres($inTheatres)
+    public function setInTheatres(bool $inTheatres): void
     {
         $this->inTheatres = $inTheatres;
     }
 
-    /**
-     * @return string
-     */
-    public function getReleaseDate()
+    public function getReleaseDate(): ?string
     {
         return $this->releaseDate;
     }
 
-    /**
-     * @param string $releaseDate
-     */
-    public function setReleaseDate($releaseDate)
+    public function setReleaseDate(?string $releaseDate): void
     {
         $this->releaseDate = $releaseDate;
     }
 
-    /**
-     * @return string
-     */
-    public function getDirectors()
+    public function getDirectors(): ?string
     {
         return $this->directors;
     }
 
-    /**
-     * @param string $directors
-     */
-    public function setDirectors($directors)
+    public function setDirectors(?string $directors): void
     {
         $this->directors = $directors;
     }
 
-    /**
-     * @return string
-     */
-    public function getActors()
+    public function getActors(): ?string
     {
         return $this->actors;
     }
 
-    /**
-     * @param string $actors
-     */
-    public function setActors($actors)
+    public function setActors(?string $actors): void
     {
         $this->actors = $actors;
     }
 
-    /**
-     * @return string
-     */
-    public function getSynopsis()
+    public function getSynopsis(): ?string
     {
         return $this->synopsis;
     }
 
-    /**
-     * @param string $synopsis
-     */
-    public function setSynopsis($synopsis)
+    public function setSynopsis(?string $synopsis): void
     {
         $this->synopsis = $synopsis;
     }
 
-    /**
-     * @return string
-     */
-    public function getTopics()
+    public function getTopics(): ?string
     {
         return $this->topics;
     }
 
-    /**
-     * @param string $topics
-     */
-    public function setTopics($topics)
+    public function setTopics(?string $topics): void
     {
         $this->topics = $topics;
     }
 
-    /**
-     * @return string
-     */
-    public function getScreenplayers()
+    public function getScreenplayers(): ?string
     {
         return $this->screenplayers;
     }
 
-    /**
-     * @param string $screenplayers
-     */
-    public function setScreenplayers($screenplayers)
+    public function setScreenplayers(?string $screenplayers): void
     {
         $this->screenplayers = $screenplayers;
     }
 
-    /**
-     * @return string
-     */
-    public function getMusicians()
+    public function getMusicians(): ?string
     {
         return $this->musicians;
     }
 
-    /**
-     * @param string $musicians
-     */
-    public function setMusicians($musicians)
+    public function setMusicians(?string $musicians): void
     {
         $this->musicians = $musicians;
     }
 
-    /**
-     * @return string
-     */
-    public function getCinematographers()
+    public function getCinematographers(): ?string
     {
         return $this->cinematographers;
     }
 
-    /**
-     * @param string $cinematographers
-     */
-    public function setCinematographers($cinematographers)
+    public function setCinematographers(?string $cinematographers): void
     {
         $this->cinematographers = $cinematographers;
     }

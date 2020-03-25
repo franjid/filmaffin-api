@@ -7,13 +7,15 @@ use Entity\FilmExtraInfo;
 
 class GetFilmExtraInfo extends GlobalReadQuery
 {
-    const DIC_NAME = 'Query.Db.Film.GetFilmExtraInfo';
+    public const DIC_NAME = 'Query.Db.Film.GetFilmExtraInfo';
 
     /**
      * @param array $idFilms
+     *
      * @return FilmExtraInfo[]
+     * @throws \Doctrine\DBAL\DBALException
      */
-    public function getResult($idFilms)
+    public function getResult(array $idFilms): array
     {
         $query = 'SELECT';
         $query .=  '   idFilm';

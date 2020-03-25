@@ -6,13 +6,11 @@ use Monolog\Formatter\NormalizerFormatter;
 
 class SqlFormatter extends NormalizerFormatter
 {
+    private const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 
-    const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
-
-    protected $format;
-    protected $allowInlineLineBreaks;
-    protected $ignoreEmptyContextAndExtra;
-    protected $includeStacktraces;
+    protected string $format;
+    protected bool $allowInlineLineBreaks;
+    protected bool $ignoreEmptyContextAndExtra;
 
     /**
      * @param string $format                     The format of the message
@@ -21,10 +19,10 @@ class SqlFormatter extends NormalizerFormatter
      * @param bool   $ignoreEmptyContextAndExtra
      */
     public function __construct(
-        $format = null,
-        $dateFormat = null,
-        $allowInlineLineBreaks = false,
-        $ignoreEmptyContextAndExtra = false
+        ?string $format = null,
+        ?string $dateFormat = null,
+        bool $allowInlineLineBreaks = false,
+        bool $ignoreEmptyContextAndExtra = false
     )
     {
         $this->format = $format ?: static::SIMPLE_FORMAT;
@@ -51,10 +49,8 @@ class SqlFormatter extends NormalizerFormatter
         $output = $this->format;
         $output = str_replace('%context%', $context, $output);
 
-        foreach ($formattedRecords as $formattedRecord => $val)
-        {
-            if (false !== strpos($output, '%'.$formattedRecord.'%'))
-            {
+        foreach ($formattedRecords as $formattedRecord => $val) {
+            if (false !== strpos($output, '%'.$formattedRecord.'%')) {
                 $output = str_replace('%'.$formattedRecord.'%', $this->stringify($val), $output);
             }
         }
@@ -62,36 +58,29 @@ class SqlFormatter extends NormalizerFormatter
         return $output;
     }
 
-    public function stringify($value)
+    public function stringify($value): string
     {
         return $this->replaceNewlines($this->convertToString($value));
     }
 
-    protected function convertToString($data)
+    protected function convertToString($data): string
     {
         $stringValue = null;
 
-        if (null === $data || is_bool($data))
-        {
+        if (null === $data || is_bool($data)) {
             $stringValue = var_export($data, true);
-        }
-        elseif (is_scalar($data))
-        {
+        } elseif (is_scalar($data)) {
             $stringValue = (string) $data;
-        }
-        elseif (version_compare(PHP_VERSION, '5.4.0', '>='))
-        {
+        } elseif (PHP_VERSION_ID >= 50400) {
             $stringValue = $this->toJson($data, true);
-        }
-        else
-        {
+        } else {
             $stringValue = str_replace('\\/', '/', json_encode($data));
         }
 
         return $stringValue;
     }
 
-    protected function replaceNewlines($str)
+    protected function replaceNewlines(string $str): string
     {
         if ($this->allowInlineLineBreaks) {
             return $str;
@@ -99,5 +88,4 @@ class SqlFormatter extends NormalizerFormatter
 
         return str_replace(array("\r\n", "\r", "\n"), ' ', $str);
     }
-
 }

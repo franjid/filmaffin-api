@@ -6,10 +6,7 @@ use Elasticsearch\Client;
 
 interface ElasticsearchServiceInterface
 {
-    const DIC_NAME = 'Service.Elasticsearch.ElasticsearchServiceInterface';
+    public const DIC_NAME = 'Service.Elasticsearch.ElasticsearchServiceInterface';
 
-    /**
-     * @return Client
-     */
-    public function getClient();
+    public function getClient(): Client;
 }

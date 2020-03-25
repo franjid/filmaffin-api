@@ -6,12 +6,7 @@ use Component\Util\DateTimeUtil;
 
 class NormalQuery extends QueryAbstract
 {
-    /**
-     * @param string $query
-     *
-     * @return array
-     */
-    protected function fetchAll($query)
+    protected function fetchAll(string $query): array
     {
         $startTimeMs = DateTimeUtil::getTime();
         $originalResult = $this->search($query);
@@ -25,6 +20,6 @@ class NormalQuery extends QueryAbstract
 
         $result = array_column($originalResult['hits']['hits'], '_source');
 
-        return $result ? $result : [];
+        return $result ?: [];
     }
 }
