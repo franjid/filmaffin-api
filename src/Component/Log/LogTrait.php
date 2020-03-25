@@ -48,16 +48,13 @@ trait LogTrait
      */
     protected function writeLog($message, array $contextData = [], $level = LogLevel::INFO)
     {
-        if (!method_exists($this->getLogger(), $level))
-        {
+        if (!method_exists($this->getLogger(), $level)) {
             throw new \RuntimeException('Method ' . $level . ' does not exit in LoggerInterface');
         }
-        else
-        {
-            $data = $this->generateData($contextData, $level);
 
-            $this->getLogger()->$level($message, $data);
-        }
+        $data = $this->generateData($contextData, $level);
+
+        $this->getLogger()->$level($message, $data);
     }
 
     /**

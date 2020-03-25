@@ -15,7 +15,7 @@ php app/console server:run
 ```
 And go to
 ```
-http://127.0.0.1:8000/api/doc
+http://localhost:8000/api/doc
 ```
 
 ## TODO

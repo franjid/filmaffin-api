@@ -112,9 +112,9 @@ class FilmsController extends BaseController
     public function getPopularFilmsAction(Request $request)
     {
         $numResults = $request->query->get('numResults');
-        $numResults = !is_null($numResults) ? intval($numResults) : 10;
+        $numResults = $numResults !== null ? (int) $numResults : 10;
         $offset = $request->query->get('offset');
-        $offset = !is_null($offset) ? intval($offset) : 0;
+        $offset = $offset !== null ? (int) $offset : 0;
 
         /** @var FilmRepositoryInterface $filmIndexRepository */
         $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
@@ -155,9 +155,11 @@ class FilmsController extends BaseController
 
         $sortBy = $request->query->get('sort');
 
-        if (!is_null($sortBy) && !in_array($sortBy, $availableSort)) {
+        if ($sortBy !== null && !in_array($sortBy, $availableSort)) {
             return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
-        } else if (is_null($sortBy)) {
+        }
+
+        if ($sortBy === null) {
             $sortBy = 'releaseDate'; // Default sort option
         }
 

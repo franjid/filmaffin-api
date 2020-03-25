@@ -106,7 +106,6 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
                 ],
             ]
         ];
-
         $indexParams = $this->indexParams;
         $indexParams['body']['mappings'][$this->elasticsearchTypeFilm] = $mapping;
         $this->elasticsearchClient->indices()->create($indexParams);

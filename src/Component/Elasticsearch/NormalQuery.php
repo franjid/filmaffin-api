@@ -19,7 +19,7 @@ class NormalQuery extends QueryAbstract
 
         $extraData = [
             static::TIME_QUERY => ($endTimeMs - $startTimeMs) / 1000,
-            static::TOTAL_RESULTS => count($originalResult['hits']['total'])
+            static::TOTAL_RESULTS => (int) $originalResult['hits']['total']
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 

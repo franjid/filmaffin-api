@@ -8,7 +8,6 @@ use AppBundle\DependencyInjection\Compiler\LogCompiler;
 
 class AppBundle extends Bundle
 {
-
     /**
      * @param ContainerBuilder $container
      */
