@@ -7,7 +7,7 @@ services:
     Repository.RepositoryAbstract:
         class: Repository\RepositoryAbstract
         abstract: true
-        arguments: [@service_container]
+        arguments: ['@service_container']
 
     Repository.Db.Film.FilmRepositoryInterface:
         class: Repository\Db\Film\FilmRepository
@@ -45,4 +45,4 @@ services:
     Service.Elasticsearch.ElasticsearchServiceInterface:
         class: Service\Elasticsearch\ElasticsearchService
         arguments:
-            - @ElasticsearchClient
+            - '@ElasticsearchClient'

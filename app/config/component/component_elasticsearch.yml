@@ -4,9 +4,9 @@ services:
 
     ElasticsearchClient:
         class: ElasticsearchClient
-        factory: [@Component.Elasticsearch.ElasticsearchClientFactory, createClient]
+        factory: ['@Component.Elasticsearch.ElasticsearchClientFactory', createClient]
         arguments:
-            - %elasticsearch_hosts%
+            - '%elasticsearch_hosts%'
 
     Component.Elasticsearch.QueryAbstract:
         class: Component\Elasticsearch\QueryAbstract
@@ -15,7 +15,7 @@ services:
     Component.Elasticsearch.SuggestionQuery:
         class: Component\Elasticsearch\SuggestionQuery
         arguments:
-            - @ElasticsearchClient
-            - %elasticsearch_index%
+            - '@ElasticsearchClient'
+            - '%elasticsearch_index%'
         tags:
             - { name: logger, channel: elasticsearch_query }

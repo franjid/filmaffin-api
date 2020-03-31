@@ -8,13 +8,13 @@ monolog:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  notice
-            channels: [!event]
+            channels: ['!event']
         error:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%_error.log"
             level:  error
             bubble: false
-            channels: [!javascript_error]
+            channels: ['!javascript_error']
         read_query:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%_read_query.log"
@@ -22,8 +22,8 @@ monolog:
             bubble: false
             level: info
             channels: ["read_query"]
-            type:  rotating_file
-            max_files: 10
+            #type:  rotating_file
+            #max_files: 10
         write_query:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%_write_query.log"
@@ -31,8 +31,8 @@ monolog:
             bubble: false
             level: info
             channels: ["write_query"]
-            type:  rotating_file
-            max_files: 10
+            #type:  rotating_file
+            #max_files: 10
         elasticsearch_query:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%_elasticsearch_query.log"
@@ -40,7 +40,7 @@ monolog:
             bubble: false
             level: info
             channels: ["elasticsearch_query"]
-            type:  rotating_file
-            max_files: 10
+            #type:  rotating_file
+            #max_files: 10
         console:
             type:   console

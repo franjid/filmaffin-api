@@ -6,29 +6,29 @@ services:
     Component.Db.GlobalReadQuery:
         class: Component\Db\GlobalReadQuery
         parent: Component.Db.QueryAbstract
-        arguments: [@doctrine.dbal.global_read_connection]
+        arguments: ['@doctrine.dbal.global_read_connection']
         tags:
             - { name: logger, channel: read_query }
     Component.Db.GlobalWriteQuery:
         class: Component\Db\GlobalWriteQuery
         parent: Component.Db.QueryAbstract
-        arguments: [@doctrine.dbal.global_write_connection]
+        arguments: ['@doctrine.dbal.global_write_connection']
         tags:
             - { name: logger, channel: write_query }
     Component.Db.ReadMasterQuery:
         class: Component\Db\ReadMasterQuery
         parent: Component.Db.QueryAbstract
-        arguments: [@doctrine.dbal.read_master_connection]
+        arguments: ['@doctrine.dbal.read_master_connection']
         tags:
             - { name: logger, channel: read_query }
     Component.Db.ReadSlaveQuery:
         class: Component\Db\ReadSlaveQuery
         parent: Component.Db.QueryAbstract
-        arguments: [@doctrine.dbal.read_slave_connection]
+        arguments: ['@doctrine.dbal.read_slave_connection']
         tags:
             - { name: logger, channel: read_query }
     Component.Db.WriteDefaultQuery:
         class: Component\Db\WriteDefaultQuery
-        arguments: [@doctrine.dbal.write_default_connection]
+        arguments: ['@doctrine.dbal.write_default_connection']
         tags:
             - { name: logger, channel: write_query }

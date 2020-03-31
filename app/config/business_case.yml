@@ -2,6 +2,6 @@ services:
   BusinessCase.Film.FilmsIndexBusinessCaseInterface:
     class: BusinessCase\Film\FilmsIndexBusinessCase
     arguments:
-      - @Service.Elasticsearch.ElasticsearchServiceInterface
-      - %elasticsearch_index%
-      - %elasticsearch_type_film%
+      - '@Service.Elasticsearch.ElasticsearchServiceInterface'
+      - '%elasticsearch_index%'
+      - '%elasticsearch_type_film%'
