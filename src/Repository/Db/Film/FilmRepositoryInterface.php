@@ -7,8 +7,6 @@ use Entity\FilmExtraInfo;
 
 interface FilmRepositoryInterface
 {
-    public const DIC_NAME = 'Repository.Db.Film.FilmRepositoryInterface';
-
     /**
      * @param int $offset
      * @param int $limit

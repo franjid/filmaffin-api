@@ -7,8 +7,6 @@ use Entity\FilmExtraInfo;
 
 class GetFilmExtraInfo extends GlobalReadQuery
 {
-    public const DIC_NAME = 'Query.Db.Film.GetFilmExtraInfo';
-
     /**
      * @param array $idFilms
      *

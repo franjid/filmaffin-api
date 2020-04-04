@@ -24,10 +24,10 @@ class IndexFilmsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var FilmRepositoryInterface $filmRepository */
-        $filmRepository = $this->getContainer()->get(FilmRepositoryInterface::DIC_NAME);
+        $filmRepository = $this->getContainer()->get(FilmRepositoryInterface::class);
 
         /** @var FilmsIndexBusinessCaseInterface $filmsIndexBC */
-        $filmsIndexBC = $this->getContainer()->get(FilmsIndexBusinessCaseInterface::DIC_NAME);
+        $filmsIndexBC = $this->getContainer()->get(FilmsIndexBusinessCaseInterface::class);
 
         $filmsIndexBC->createMapping();
 

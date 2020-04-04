@@ -7,8 +7,6 @@ use Entity\Film;
 
 class GetFilms extends GlobalReadQuery
 {
-    public const DIC_NAME = 'Query.Db.Film.GetFilms';
-
     /**
      * @param int $offset
      * @param int $limit

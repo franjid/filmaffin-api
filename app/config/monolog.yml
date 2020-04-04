@@ -18,7 +18,7 @@ monolog:
         read_query:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%_read_query.log"
-            formatter: Monolog.Formatter.Query
+            formatter: Monolog\Formatter\Query
             bubble: false
             level: info
             channels: ["read_query"]
@@ -27,7 +27,7 @@ monolog:
         write_query:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%_write_query.log"
-            formatter: Monolog.Formatter.Query
+            formatter: Monolog\Formatter\Query
             bubble: false
             level: info
             channels: ["write_query"]
@@ -36,7 +36,7 @@ monolog:
         elasticsearch_query:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%_elasticsearch_query.log"
-            formatter: Monolog.Formatter.Query
+            formatter: Monolog\Formatter\Query
             bubble: false
             level: info
             channels: ["elasticsearch_query"]

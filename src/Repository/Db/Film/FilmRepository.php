@@ -11,7 +11,7 @@ class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterfa
     public function getFilms(int $offset, int $limit): array
     {
         /** @var GetFilms $query */
-        $query = $this->getQuery(GetFilms::DIC_NAME);
+        $query = $this->getQuery(GetFilms::class);
 
         return $query->getResult($offset, $limit);
     }
@@ -19,7 +19,7 @@ class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterfa
     public function getFilmExtraInfo(array $idFilms): array
     {
         /** @var GetFilmExtraInfo $query */
-        $query = $this->getQuery(GetFilmExtraInfo::DIC_NAME);
+        $query = $this->getQuery(GetFilmExtraInfo::class);
 
         return $query->getResult($idFilms);
     }

@@ -37,7 +37,7 @@ class FilmsController extends BaseController
         $title = StringUtil::removeDiacritics($request->query->get('title'));
 
         /** @var FilmRepositoryInterface $filmIndexRepository */
-        $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
+        $filmIndexRepository = $this->get(FilmRepositoryInterface::class);
 
         $films = $filmIndexRepository->searchFilms($title);
         $response = empty($films) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
@@ -71,7 +71,7 @@ class FilmsController extends BaseController
     public function getFilmAction($idFilm): JsonResponse
     {
         /** @var FilmRepositoryInterface $filmIndexRepository */
-        $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
+        $filmIndexRepository = $this->get(FilmRepositoryInterface::class);
 
         $film = $filmIndexRepository->getFilm($idFilm);
         $response = empty($film) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
@@ -117,7 +117,7 @@ class FilmsController extends BaseController
         $offset = $offset !== null ? (int) $offset : 0;
 
         /** @var FilmRepositoryInterface $filmIndexRepository */
-        $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
+        $filmIndexRepository = $this->get(FilmRepositoryInterface::class);
 
         $film = $filmIndexRepository->getPopularFilms($numResults, $offset);
         $response = empty($film) ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
@@ -164,7 +164,7 @@ class FilmsController extends BaseController
         }
 
         /** @var FilmRepositoryInterface $filmIndexRepository */
-        $filmIndexRepository = $this->get(FilmRepositoryInterface::DIC_NAME);
+        $filmIndexRepository = $this->get(FilmRepositoryInterface::class);
 
         $film = $filmIndexRepository->getFilmsInTheatres($sortBy);
         $response = empty($film) ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;

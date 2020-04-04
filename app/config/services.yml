@@ -4,45 +4,38 @@ imports:
 
 services:
 ##### Repositories
-    Repository.RepositoryAbstract:
-        class: Repository\RepositoryAbstract
+    Repository\RepositoryAbstract:
         abstract: true
         arguments: ['@service_container']
 
-    Repository.Db.Film.FilmRepositoryInterface:
+    Repository\Db\Film\FilmRepositoryInterface:
         class: Repository\Db\Film\FilmRepository
-        parent: Repository.RepositoryAbstract
+        parent: Repository\RepositoryAbstract
 
-    Repository.Index.Film.FilmRepositoryInterface:
+    Repository\Index\Film\FilmRepositoryInterface:
         class: Repository\Index\Film\FilmRepository
-        parent: Repository.RepositoryAbstract
+        parent: Repository\RepositoryAbstract
 
 ##### Queries
-    Query.Db.Film.GetFilms:
-        class: Query\Db\Film\GetFilms
-        parent: Component.Db.ReadSlaveQuery
+    Query\Db\Film\GetFilms:
+        parent: Component\Db\ReadSlaveQuery
 
-    Query.Db.Film.GetFilmExtraInfo:
-        class: Query\Db\Film\GetFilmExtraInfo
-        parent: Component.Db.ReadSlaveQuery
+    Query\Db\Film\GetFilmExtraInfo:
+        parent: Component\Db\ReadSlaveQuery
 
-    Query.Index.Film.SearchFilms:
-        class: Query\Index\Film\SearchFilms
-        parent: Component.Elasticsearch.SuggestionQuery
+    Query\Index\Film\SearchFilms:
+        parent: Component\Elasticsearch\SuggestionQuery
 
-    Query.Index.Film.GetFilm:
-        class: Query\Index\Film\GetFilm
-        parent: Component.Elasticsearch.SuggestionQuery
+    Query\Index\Film\GetFilm:
+        parent: Component\Elasticsearch\NormalQuery
 
-    Query.Index.Film.GetPopularFilms:
-        class: Query\Index\Film\GetPopularFilms
-        parent: Component.Elasticsearch.SuggestionQuery
+    Query\Index\Film\GetPopularFilms:
+        parent: Component\Elasticsearch\NormalQuery
 
-    Query.Index.Film.GetFilmsInTheatres:
-        class: Query\Index\Film\GetFilmsInTheatres
-        parent: Component.Elasticsearch.SuggestionQuery
+    Query\Index\Film\GetFilmsInTheatres:
+        parent: Component\Elasticsearch\NormalQuery
 ##### Services
-    Service.Elasticsearch.ElasticsearchServiceInterface:
+    Service\Elasticsearch\ElasticsearchServiceInterface:
         class: Service\Elasticsearch\ElasticsearchService
         arguments:
             - '@ElasticsearchClient'
