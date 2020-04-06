@@ -21,7 +21,6 @@
         "symfony/monolog-bundle": "^3.1",
         "symfony/twig-bundle": "^4.0",
         "symfony/web-profiler-bundle": "^4.0",
-        "symfony/web-server-bundle": "^4.0",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {

@@ -6,6 +6,11 @@ API based on Filmaffinity.com data
 
 Rename .env.dist to .env
 
+Run:
+```
+composer install
+```
+
 ## Index films
 Index films in Elasticsearch reading from DB executing
 ```
