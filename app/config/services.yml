@@ -15,6 +15,7 @@ services:
     Repository\Index\Film\FilmRepositoryInterface:
         class: Repository\Index\Film\FilmRepository
         parent: Repository\RepositoryAbstract
+        public: true
 
 ##### Queries
     Query\Db\Film\GetFilms:
@@ -25,17 +26,27 @@ services:
 
     Query\Index\Film\SearchFilms:
         parent: Component\Elasticsearch\SuggestionQuery
+        public: true
 
     Query\Index\Film\GetFilm:
         parent: Component\Elasticsearch\NormalQuery
+        public: true
 
     Query\Index\Film\GetPopularFilms:
         parent: Component\Elasticsearch\NormalQuery
+        public: true
 
     Query\Index\Film\GetFilmsInTheatres:
         parent: Component\Elasticsearch\NormalQuery
-##### Services
+        public: true
+
+    ##### Services
     Service\Elasticsearch\ElasticsearchServiceInterface:
         class: Service\Elasticsearch\ElasticsearchService
         arguments:
             - '@ElasticsearchClient'
+
+    ##### Commands
+    AppBundle\Command\IndexFilmsCommand:
+        tags:
+            - { name: console.command }

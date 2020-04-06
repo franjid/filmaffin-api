@@ -6,27 +6,33 @@ use Component\Util\StringUtil;
 use Repository\Index\Film\FilmRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 
 class FilmsController extends BaseController
 {
     /**
-     * @Nelmio\ApiDocBundle\Annotation\ApiDoc(
-     *  section="Films",
-     *  resource=true,
-     *  description="Get films",
-     *  statusCodes={
-     *     200 = "Returned when successful",
-     *     404 = "Returned when there are no films matching the given title"
-     *  },
-     *  requirements={
-     *      {
-     *          "name"="title",
-     *          "dataType"="string",
-     *          "requirement"="\w+",
-     *          "description"="films with that title"
-     *      }
-     *  }
+     * @Operation(
+     *     tags={"Films"},
+     *     summary="Search films",
+     *     @SWG\Parameter(
+     *         name="title",
+     *         in="query",
+     *         description="Films with that title",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned when successful"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when there are no films matching the given title"
+     *     )
      * )
+     *
      *
      * @param Request $request
      *
@@ -46,23 +52,19 @@ class FilmsController extends BaseController
     }
 
     /**
-     * @Nelmio\ApiDocBundle\Annotation\ApiDoc(
-     *  section="Films",
-     *  resource=true,
-     *  description="Get film",
-     *  statusCodes={
-     *     200 = "Returned when successful",
-     *     404 = "Returned when the id does not exist"
-     *  },
-     *  requirements={
-     *      {
-     *          "name"="idFilm",
-     *          "dataType"="integer",
-     *          "requirement"="\d+",
-     *          "description"="films id"
-     *      }
-     *  }
+     * @Operation(
+     *     tags={"Films"},
+     *     summary="Get film",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned when successful"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when the id does not exist"
+     *     )
      * )
+     *
      *
      * @param int $idFilm
      *
@@ -80,29 +82,33 @@ class FilmsController extends BaseController
     }
 
     /**
-     * @Nelmio\ApiDocBundle\Annotation\ApiDoc(
-     *  section="Films",
-     *  resource=true,
-     *  description="Get popular films",
-     *  statusCodes={
-     *     200 = "Returned when successful",
-     *     404 = "Returned when the id does not exist"
-     *  },
-     *  filters={
-     *      {
-     *          "name"="numResults",
-     *          "dataType"="integer",
-     *          "requirement"="\d+",
-     *          "description"="Maximum amount of results to be returned"
-     *      },
-     *      {
-     *          "name"="offset",
-     *          "dataType"="integer",
-     *          "requirement"="\d+",
-     *          "description"="Offset from the first result you want to fetch"
-     *      }
-     *  }
+     * @Operation(
+     *     tags={"Films"},
+     *     summary="Get popular films",
+     *     @SWG\Parameter(
+     *         name="numResults",
+     *         in="query",
+     *         description="Maximum amount of results to be returned",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="offset",
+     *         in="query",
+     *         description="Offset from the first result you want to fetch",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned when successful"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when the id does not exist"
+     *     )
      * )
+     *
      *
      *
      * @param Request $request
@@ -126,23 +132,26 @@ class FilmsController extends BaseController
     }
 
     /**
-     * @Nelmio\ApiDocBundle\Annotation\ApiDoc(
-     *  section="Films",
-     *  resource=true,
-     *  description="Get current films in theatres",
-     *  statusCodes={
-     *     200 = "Returned when successful",
-     *     404 = "Returned when the id does not exist"
-     *  },
-     *  filters={
-     *      {
-     *          "name"="sort",
-     *          "dataType"="string",
-     *          "requirement"="\w+",
-     *          "description"="Sort films by [releaseDate, rating, numRatings]"
-     *      }
-     *  }
+     * @Operation(
+     *     tags={"Films"},
+     *     summary="Get current films in theatres",
+     *     @SWG\Parameter(
+     *         name="sort",
+     *         in="query",
+     *         description="Sort films by [releaseDate, rating, numRatings]",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned when successful"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when the id does not exist"
+     *     )
      * )
+     *
      *
      *
      * @param Request $request
