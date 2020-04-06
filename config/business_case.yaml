@@ -1,0 +1,8 @@
+services:
+  App\BusinessCase\Film\FilmsIndexBusinessCaseInterface:
+    class: App\BusinessCase\Film\FilmsIndexBusinessCase
+    public: true
+    arguments:
+      - '@App\Service\Elasticsearch\ElasticsearchServiceInterface'
+      - '%elasticsearch_index%'
+      - '%elasticsearch_type_film%'

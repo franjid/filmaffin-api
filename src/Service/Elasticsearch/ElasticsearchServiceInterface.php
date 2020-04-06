@@ -1,6 +1,6 @@
 <?php
 
-namespace Service\Elasticsearch;
+namespace App\Service\Elasticsearch;
 
 use Elasticsearch\Client;
 

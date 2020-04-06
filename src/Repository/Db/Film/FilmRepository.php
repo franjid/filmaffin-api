@@ -1,10 +1,10 @@
 <?php
 
-namespace Repository\Db\Film;
+namespace App\Repository\Db\Film;
 
-use Query\Db\Film\GetFilmExtraInfo;
-use Query\Db\Film\GetFilms;
-use Repository\RepositoryAbstract;
+use App\Query\Db\Film\GetFilmExtraInfo;
+use App\Query\Db\Film\GetFilms;
+use App\Repository\RepositoryAbstract;
 
 class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterface
 {

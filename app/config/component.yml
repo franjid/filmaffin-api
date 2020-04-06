@@ -1,4 +1,0 @@
-imports:
-    - { resource: component/component_db.yml }
-    - { resource: component/component_elasticsearch.yml }
-    - { resource: component/component_log.yml }

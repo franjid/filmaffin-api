@@ -1,6 +1,6 @@
 <?php
 
-namespace Component\Elasticsearch;
+namespace App\Component\Elasticsearch;
 
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;

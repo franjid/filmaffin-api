@@ -2,16 +2,20 @@
 
 API based on Filmaffinity.com data
 
+## Installation
+
+Rename .env.dist to .env
+
 ## Index films
 Index films in Elasticsearch reading from DB executing
 ```
-app/console filmaffin:index:films
+bin/console filmaffin:index:films
 ```
 
 ## Check the docs
 Run:
 ```
-php app/console server:run
+bin/console server:run
 ```
 And go to
 ```

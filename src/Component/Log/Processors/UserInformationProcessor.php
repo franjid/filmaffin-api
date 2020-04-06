@@ -1,6 +1,6 @@
 <?php
 
-namespace Component\Log\Processors;
+namespace App\Component\Log\Processors;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

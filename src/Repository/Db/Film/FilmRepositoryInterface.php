@@ -1,9 +1,9 @@
 <?php
 
-namespace Repository\Db\Film;
+namespace App\Repository\Db\Film;
 
-use Entity\Film;
-use Entity\FilmExtraInfo;
+use App\Entity\Film;
+use App\Entity\FilmExtraInfo;
 
 interface FilmRepositoryInterface
 {

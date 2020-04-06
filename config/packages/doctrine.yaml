@@ -1,0 +1,49 @@
+doctrine:
+    dbal:
+        default_connection: write_default
+        connections:
+            global_read:
+                dbname:               "%global_database_name%"
+                host:                 "%global_database_host%"
+                port:                 "%global_database_port%"
+                user:                 "%global_database_user%"
+                password:             "%global_database_password%"
+                driver:               "%database_driver%"
+                charset:              "%database_charset%"
+                logging:              false # we have custom logs
+            global_write: # the database to write will be in Europe
+                dbname:               "%global_database_name%"
+                host:                 "%global_database_host%"
+                port:                 "%global_database_port%"
+                user:                 "%global_database_user%"
+                password:             "%global_database_password%"
+                driver:               "%database_driver%"
+                charset:              "%database_charset%"
+                logging:              false # we have custom logs
+            read_slave:
+                dbname:               "%slave_database_name%"
+                host:                 "%slave_database_host%"
+                port:                 "%slave_database_port%"
+                user:                 "%slave_database_user%"
+                password:             "%slave_database_password%"
+                driver:               "%database_driver%"
+                charset:              "%database_charset%"
+                logging:              false # we have custom logs
+            read_master:
+                dbname:               "%master_database_name%"
+                host:                 "%master_database_host%"
+                port:                 "%master_database_port%"
+                user:                 "%master_database_user%"
+                password:             "%master_database_password%"
+                driver:               "%database_driver%"
+                charset:              "%database_charset%"
+                logging:              false # we have custom logs
+            write_default:
+                dbname:               "%master_database_name%"
+                host:                 "%master_database_host%"
+                port:                 "%master_database_port%"
+                user:                 "%master_database_user%"
+                password:             "%master_database_password%"
+                driver:               "%database_driver%"
+                charset:              "%database_charset%"
+                logging:              false # we have custom logs

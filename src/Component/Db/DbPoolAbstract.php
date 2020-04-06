@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Component\Db;
+namespace App\Component\Db;
 
 abstract class DbPoolAbstract
 {

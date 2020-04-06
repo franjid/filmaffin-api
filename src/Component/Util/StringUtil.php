@@ -1,6 +1,6 @@
 <?php
 
-namespace Component\Util;
+namespace App\Component\Util;
 
 use Transliterator;
 

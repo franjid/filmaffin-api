@@ -1,9 +1,9 @@
 <?php
 
-namespace Query\Db\Film;
+namespace App\Query\Db\Film;
 
-use Component\Db\GlobalReadQuery;
-use Entity\FilmExtraInfo;
+use App\Component\Db\GlobalReadQuery;
+use App\Entity\FilmExtraInfo;
 
 class GetFilmExtraInfo extends GlobalReadQuery
 {

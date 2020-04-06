@@ -1,0 +1,79 @@
+parameters:
+    master_database_host: '%env(MASTER_DB_HOST)%'
+    master_database_port: '%env(MASTER_DB_PORT)%'
+    master_database_name: '%env(MASTER_DB_NAME)%'
+    master_database_user: '%env(MASTER_DB_USER)%'
+    master_database_password: '%env(MASTER_DB_PASSWORD)%'
+    slave_database_host: '%env(SLAVE_DB_HOST)%'
+    slave_database_port: '%env(SLAVE_DB_PORT)%'
+    slave_database_name: '%env(SLAVE_DB_NAME)%'
+    slave_database_user: '%env(SLAVE_DB_USER)%'
+    slave_database_password: '%env(SLAVE_DB_PASSWORD)%'
+    global_database_host: '%env(GLOBAL_DB_HOST)%'
+    global_database_port: '%env(GLOBAL_DB_PORT)%'
+    global_database_name: '%env(GLOBAL_DB_NAME)%'
+    global_database_user: '%env(GLOBAL_DB_USER)%'
+    global_database_password: '%env(GLOBAL_DB_PASSWORD)%'
+    database_driver: pdo_mysql
+    database_charset: utf8
+    elasticsearch_hosts:
+        - '%env(ELASTICSEARCH_HOST)%'
+    elasticsearch_index: '%env(ELASTICSEARCH_INDEX)%'
+    elasticsearch_type_film: '%env(ELASTICSEARCH_TYPE_FILM)%'
+
+imports:
+  - { resource: business_case.yaml }
+  - { resource: component.yaml }
+
+services:
+##### Repositories
+    App\Repository\RepositoryAbstract:
+        abstract: true
+        arguments: ['@service_container']
+
+    App\Repository\Db\Film\FilmRepositoryInterface:
+        class: App\Repository\Db\Film\FilmRepository
+        parent: App\Repository\RepositoryAbstract
+        public: true
+
+    App\Repository\Index\Film\FilmRepositoryInterface:
+        class: App\Repository\Index\Film\FilmRepository
+        parent: App\Repository\RepositoryAbstract
+        public: true
+
+##### Queries
+    App\Query\Db\Film\GetFilms:
+        parent: App\Component\Db\ReadSlaveQuery
+        public: true
+
+    App\Query\Db\Film\GetFilmExtraInfo:
+        parent: App\Component\Db\ReadSlaveQuery
+        public: true
+
+    App\Query\Index\Film\SearchFilms:
+        parent: App\Component\Elasticsearch\SuggestionQuery
+        public: true
+
+    App\Query\Index\Film\GetFilm:
+        parent: App\Component\Elasticsearch\NormalQuery
+        public: true
+
+    App\Query\Index\Film\GetPopularFilms:
+        parent: App\Component\Elasticsearch\NormalQuery
+        public: true
+
+    App\Query\Index\Film\GetFilmsInTheatres:
+        parent: App\Component\Elasticsearch\NormalQuery
+        public: true
+
+    ##### Services
+    App\Service\Elasticsearch\ElasticsearchServiceInterface:
+        class: App\Service\Elasticsearch\ElasticsearchService
+        arguments:
+            - '@ElasticsearchClient'
+
+    ##### Commands
+    App\Command\IndexFilmsCommand:
+        tags:
+            - { name: console.command }
+

@@ -1,6 +1,6 @@
 <?php
 
-namespace Component\Db;
+namespace App\Component\Db;
 
 class GlobalReadQuery extends ReadQueryAbstract
 {

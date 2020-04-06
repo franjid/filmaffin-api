@@ -1,11 +1,11 @@
 <?php
 
-namespace BusinessCase\Film;
+namespace App\BusinessCase\Film;
 
-use Component\Util\StringUtil;
-use Service\Elasticsearch\ElasticsearchServiceInterface;
+use App\Component\Util\StringUtil;
+use App\Service\Elasticsearch\ElasticsearchServiceInterface;
 use Elasticsearch\Client;
-use Entity\Film;
+use App\Entity\Film;
 use Exception;
 
 class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository\Index\Film;
+namespace App\Repository\Index\Film;
 
 interface FilmRepositoryInterface
 {

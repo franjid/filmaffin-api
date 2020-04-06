@@ -1,8 +1,8 @@
 <?php
 
-namespace Query\Index\Film;
+namespace App\Query\Index\Film;
 
-use Component\Elasticsearch\SuggestionQuery;
+use App\Component\Elasticsearch\SuggestionQuery;
 
 class SearchFilms extends SuggestionQuery
 {

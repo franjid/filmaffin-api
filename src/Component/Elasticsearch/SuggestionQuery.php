@@ -1,8 +1,8 @@
 <?php
 
-namespace Component\Elasticsearch;
+namespace App\Component\Elasticsearch;
 
-use Component\Util\DateTimeUtil;
+use App\Component\Util\DateTimeUtil;
 
 class SuggestionQuery extends QueryAbstract
 {

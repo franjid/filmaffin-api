@@ -1,9 +1,9 @@
 <?php
 
-namespace Component\Db;
+namespace App\Component\Db;
 
 use Doctrine\DBAL\Connection;
-use Component\Log\LogTrait;
+use App\Component\Log\LogTrait;
 
 abstract class QueryAbstract
 {

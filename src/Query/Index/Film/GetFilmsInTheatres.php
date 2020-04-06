@@ -1,8 +1,8 @@
 <?php
 
-namespace Query\Index\Film;
+namespace App\Query\Index\Film;
 
-use Component\Elasticsearch\NormalQuery;
+use App\Component\Elasticsearch\NormalQuery;
 
 class GetFilmsInTheatres extends NormalQuery
 {

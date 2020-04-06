@@ -1,12 +1,12 @@
 <?php
 
-namespace Repository\Index\Film;
+namespace App\Repository\Index\Film;
 
-use Query\Index\Film\GetFilm;
-use Query\Index\Film\GetFilmsInTheatres;
-use Query\Index\Film\GetPopularFilms;
-use Query\Index\Film\SearchFilms;
-use Repository\RepositoryAbstract;
+use App\Query\Index\Film\GetFilm;
+use App\Query\Index\Film\GetFilmsInTheatres;
+use App\Query\Index\Film\GetPopularFilms;
+use App\Query\Index\Film\SearchFilms;
+use App\Repository\RepositoryAbstract;
 
 class FilmRepository extends RepositoryAbstract implements FilmRepositoryInterface
 {

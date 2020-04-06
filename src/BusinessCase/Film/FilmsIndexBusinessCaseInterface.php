@@ -1,6 +1,6 @@
 <?php
 
-namespace BusinessCase\Film;
+namespace App\BusinessCase\Film;
 
 interface FilmsIndexBusinessCaseInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Component\Db;
+namespace App\Component\Db;
 
-use Component\Util\DateTimeUtil;
+use App\Component\Util\DateTimeUtil;
 use Doctrine\DBAL\DBALException;
 
 abstract class WriteQueryAbstract extends QueryAbstract
