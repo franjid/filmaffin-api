@@ -102,9 +102,6 @@
     "react/promise": {
         "version": "v2.7.1"
     },
-    "sensio/framework-extra-bundle": {
-        "version": "v3.0.27"
-    },
     "symfony/asset": {
         "version": "v4.4.7"
     },
