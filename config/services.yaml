@@ -74,6 +74,9 @@ services:
 
     ##### Commands
     App\Command\IndexFilmsCommand:
+        arguments:
+            - '@App\Repository\Db\Film\FilmRepositoryInterface'
+            - '@App\BusinessCase\Film\FilmsIndexBusinessCaseInterface'
         tags:
             - { name: console.command }
 

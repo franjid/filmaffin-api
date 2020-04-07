@@ -4,16 +4,30 @@ namespace App\Command;
 
 use App\BusinessCase\Film\FilmsIndexBusinessCaseInterface;
 use App\Repository\Db\Film\FilmRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class IndexFilmsCommand extends ContainerAwareCommand
+class IndexFilmsCommand extends Command
 {
     private const MAX_FILMS_PER_ITERATION = 100;
 
-    protected function configure()
+    private FilmRepositoryInterface $filmRepository;
+    private FilmsIndexBusinessCaseInterface $filmsIndexBC;
+
+    public function __construct(
+        FilmRepositoryInterface $filmRepository,
+        FilmsIndexBusinessCaseInterface $filmsIndexBC
+    )
+    {
+        $this->filmRepository = $filmRepository;
+        $this->filmsIndexBC = $filmsIndexBC;
+
+        parent::__construct();
+    }
+
+    protected function configure(): void
     {
         $this
             ->setName('filmaffin:index:films')
@@ -23,13 +37,7 @@ class IndexFilmsCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var FilmRepositoryInterface $filmRepository */
-        $filmRepository = $this->getContainer()->get(FilmRepositoryInterface::class);
-
-        /** @var FilmsIndexBusinessCaseInterface $filmsIndexBC */
-        $filmsIndexBC = $this->getContainer()->get(FilmsIndexBusinessCaseInterface::class);
-
-        $filmsIndexBC->createMapping();
+        $this->filmsIndexBC->createMapping();
 
         $progressBar = new ProgressBar($output);
         $progressBar->start();
@@ -37,7 +45,7 @@ class IndexFilmsCommand extends ContainerAwareCommand
         $offset = 0;
 
         do {
-            $films = $filmRepository->getFilms($offset, static::MAX_FILMS_PER_ITERATION);
+            $films = $this->filmRepository->getFilms($offset, static::MAX_FILMS_PER_ITERATION);
             $filmsAvailable = count($films);
 
             if ($filmsAvailable) {
@@ -46,7 +54,7 @@ class IndexFilmsCommand extends ContainerAwareCommand
                     $idFilms[] = $film->getIdFilm();
                 }
 
-                $filmExtraInfo = $filmRepository->getFilmExtraInfo($idFilms);
+                $filmExtraInfo = $this->filmRepository->getFilmExtraInfo($idFilms);
 
                 $i = 0;
                 foreach ($films as $film) {
@@ -62,7 +70,7 @@ class IndexFilmsCommand extends ContainerAwareCommand
                 }
 
                 if ($filmsAvailable) {
-                    $filmsIndexBC->index($films);
+                    $this->filmsIndexBC->index($films);
 
                     $progressBar->advance(static::MAX_FILMS_PER_ITERATION);
                     $offset += static::MAX_FILMS_PER_ITERATION;
@@ -70,7 +78,7 @@ class IndexFilmsCommand extends ContainerAwareCommand
             }
         } while ($filmsAvailable);
 
-        $filmsIndexBC->deletePreviousIndexes();
-        $filmsIndexBC->createIndexAlias();
+        $this->filmsIndexBC->deletePreviousIndexes();
+        $this->filmsIndexBC->createIndexAlias();
     }
 }
