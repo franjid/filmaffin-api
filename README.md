@@ -4,7 +4,7 @@ API based on Filmaffinity.com data
 
 ## Installation
 
-Rename .env.dist to .env
+Rename `.env.dist` to `.env`
 
 Run:
 ```
@@ -20,8 +20,9 @@ bin/console filmaffin:index:films
 ## Check the docs
 Run:
 ```
-bin/console server:run
+symfony server:start
 ```
+
 And go to
 ```
 http://localhost:8000/api/doc

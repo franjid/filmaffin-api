@@ -1,0 +1,46 @@
+services:
+    ##### Repositories
+    App\Repository\RepositoryAbstract:
+      abstract: true
+      arguments: ['@service_container']
+
+    App\Repository\Db\Film\FilmRepositoryInterface:
+      class: App\Repository\Db\Film\FilmRepository
+      parent: App\Repository\RepositoryAbstract
+      public: true
+
+    App\Repository\Index\Film\FilmRepositoryInterface:
+      class: App\Repository\Index\Film\FilmRepository
+      parent: App\Repository\RepositoryAbstract
+      public: true
+
+    ##### Queries
+    App\Query\Db\Film\GetFilms:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Query\Db\Film\GetFilmExtraInfo:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Query\Index\Film\SearchFilms:
+      parent: App\Component\Elasticsearch\SuggestionQuery
+      public: true
+
+    App\Query\Index\Film\GetFilm:
+      parent: App\Component\Elasticsearch\NormalQuery
+      public: true
+
+    App\Query\Index\Film\GetPopularFilms:
+      parent: App\Component\Elasticsearch\NormalQuery
+      public: true
+
+    App\Query\Index\Film\GetFilmsInTheatres:
+      parent: App\Component\Elasticsearch\NormalQuery
+      public: true
+
+    ##### Services
+    App\Service\Elasticsearch\ElasticsearchServiceInterface:
+      class: App\Service\Elasticsearch\ElasticsearchService
+      arguments:
+        - '@ElasticsearchClient'

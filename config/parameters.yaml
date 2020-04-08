@@ -1,0 +1,22 @@
+parameters:
+    master_database_host: '%env(MASTER_DB_HOST)%'
+    master_database_port: '%env(MASTER_DB_PORT)%'
+    master_database_name: '%env(MASTER_DB_NAME)%'
+    master_database_user: '%env(MASTER_DB_USER)%'
+    master_database_password: '%env(MASTER_DB_PASSWORD)%'
+    slave_database_host: '%env(SLAVE_DB_HOST)%'
+    slave_database_port: '%env(SLAVE_DB_PORT)%'
+    slave_database_name: '%env(SLAVE_DB_NAME)%'
+    slave_database_user: '%env(SLAVE_DB_USER)%'
+    slave_database_password: '%env(SLAVE_DB_PASSWORD)%'
+    global_database_host: '%env(GLOBAL_DB_HOST)%'
+    global_database_port: '%env(GLOBAL_DB_PORT)%'
+    global_database_name: '%env(GLOBAL_DB_NAME)%'
+    global_database_user: '%env(GLOBAL_DB_USER)%'
+    global_database_password: '%env(GLOBAL_DB_PASSWORD)%'
+    database_driver: pdo_mysql
+    database_charset: utf8
+    elasticsearch_hosts:
+        - '%env(ELASTICSEARCH_HOST)%'
+    elasticsearch_index: '%env(ELASTICSEARCH_INDEX)%'
+    elasticsearch_type_film: '%env(ELASTICSEARCH_TYPE_FILM)%'

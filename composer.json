@@ -11,19 +11,18 @@
         "doctrine/doctrine-bundle": "^2.0",
         "elasticsearch/elasticsearch": "^5.0",
         "nelmio/api-doc-bundle": "^3.0",
-        "symfony/asset": "^4.0",
-        "symfony/console": "^4.0",
+        "symfony/asset": "^5.0",
+        "symfony/console": "^5.0",
+        "symfony/dotenv": "^5.0",
         "symfony/flex": "^1.6",
-        "symfony/framework-bundle": "^4.0",
-        "symfony/lts": "^4@dev",
+        "symfony/framework-bundle": "^5.0",
         "symfony/monolog-bundle": "^3.1",
-        "symfony/twig-bundle": "^4.0",
-        "symfony/web-profiler-bundle": "^4.0",
-        "symfony/yaml": "^4.0"
+        "symfony/twig-bundle": "^5.0",
+        "symfony/yaml": "^5.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^4.0",
-        "symfony/dotenv": "^4.0"
+        "symfony/phpunit-bridge": "^5.0",
+        "symfony/web-profiler-bundle": "^5.0"
     },
     "config": {
         "bin-dir": "bin",
@@ -49,13 +48,8 @@
         "symfony/symfony": "*"
     },
     "extra": {
-        "symfony-app-dir": "app",
-        "symfony-web-dir": "web",
-        "symfony-assets-install": "relative",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
-        },
         "symfony": {
+            "require": "^5.0",
             "allow-contrib": true
         }
     },

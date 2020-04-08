@@ -4,11 +4,10 @@ namespace App\Controller;
 
 use App\Component\Util\StringUtil;
 use App\Repository\Index\Film\FilmRepositoryInterface;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
 
 class FilmsController extends BaseController
 {
@@ -34,16 +33,17 @@ class FilmsController extends BaseController
      * )
      *
      *
-     * @param Request $request
+     * @param Request                 $request
+     * @param FilmRepositoryInterface $filmIndexRepository
      *
      * @return JsonResponse
      */
-    public function searchAction(Request $request): JsonResponse
+    public function searchAction(
+        Request $request,
+        FilmRepositoryInterface $filmIndexRepository
+    ): JsonResponse
     {
         $title = StringUtil::removeDiacritics($request->query->get('title'));
-
-        /** @var FilmRepositoryInterface $filmIndexRepository */
-        $filmIndexRepository = $this->get(FilmRepositoryInterface::class);
 
         $films = $filmIndexRepository->searchFilms($title);
         $response = empty($films) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
@@ -65,16 +65,16 @@ class FilmsController extends BaseController
      *     )
      * )
      *
-     *
-     * @param int $idFilm
+     * @param int                     $idFilm
+     * @param FilmRepositoryInterface $filmIndexRepository
      *
      * @return JsonResponse
      */
-    public function getFilmAction($idFilm): JsonResponse
+    public function getFilmAction(
+        int $idFilm,
+        FilmRepositoryInterface $filmIndexRepository
+    ): JsonResponse
     {
-        /** @var FilmRepositoryInterface $filmIndexRepository */
-        $filmIndexRepository = $this->get(FilmRepositoryInterface::class);
-
         $film = $filmIndexRepository->getFilm($idFilm);
         $response = empty($film) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
 
@@ -109,21 +109,20 @@ class FilmsController extends BaseController
      *     )
      * )
      *
-     *
-     *
-     * @param Request $request
+     * @param Request                 $request
+     * @param FilmRepositoryInterface $filmIndexRepository
      *
      * @return JsonResponse
      */
-    public function getPopularFilmsAction(Request $request): JsonResponse
+    public function getPopularFilmsAction(
+        Request $request,
+        FilmRepositoryInterface $filmIndexRepository
+    ): JsonResponse
     {
         $numResults = $request->query->get('numResults');
         $numResults = $numResults !== null ? (int) $numResults : 10;
         $offset = $request->query->get('offset');
         $offset = $offset !== null ? (int) $offset : 0;
-
-        /** @var FilmRepositoryInterface $filmIndexRepository */
-        $filmIndexRepository = $this->get(FilmRepositoryInterface::class);
 
         $film = $filmIndexRepository->getPopularFilms($numResults, $offset);
         $response = empty($film) ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
@@ -152,28 +151,27 @@ class FilmsController extends BaseController
      *     )
      * )
      *
-     *
-     *
-     * @param Request $request
+     * @param Request                 $request
+     * @param FilmRepositoryInterface $filmIndexRepository
      *
      * @return JsonResponse
      */
-    public function getFilmsInTheatresAction(Request $request): JsonResponse
+    public function getFilmsInTheatresAction(
+        Request $request,
+        FilmRepositoryInterface $filmIndexRepository
+    ): JsonResponse
     {
         $availableSort = ['releaseDate', 'rating', 'numRatings'];
 
         $sortBy = $request->query->get('sort');
 
-        if ($sortBy !== null && !in_array($sortBy, $availableSort)) {
+        if ($sortBy !== null && !in_array($sortBy, $availableSort, true)) {
             return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         if ($sortBy === null) {
             $sortBy = 'releaseDate'; // Default sort option
         }
-
-        /** @var FilmRepositoryInterface $filmIndexRepository */
-        $filmIndexRepository = $this->get(FilmRepositoryInterface::class);
 
         $film = $filmIndexRepository->getFilmsInTheatres($sortBy);
         $response = empty($film) ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
