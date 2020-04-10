@@ -80,5 +80,7 @@ class IndexFilmsCommand extends Command
 
         $this->filmsIndexBC->deletePreviousIndexes();
         $this->filmsIndexBC->createIndexAlias();
+
+        return 0;
     }
 }
