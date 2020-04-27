@@ -2,33 +2,23 @@
 
 API based on Filmaffinity.com data
 
-## Installation
-
-Rename `.env.dist` to `.env`
-
 Run:
 ```
-composer install
+docker-compose up
 ```
 
 ## Index films
-Index films in Elasticsearch reading from DB executing
+
 ```
-bin/console filmaffin:index:films
+docker-compose exec php bin/console filmaffin:index:films
 ```
 
 ## Check the docs
-Run:
+
 ```
-symfony server:start
+http://localhost/api/doc
 ```
 
-And go to
-```
-http://localhost:8000/api/doc
-```
+## More info
 
-## TODO
-
-* Add database structure
-* Add example data
+Refer to the [API docs](./code/api/README.md)

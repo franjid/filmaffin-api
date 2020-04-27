@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+    nginx:
+        build:
+            context: .
+            dockerfile: ./docker/nginx/Dockerfile
+        ports:
+            - "80:80"
+        volumes:
+            - ./code:/code
+            - /code/api/vendor # ignore vendor folder
+        networks:
+            - web-network
+        depends_on:
+            - php
+    php:
+        build:
+            context: .
+            dockerfile: ./docker/php/Dockerfile
+        environment:
+            - MYSQL_HOST
+            - MYSQL_USER
+            - MYSQL_PASSWORD
+        volumes:
+            - ./code:/code
+            - /code/api/var/cache # ignore cache folder
+            - /code/api/vendor # ignore vendor folder
+        networks:
+            - web-network
+            - app-network
+        depends_on:
+            - elasticsearch
+
+    elasticsearch:
+        image: elasticsearch:5.2.2
+        ports:
+            - "9200:9200"
+        environment:
+            - http.host=0.0.0.0
+            - transport.host=127.0.0.1
+        networks:
+            - app-network
+        depends_on:
+            - mysql
+
+    mysql:
+        build:
+            context: .
+            dockerfile: ./docker/mysql/Dockerfile
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+        volumes:
+            - ./docker/mysql/migrations:/docker-entrypoint-initdb.d
+        networks:
+            - app-network
+
+networks:
+    web-network:
+    app-network:
