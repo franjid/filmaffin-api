@@ -17,16 +17,16 @@ class GetFilmExtraInfo extends GlobalReadQuery
     {
         $query = 'SELECT';
         $query .=  '   idFilm';
-        $query .=  ' , GROUP_CONCAT(DISTINCT director.name ORDER BY idAssocFilmDirector) AS directors';
-        $query .=  ' , GROUP_CONCAT(DISTINCT actor.name ORDER BY idAssocFilmActor) AS actors';
+        $query .=  ' , GROUP_CONCAT(DISTINCT director.name ORDER BY assocFilmDirector.relevancePosition) AS directors';
+        $query .=  ' , GROUP_CONCAT(DISTINCT actor.name ORDER BY assocFilmActor.relevancePosition) AS actors';
         $query .=  ' , CONCAT(';
-        $query .=  '     GROUP_CONCAT(DISTINCT genre.name order by idAssocFilmGenre)';
+        $query .=  '     GROUP_CONCAT(DISTINCT genre.name ORDER BY assocFilmGenre.relevancePosition)';
         $query .=  '     , ","';
-        $query .=  '     , GROUP_CONCAT(DISTINCT topic.name order by idAssocFilmTopic)';
+        $query .=  '     , GROUP_CONCAT(DISTINCT topic.name ORDER BY assocFilmTopic.relevancePosition)';
         $query .=  '   ) AS topics';
-        $query .=  ' , GROUP_CONCAT(DISTINCT screenplayer.name ORDER BY idAssocFilmScreenplayer) AS screenplayers';
-        $query .=  ' , GROUP_CONCAT(DISTINCT musician.name ORDER BY idAssocFilmMusician) AS musicians';
-        $query .=  ' , GROUP_CONCAT(DISTINCT cinematographer.name ORDER BY idAssocFilmCinematographer) AS cinematographers';
+        $query .=  ' , GROUP_CONCAT(DISTINCT screenplayer.name ORDER BY assocFilmScreenplayer.relevancePosition) AS screenplayers';
+        $query .=  ' , GROUP_CONCAT(DISTINCT musician.name ORDER BY assocFilmMusician.relevancePosition) AS musicians';
+        $query .=  ' , GROUP_CONCAT(DISTINCT cinematographer.name ORDER BY assocFilmCinematographer.relevancePosition) AS cinematographers';
         $query .= ' FROM';
         $query .=  ' film';
         $query .= ' LEFT JOIN assocFilmDirector USING(idFilm)';
