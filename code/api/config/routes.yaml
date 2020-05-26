@@ -1,23 +1,23 @@
 films:
     path: /films
     defaults:
-        _controller: App\Controller\FilmsController::searchAction
+        _controller: App\Application\Controller\FilmsController::searchAction
     methods:  [GET]
 films_popular:
     path: /films/popular
     defaults:
-        _controller: App\Controller\FilmsController::getPopularFilmsAction
+        _controller: App\Application\Controller\FilmsController::getPopularFilmsAction
     methods:  [GET]
 
 films_in_theatres:
     path: /films/in-theatres
     defaults:
-        _controller: App\Controller\FilmsController::getFilmsInTheatresAction
+        _controller: App\Application\Controller\FilmsController::getFilmsInTheatresAction
     methods:  [GET]
 film:
     path: /films/{idFilm}
     defaults:
-        _controller: App\Controller\FilmsController::getFilmAction
+        _controller: App\Application\Controller\FilmsController::getFilmAction
     requirements:
         page: '\d+'
     methods:  [GET]

@@ -8,7 +8,7 @@ class SqlFormatter extends NormalizerFormatter
 {
     private const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 
-    protected string $format;
+    protected ?string $format;
     protected bool $allowInlineLineBreaks;
     protected bool $ignoreEmptyContextAndExtra;
 

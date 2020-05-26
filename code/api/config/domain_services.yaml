@@ -1,0 +1,8 @@
+services:
+  App\Domain\Interfaces\FilmsIndexerInterface:
+    class: App\Domain\Service\FilmsIndexerService
+    public: true
+    arguments:
+      - '@App\Infrastructure\Interfaces\ElasticsearchServiceInterface'
+      - '%elasticsearch_index%'
+      - '%elasticsearch_type_film%'

@@ -1,0 +1,70 @@
+services:
+    ##### Repositories
+    App\Infrastructure\Repository\RepositoryAbstract:
+      abstract: true
+      arguments: ['@service_container']
+
+    App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface:
+      class: App\Infrastructure\Repository\Database\FilmDatabaseMysqlRepository
+      parent: App\Infrastructure\Repository\RepositoryAbstract
+      public: true
+
+    App\Infrastructure\Interfaces\FilmIndexRepositoryInterface:
+      class: App\Infrastructure\Repository\Index\FilmIndexElasticsearchRepository
+      parent: App\Infrastructure\Repository\RepositoryAbstract
+      public: true
+
+    ##### Queries
+    App\Infrastructure\Repository\Database\Query\Film\GetFilms:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmExtraInfo:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmDirectors:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmActors:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmTopics:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Infrastructure\Repository\Index\Query\Film\SearchFilms:
+      parent: App\Component\Elasticsearch\SuggestionQuery
+      public: true
+
+    App\Infrastructure\Repository\Index\Query\Film\GetFilm:
+      parent: App\Component\Elasticsearch\NormalQuery
+      public: true
+
+    App\Infrastructure\Repository\Index\Query\Film\GetPopularFilms:
+      parent: App\Component\Elasticsearch\NormalQuery
+      public: true
+
+    App\Infrastructure\Repository\Index\Query\Film\GetFilmsInTheatres:
+      parent: App\Component\Elasticsearch\NormalQuery
+      public: true
+
+    ##### Services
+    App\Infrastructure\Interfaces\ElasticsearchServiceInterface:
+      class: App\Infrastructure\Service\ElasticsearchService
+      arguments:
+        - '@ElasticsearchClient'

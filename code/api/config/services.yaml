@@ -1,8 +1,8 @@
 imports:
   - { resource: parameters.yaml }
-  - { resource: business_case.yaml }
+  - { resource: domain_services.yaml }
+  - { resource: infrastructure_services.yaml }
   - { resource: component.yaml }
-  - { resource: app_services.yaml }
 
 services:
     _defaults:
@@ -10,8 +10,8 @@ services:
         autoconfigure: true
         public: false
 
-    App\Controller\:
-        resource: '../src/Controller'
+    App\Application\Controller\:
+        resource: '../src/Application/Controller'
 
-    App\Command\:
-        resource: '../src/Command'
+    App\Application\Command\:
+        resource: '../src/Application/Command'
