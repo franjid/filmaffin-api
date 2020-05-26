@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection UnsupportedStringOffsetOperationsInspection */
 
 namespace App\BusinessCase\Film;
 
@@ -146,19 +146,14 @@ class FilmsIndexBusinessCase implements FilmsIndexBusinessCaseInterface
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";
-            $this->indexParams['body'] .= json_encode($filmForIndex) . "\n";
+            try {
+                $this->indexParams['body'] .= json_encode($filmForIndex, JSON_THROW_ON_ERROR) . "\n";
+            } catch (\JsonException $e) {
+                trigger_error('Json malformed. Film id: ' . $film->getIdFilm());
+            }
         }
 
-        try {
-            $jsonError = json_last_error();
-            if ($jsonError) {
-                throw new Exception('Json malformed. Error code ' . $jsonError . '. Film id: ' . $film->getIdFilm());
-            }
-            $this->elasticsearchClient->bulk($this->indexParams);
-        } catch (Exception $e) {
-            print_r($this->indexParams);
-            throw new Exception($e);
-        }
+        $this->elasticsearchClient->bulk($this->indexParams);
     }
 
     private function getSanitizedWordPermutations($inStr): array
