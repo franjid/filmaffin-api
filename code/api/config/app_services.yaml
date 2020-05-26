@@ -23,6 +23,30 @@ services:
       parent: App\Component\Db\ReadSlaveQuery
       public: true
 
+    App\Query\Db\Film\GetFilmDirectors:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Query\Db\Film\GetFilmActors:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Query\Db\Film\GetFilmScreenplayers:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Query\Db\Film\GetFilmMusicians:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Query\Db\Film\GetFilmTopics:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
+    App\Query\Db\Film\GetFilmCinematographers:
+      parent: App\Component\Db\ReadSlaveQuery
+      public: true
+
     App\Query\Index\Film\SearchFilms:
       parent: App\Component\Elasticsearch\SuggestionQuery
       public: true

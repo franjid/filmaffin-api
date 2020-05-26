@@ -19,4 +19,11 @@ interface FilmRepositoryInterface
      * @return FilmExtraInfo[]
      */
     public function getFilmExtraInfo(array $idFilms): array;
+
+    public function getFilmDirectors(int $idFilm): array;
+    public function getFilmActors(int $idFilm): array;
+    public function getFilmScreenplayers(int $idFilm): array;
+    public function getFilmMusicians(int $idFilm): array;
+    public function getFilmCinematographers(int $idFilm): array;
+    public function getFilmTopics(int $idFilm): array;
 }

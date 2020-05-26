@@ -49,32 +49,21 @@ class IndexFilmsCommand extends Command
             $filmsAvailable = count($films);
 
             if ($filmsAvailable) {
-                $idFilms = [];
                 foreach ($films as $film) {
-                    $idFilms[] = $film->getIdFilm();
+                    $idFilm = $film->getIdFilm();
+
+                    $film->setDirectors(implode(', ', array_column($this->filmRepository->getFilmDirectors($idFilm), 'name')));
+                    $film->setActors(implode(', ', array_column($this->filmRepository->getFilmActors($idFilm), 'name')));
+                    $film->setScreenplayers(implode(', ', array_column($this->filmRepository->getFilmScreenplayers($idFilm), 'name')));
+                    $film->setMusicians(implode(', ', array_column($this->filmRepository->getFilmMusicians($idFilm), 'name')));
+                    $film->setCinematographers(implode(', ', array_column($this->filmRepository->getFilmCinematographers($idFilm), 'name')));
+                    $film->setTopics(implode(', ', array_column($this->filmRepository->getFilmTopics($idFilm), 'name')));
                 }
 
-                $filmExtraInfo = $this->filmRepository->getFilmExtraInfo($idFilms);
+                $this->filmsIndexBC->index($films);
 
-                $i = 0;
-                foreach ($films as $film) {
-                    $film->setDirectors($filmExtraInfo[$i]->getDirectors());
-                    $film->setActors($filmExtraInfo[$i]->getActors());
-                    $film->setActors($filmExtraInfo[$i]->getActors());
-                    $film->setScreenplayers($filmExtraInfo[$i]->getScreenplayers());
-                    $film->setMusicians($filmExtraInfo[$i]->getMusicians());
-                    $film->setCinematographers($filmExtraInfo[$i]->getCinematographers());
-                    $film->setTopics($filmExtraInfo[$i]->getTopics());
-
-                    $i++;
-                }
-
-                if ($filmsAvailable) {
-                    $this->filmsIndexBC->index($films);
-
-                    $progressBar->advance(static::MAX_FILMS_PER_ITERATION);
-                    $offset += static::MAX_FILMS_PER_ITERATION;
-                }
+                $progressBar->advance(static::MAX_FILMS_PER_ITERATION);
+                $offset += static::MAX_FILMS_PER_ITERATION;
             }
         } while ($filmsAvailable);
 
