@@ -6,10 +6,11 @@ use App\Component\Util\StringUtil;
 use App\Repository\Index\Film\FilmRepositoryInterface;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class FilmsController extends BaseController
+class FilmsController extends AbstractController
 {
     /**
      * @Operation(
