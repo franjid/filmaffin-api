@@ -37,6 +37,7 @@ class GetFilmsInTheatres extends NormalQuery
     }
 }
 EOT;
+
         return $this->fetchAll($query);
     }
 }

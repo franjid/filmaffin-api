@@ -4,6 +4,7 @@ namespace App\Infrastructure\Component\Log;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use RuntimeException;
 
 trait LogTrait
 {
@@ -11,12 +12,12 @@ trait LogTrait
 
     /**
      * @return LoggerInterface
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function getLogger(): LoggerInterface
     {
         if (!$this->logger) {
-            throw new \RuntimeException('Logger not found');
+            throw new RuntimeException('Logger not found');
         }
 
         return $this->logger;
@@ -29,11 +30,11 @@ trait LogTrait
 
     /**
      * @param string $message
-     * @param array $contextData
+     * @param array  $contextData
      * @param string $level RFC5452 logging levels (debug,info,notice,warning,error,critical,alert,emergency)
      *
      * @return void
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function writeLog(
         string $message,
@@ -42,7 +43,7 @@ trait LogTrait
     ): void
     {
         if (!method_exists($this->getLogger(), $level)) {
-            throw new \RuntimeException('Method ' . $level . ' does not exit in LoggerInterface');
+            throw new RuntimeException('Method ' . $level . ' does not exit in LoggerInterface');
         }
 
         $data = $this->generateData($contextData, $level);
@@ -57,13 +58,13 @@ trait LogTrait
         $importantLevels = [
             LogLevel::CRITICAL,
             LogLevel::ALERT,
-            LogLevel::EMERGENCY
+            LogLevel::EMERGENCY,
         ];
 
         if (in_array($level, $importantLevels, true)) {
             $data = [
                 'Data application' => $contextData,
-                'Debug backtrace' => debug_backtrace()
+                'Debug backtrace' => debug_backtrace(),
             ];
         }
 

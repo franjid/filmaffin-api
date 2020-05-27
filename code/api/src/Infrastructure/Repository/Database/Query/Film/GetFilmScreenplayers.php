@@ -9,9 +9,9 @@ class GetFilmScreenplayers extends GlobalReadQuery
     public function getResult(int $idFilm): array
     {
         $query = 'SELECT';
-        $query .=  ' screenplayer.name';
+        $query .= ' screenplayer.name';
         $query .= ' FROM';
-        $query .=  ' film';
+        $query .= ' film';
         $query .= ' LEFT JOIN assocFilmScreenplayer USING(idFilm)';
         $query .= ' LEFT JOIN screenplayer USING(idScreenplayer)';
         $query .= ' WHERE idFilm = ' . $idFilm;

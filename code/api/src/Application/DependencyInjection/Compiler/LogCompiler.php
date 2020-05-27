@@ -2,6 +2,7 @@
 
 namespace App\Application\DependencyInjection\Compiler;
 
+use RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -19,10 +20,9 @@ class LogCompiler implements CompilerPassInterface
     {
         $taggedServices = $container->findTaggedServiceIds('logger');
 
-        foreach ($taggedServices as $serviceId => $tagAttributes)
-        {
+        foreach ($taggedServices as $serviceId => $tagAttributes) {
             if (!isset($tagAttributes[0]['channel'])) {
-                throw new \RuntimeException('If you put a logger tag you need to add an attribute channel as well');
+                throw new RuntimeException('If you put a logger tag you need to add an attribute channel as well');
             }
 
             $definition = $container->getDefinition($serviceId);

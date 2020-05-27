@@ -31,8 +31,7 @@ class IndexFilmsCommand extends Command
     {
         $this
             ->setName('filmaffin:index:films')
-            ->setDescription('Get films from DB and index them in Elasticsearch')
-        ;
+            ->setDescription('Get films from DB and index them in Elasticsearch');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

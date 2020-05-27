@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Component\Log;
 
-class LogException extends \Exception
+use Exception;
+
+class LogException extends Exception
 {
 }

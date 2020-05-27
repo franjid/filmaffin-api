@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Component\Db;
 
-class DbException extends \Exception
+use Exception;
+
+class DbException extends Exception
 {
 }

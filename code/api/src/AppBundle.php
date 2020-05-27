@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use App\Application\DependencyInjection\Compiler\LogCompiler;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class AppBundle extends Bundle
 {

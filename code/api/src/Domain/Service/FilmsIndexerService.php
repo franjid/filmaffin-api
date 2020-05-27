@@ -2,13 +2,14 @@
 
 namespace App\Domain\Service;
 
+use App\Domain\Entity\Film;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\ElasticsearchServiceInterface;
 use Elasticsearch\Client;
-use App\Domain\Entity\Film;
 use Exception;
+use JsonException;
 
 class FilmsIndexerService implements FilmsIndexerInterface
 {
@@ -38,7 +39,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
             'properties' => [
                 'idFilm' => ['type' => 'long'],
                 'suggest' => [
-                    'type' => 'completion'
+                    'type' => 'completion',
                 ],
                 'title' => [
                     'type' => 'text',
@@ -94,7 +95,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
                     'type' => 'keyword',
                     'index' => 'true',
                 ],
-            ]
+            ],
         ];
 
         $indexParams = $this->indexParams;
@@ -122,8 +123,8 @@ class FilmsIndexerService implements FilmsIndexerInterface
                             )
                         )
                     ),
-                    'weight' => $numRatings
-                    ],
+                    'weight' => $numRatings,
+                ],
                 'title' => $film->getTitle(),
                 'originalTitle' => $film->getOriginalTitle(),
                 'rating' => $film->getRating(),
@@ -148,7 +149,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
 
             try {
                 $this->indexParams['body'] .= json_encode($filmForIndex, JSON_THROW_ON_ERROR) . "\n";
-            } catch (\JsonException $e) {
+            } catch (JsonException $e) {
                 trigger_error('Json malformed. Film id: ' . $film->getIdFilm());
             }
         }

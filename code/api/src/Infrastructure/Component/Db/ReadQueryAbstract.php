@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Component\Db;
 
 use Doctrine\DBAL\DBALException;
+use PDO;
 
 abstract class ReadQueryAbstract extends QueryAbstract
 {
@@ -31,7 +32,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
-            static::ROWS_AFFECTED_VAR_NAME => count($result)
+            static::ROWS_AFFECTED_VAR_NAME => count($result),
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 
@@ -41,6 +42,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
     /**
      * @param string $query
      * @param string $class Full name class (with namespace)
+     *
      * @return mixed
      * @throws DBALException
      */
@@ -54,7 +56,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
-            static::ROWS_AFFECTED_VAR_NAME => $result ? 1 : 0
+            static::ROWS_AFFECTED_VAR_NAME => $result ? 1 : 0,
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 
@@ -78,7 +80,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
-            static::ROWS_AFFECTED_VAR_NAME => count($result)
+            static::ROWS_AFFECTED_VAR_NAME => count($result),
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 
@@ -98,13 +100,13 @@ abstract class ReadQueryAbstract extends QueryAbstract
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->executeQuery($query)->fetchAll(\PDO::FETCH_CLASS, $class);
+        $result = $this->getConnection()->executeQuery($query)->fetchAll(PDO::FETCH_CLASS, $class);
 
         $endTimeMs = microtime(true);
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
-            static::ROWS_AFFECTED_VAR_NAME => count($result)
+            static::ROWS_AFFECTED_VAR_NAME => count($result),
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 
@@ -126,7 +128,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
-            static::ROWS_AFFECTED_VAR_NAME => count($result)
+            static::ROWS_AFFECTED_VAR_NAME => count($result),
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 

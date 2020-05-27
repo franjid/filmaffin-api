@@ -12,7 +12,7 @@ class SuggestionQuery extends QueryAbstract
 
         $extraData = [
             static::TIME_QUERY => ($endTimeMs - $startTimeMs),
-            static::TOTAL_RESULTS => count($originalResult['suggest']['film-suggest'][0]['options'])
+            static::TOTAL_RESULTS => count($originalResult['suggest']['film-suggest'][0]['options']),
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 

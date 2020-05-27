@@ -9,9 +9,9 @@ class GetFilmMusicians extends GlobalReadQuery
     public function getResult(int $idFilm): array
     {
         $query = 'SELECT';
-        $query .=  ' musician.name';
+        $query .= ' musician.name';
         $query .= ' FROM';
-        $query .=  ' film';
+        $query .= ' film';
         $query .= ' LEFT JOIN assocFilmMusician USING(idFilm)';
         $query .= ' LEFT JOIN musician USING(idMusician)';
         $query .= ' WHERE idFilm = ' . $idFilm;

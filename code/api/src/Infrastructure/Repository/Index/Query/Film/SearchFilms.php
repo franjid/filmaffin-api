@@ -34,6 +34,7 @@ class SearchFilms extends SuggestionQuery
     }
 }
 EOT;
+
         return $this->fetchAll($query);
     }
 }

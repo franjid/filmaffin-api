@@ -2,8 +2,10 @@
 
 namespace App\Infrastructure\Component\Db;
 
-use Doctrine\DBAL\Connection;
 use App\Infrastructure\Component\Log\LogTrait;
+use DateTimeImmutable;
+use Doctrine\DBAL\Connection;
+use Exception;
 
 abstract class QueryAbstract
 {
@@ -16,7 +18,8 @@ abstract class QueryAbstract
         $this->connection = $connection;
     }
 
-    abstract public function isReadOnly(): bool ;
+    abstract public function isReadOnly(): bool;
+
     abstract public function getDbPool(): string;
 
     protected function setConnection(Connection $connection): void
@@ -35,11 +38,11 @@ abstract class QueryAbstract
      * @param string $time
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getDbDate(string $time = 'now'): string
     {
-        $dateTime = new \DateTimeImmutable($time);
+        $dateTime = new DateTimeImmutable($time);
 
         return $this->quote($dateTime->format('Y-m-d H:i:s'));
     }
@@ -50,7 +53,7 @@ abstract class QueryAbstract
             'Db' => $this->connection->getDatabase(),
             'Host' => $this->connection->getHost(),
             'Port' => $this->connection->getPort(),
-            'ReadOnly' => $this->isReadOnly() ? 'yes' : 'no'
+            'ReadOnly' => $this->isReadOnly() ? 'yes' : 'no',
         ];
     }
 
@@ -63,16 +66,17 @@ abstract class QueryAbstract
     {
         return [
             'Class' => static::class,
-            'Pool'  => $this->getDbPool(),
-            'Time'  => -1
+            'Pool' => $this->getDbPool(),
+            'Time' => -1,
         ];
     }
 
     /**
      * Quotes a given input parameter.
      *
-     * @param mixed $input The parameter to be quoted.
-     * @param string|null $type The type of the parameter.
+     * @param mixed       $input The parameter to be quoted.
+     * @param string|null $type  The type of the parameter.
+     *
      * @return string The quoted parameter.
      */
     public function quote($input, ?string $type = null): string
@@ -84,8 +88,7 @@ abstract class QueryAbstract
     {
         $result = [];
 
-        foreach ($inputs as $input)
-        {
+        foreach ($inputs as $input) {
             $result[] = $this->quote($input, $type);
         }
 

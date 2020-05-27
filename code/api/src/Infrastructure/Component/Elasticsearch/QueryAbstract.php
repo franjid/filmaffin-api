@@ -39,7 +39,7 @@ abstract class QueryAbstract
         return [
             'Class' => static::class,
             'Pool' => $this->elasticsearchIndexName,
-            'Time'  => -1
+            'Time' => -1,
         ];
     }
 

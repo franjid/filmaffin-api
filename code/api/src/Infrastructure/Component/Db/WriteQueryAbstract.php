@@ -16,6 +16,7 @@ abstract class WriteQueryAbstract extends QueryAbstract
      * and returns the number of affected rows.
      *
      * @param string $query
+     *
      * @return int
      * @throws DBALException
      */
@@ -24,7 +25,7 @@ abstract class WriteQueryAbstract extends QueryAbstract
         $startTimeMs = microtime(true);
         $numberRowsAffected = $this->getConnection()->executeUpdate($query);
         $endTimeMs = microtime(true);
-        $extraData = ['Time' => $endTimeMs-$startTimeMs, 'RowsAffected' => $numberRowsAffected];
+        $extraData = ['Time' => $endTimeMs - $startTimeMs, 'RowsAffected' => $numberRowsAffected];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 
         return $numberRowsAffected;
@@ -32,6 +33,7 @@ abstract class WriteQueryAbstract extends QueryAbstract
 
     /**
      * @param string $query
+     *
      * @return int
      * @throws DBALException
      */

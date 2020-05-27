@@ -9,9 +9,9 @@ class GetFilmTopics extends GlobalReadQuery
     public function getResult(int $idFilm): array
     {
         $query = 'SELECT';
-        $query .=  ' topic.name';
+        $query .= ' topic.name';
         $query .= ' FROM';
-        $query .=  ' film';
+        $query .= ' film';
         $query .= ' LEFT JOIN assocFilmTopic USING(idFilm)';
         $query .= ' LEFT JOIN topic USING(idTopic)';
         $query .= ' WHERE idFilm = ' . $idFilm;

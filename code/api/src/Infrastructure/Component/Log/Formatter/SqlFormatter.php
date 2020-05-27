@@ -13,9 +13,9 @@ class SqlFormatter extends NormalizerFormatter
     protected bool $ignoreEmptyContextAndExtra;
 
     /**
-     * @param string $format                     The format of the message
-     * @param string $dateFormat                 The format of the timestamp: one supported by DateTime::format
-     * @param bool   $allowInlineLineBreaks      Whether to allow inline line breaks in log entries
+     * @param string $format                The format of the message
+     * @param string $dateFormat            The format of the timestamp: one supported by DateTime::format
+     * @param bool   $allowInlineLineBreaks Whether to allow inline line breaks in log entries
      * @param bool   $ignoreEmptyContextAndExtra
      */
     public function __construct(
@@ -35,7 +35,8 @@ class SqlFormatter extends NormalizerFormatter
     /**
      * Formats a log record.
      *
-     * @param  array $records A record to format
+     * @param array $records A record to format
+     *
      * @return mixed The formatted record
      */
     public function format(array $records)
@@ -50,8 +51,8 @@ class SqlFormatter extends NormalizerFormatter
         $output = str_replace('%context%', $context, $output);
 
         foreach ($formattedRecords as $formattedRecord => $val) {
-            if (false !== strpos($output, '%'.$formattedRecord.'%')) {
-                $output = str_replace('%'.$formattedRecord.'%', $this->stringify($val), $output);
+            if (false !== strpos($output, '%' . $formattedRecord . '%')) {
+                $output = str_replace('%' . $formattedRecord . '%', $this->stringify($val), $output);
             }
         }
 
@@ -69,9 +70,9 @@ class SqlFormatter extends NormalizerFormatter
 
         if (null === $data || is_bool($data)) {
             $stringValue = var_export($data, true);
-        } elseif (is_scalar($data)) {
+        } else if (is_scalar($data)) {
             $stringValue = (string) $data;
-        } elseif (PHP_VERSION_ID >= 50400) {
+        } else if (PHP_VERSION_ID >= 50400) {
             $stringValue = $this->toJson($data, true);
         } else {
             $stringValue = str_replace('\\/', '/', json_encode($data));
@@ -86,6 +87,6 @@ class SqlFormatter extends NormalizerFormatter
             return $str;
         }
 
-        return str_replace(array("\r\n", "\r", "\n"), ' ', $str);
+        return str_replace(["\r\n", "\r", "\n"], ' ', $str);
     }
 }
