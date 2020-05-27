@@ -5,7 +5,6 @@ namespace App\Infrastructure\Interfaces;
 use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
-use App\Domain\Entity\Film;
 
 interface FilmDatabaseRepositoryInterface
 {
