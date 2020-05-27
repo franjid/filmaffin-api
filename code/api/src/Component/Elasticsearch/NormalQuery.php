@@ -2,18 +2,16 @@
 
 namespace App\Component\Elasticsearch;
 
-use App\Component\Util\DateTimeUtil;
-
 class NormalQuery extends QueryAbstract
 {
     protected function fetchAll(string $query): array
     {
-        $startTimeMs = DateTimeUtil::getTime();
+        $startTimeMs = microtime(true);
         $originalResult = $this->search($query);
-        $endTimeMs = DateTimeUtil::getTime();
+        $endTimeMs = microtime(true);
 
         $extraData = [
-            static::TIME_QUERY => ($endTimeMs - $startTimeMs) / 1000,
+            static::TIME_QUERY => ($endTimeMs - $startTimeMs),
             static::TOTAL_RESULTS => (int) $originalResult['hits']['total']
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));

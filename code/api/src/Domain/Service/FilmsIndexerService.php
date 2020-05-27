@@ -2,7 +2,8 @@
 
 namespace App\Domain\Service;
 
-use App\Component\Util\StringUtil;
+use App\Domain\Helper\FilmImageHelper;
+use App\Domain\Helper\StringHelper;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\ElasticsearchServiceInterface;
 use Elasticsearch\Client;
@@ -12,11 +13,8 @@ use Exception;
 class FilmsIndexerService implements FilmsIndexerInterface
 {
     private Client $elasticsearchClient;
-
     private string $elasticsearchIndexName;
-
     private string $elasticsearchTypeFilm;
-
     private array $indexParams;
 
     public function __construct(
@@ -119,8 +117,8 @@ class FilmsIndexerService implements FilmsIndexerInterface
                     'input' => array_values(
                         array_unique(
                             array_merge(
-                                $this->getSanitizedWordPermutations($film->getTitle()),
-                                $this->getSanitizedWordPermutations($film->getOriginalTitle())
+                                StringHelper::getSanitizedWordPermutations($film->getTitle()),
+                                StringHelper::getSanitizedWordPermutations($film->getOriginalTitle())
                             )
                         )
                     ),
@@ -138,7 +136,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'releaseDate' => $film->getReleaseDate(),
                 'directors' => explode(',', $film->getDirectors()),
                 'actors' => explode(',', $film->getActors()),
-                'posterImages' => $this->getImagePosters($film->getIdFilm()),
+                'posterImages' => FilmImageHelper::getImagePosters($film->getIdFilm()),
                 'synopsis' => $film->getSynopsis() ?? '',
                 'topics' => explode(',', $film->getTopics()),
                 'screenplayers' => explode(',', $film->getScreenplayers()),
@@ -147,6 +145,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";
+
             try {
                 $this->indexParams['body'] .= json_encode($filmForIndex, JSON_THROW_ON_ERROR) . "\n";
             } catch (\JsonException $e) {
@@ -155,38 +154,6 @@ class FilmsIndexerService implements FilmsIndexerInterface
         }
 
         $this->elasticsearchClient->bulk($this->indexParams);
-    }
-
-    private function getSanitizedWordPermutations($inStr): array
-    {
-        $inStr = StringUtil::removeDiacritics($inStr);
-        $inStr = mb_ereg_replace(
-            '#[[:punct:]]#', '', trim(str_replace(['(c)', '(s)'], ['', ''], mb_strtolower($inStr)))
-        );
-
-        $outArr = [];
-        $tokenArr = explode(' ', $inStr);
-        $numTokenArr = count($tokenArr);
-        $pointer = 0;
-
-        for ($i = 0; $i < $numTokenArr; $i++) {
-            if (!empty($tokenArr[$i])) {
-                $outArr[$pointer] = $tokenArr[$i];
-            }
-            $tokenString = $tokenArr[$i];
-            $pointer++;
-
-            for ($j = $i + 1; $j < $numTokenArr; $j++) {
-                $tokenString .= ' ' . $tokenArr[$j];
-                if (!empty($tokenString)) {
-                    $outArr[$pointer] = $tokenString;
-                }
-
-                $pointer++;
-            }
-        }
-
-        return $outArr;
     }
 
     public function deletePreviousIndexes(): void
@@ -223,21 +190,5 @@ class FilmsIndexerService implements FilmsIndexerInterface
         }
 
         return $indexes;
-    }
-
-    /**
-     * @param int $idFilm
-     *
-     * @return array
-     */
-    private function getImagePosters($idFilm): array
-    {
-        $imagePath ='/' . implode('/', str_split($idFilm, 2)) . '/';
-
-        return [
-            'small' => $imagePath . $idFilm . '-msmall.jpg',
-            'medium' => $imagePath . $idFilm . '-mmed.jpg',
-            'large' => $imagePath . $idFilm . '-large.jpg',
-        ];
     }
 }

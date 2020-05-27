@@ -2,7 +2,7 @@
 
 namespace App\Application\Controller;
 
-use App\Component\Util\StringUtil;
+use App\Domain\Helper\StringHelper;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
@@ -54,7 +54,7 @@ class FilmsController extends AbstractController
             return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $title = StringUtil::removeDiacritics($title);
+        $title = StringHelper::removeDiacritics($title);
 
         $films = $filmIndexRepository->searchFilms($title);
         $response = empty($films) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;

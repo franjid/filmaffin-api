@@ -1,5 +1,5 @@
 imports:
-    - { resource: monolog.yml }
+    - { resource: monolog.yaml }
 
 framework:
     secret: '%env(APP_SECRET)%'

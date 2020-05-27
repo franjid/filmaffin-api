@@ -2,7 +2,6 @@
 
 namespace App\Component\Db;
 
-use App\Component\Util\DateTimeUtil;
 use Doctrine\DBAL\DBALException;
 
 abstract class ReadQueryAbstract extends QueryAbstract
@@ -24,11 +23,11 @@ abstract class ReadQueryAbstract extends QueryAbstract
      */
     protected function fetchAssoc(string $query): array
     {
-        $startTimeMs = DateTimeUtil::getTime();
+        $startTimeMs = microtime(true);
 
         $result = $this->getConnection()->fetchAssoc($query);
 
-        $endTimeMs = DateTimeUtil::getTime();
+        $endTimeMs = microtime(true);
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
@@ -47,11 +46,11 @@ abstract class ReadQueryAbstract extends QueryAbstract
      */
     protected function fetchObject(string $query, string $class = '\stdClass')
     {
-        $startTimeMs = DateTimeUtil::getTime();
+        $startTimeMs = microtime(true);
 
         $result = $this->getConnection()->executeQuery($query, [], [])->fetchObject($class);
 
-        $endTimeMs = DateTimeUtil::getTime();
+        $endTimeMs = microtime(true);
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
@@ -71,11 +70,11 @@ abstract class ReadQueryAbstract extends QueryAbstract
      */
     protected function fetchAll(string $query): array
     {
-        $startTimeMs = DateTimeUtil::getTime();
+        $startTimeMs = microtime(true);
 
         $result = $this->getConnection()->fetchAll($query);
 
-        $endTimeMs = DateTimeUtil::getTime();
+        $endTimeMs = microtime(true);
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
@@ -97,11 +96,11 @@ abstract class ReadQueryAbstract extends QueryAbstract
      */
     protected function fetchAllObject(string $query, ?string $class = '\stdClass'): array
     {
-        $startTimeMs = DateTimeUtil::getTime();
+        $startTimeMs = microtime(true);
 
         $result = $this->getConnection()->executeQuery($query)->fetchAll(\PDO::FETCH_CLASS, $class);
 
-        $endTimeMs = DateTimeUtil::getTime();
+        $endTimeMs = microtime(true);
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
@@ -119,11 +118,11 @@ abstract class ReadQueryAbstract extends QueryAbstract
      */
     protected function fetchColumn(string $query)
     {
-        $startTimeMs = DateTimeUtil::getTime();
+        $startTimeMs = microtime(true);
 
         $result = $this->getConnection()->fetchColumn($query);
 
-        $endTimeMs = DateTimeUtil::getTime();
+        $endTimeMs = microtime(true);
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
