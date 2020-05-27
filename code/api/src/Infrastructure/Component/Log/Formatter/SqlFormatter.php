@@ -31,7 +31,6 @@ class SqlFormatter extends NormalizerFormatter
         parent::__construct($dateFormat);
     }
 
-
     /**
      * Formats a log record.
      *

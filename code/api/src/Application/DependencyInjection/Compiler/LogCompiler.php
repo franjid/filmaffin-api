@@ -12,7 +12,7 @@ class LogCompiler implements CompilerPassInterface
     /**
      * Process
      *
-     * Method setLogger come from Component\Log\LogTrait.
+     * Method setLogger comes from Component\Log\LogTrait.
      *
      * @param ContainerBuilder $container
      */

@@ -6,7 +6,6 @@ use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmActors;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmDirectors;
-use App\Infrastructure\Repository\Database\Query\Film\GetFilmExtraInfo;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilms;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers;
@@ -21,14 +20,6 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         $query = $this->getQuery(GetFilms::class);
 
         return $query->getResult($offset, $limit);
-    }
-
-    public function getFilmExtraInfo(array $idFilms): array
-    {
-        /** @var GetFilmExtraInfo $query */
-        $query = $this->getQuery(GetFilmExtraInfo::class);
-
-        return $query->getResult($idFilms);
     }
 
     public function getFilmDirectors(int $idFilm): array
