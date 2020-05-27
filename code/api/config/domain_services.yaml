@@ -6,3 +6,13 @@ services:
       - '@App\Infrastructure\Interfaces\ElasticsearchServiceInterface'
       - '%elasticsearch_index%'
       - '%elasticsearch_type_film%'
+      - '@App\Domain\Helper\StringHelper'
+      - '@App\Domain\Helper\FilmImageHelper'
+
+  App\Domain\Helper\StringHelper:
+    class: App\Domain\Helper\StringHelper
+    public: true
+
+  App\Domain\Helper\FilmImageHelper:
+    class: App\Domain\Helper\FilmImageHelper
+    public: true

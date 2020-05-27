@@ -41,11 +41,14 @@ class FilmsController extends AbstractController
      * @param Request                      $request
      * @param FilmIndexRepositoryInterface $filmIndexRepository
      *
+     * @param StringHelper                 $stringHelper
+     *
      * @return JsonResponse
      */
     public function searchAction(
         Request $request,
-        FilmIndexRepositoryInterface $filmIndexRepository
+        FilmIndexRepositoryInterface $filmIndexRepository,
+        StringHelper $stringHelper
     ): JsonResponse
     {
         $title = $request->query->get('title');
@@ -54,7 +57,7 @@ class FilmsController extends AbstractController
             return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $title = StringHelper::removeDiacritics($title);
+        $title = $stringHelper->removeDiacritics($title);
 
         $films = $filmIndexRepository->searchFilms($title);
         $response = empty($films) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;

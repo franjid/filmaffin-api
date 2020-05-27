@@ -14,14 +14,15 @@ class StringHelper
      * èe -> ee
      * € -> €
      * àòùìéëü -> aouieeu
-     * àòùìéëü -> aouieeu
+     * àòùìéëu -> aouieeu
+     * ÁOÒòoÍìI -> AOOooIiI
      * tiësto -> tiesto
      *
      * @param string $string
      *
      * @return string
      */
-    public static function removeDiacritics(string $string): string
+    public function removeDiacritics(string $string): string
     {
         $transliterator = Transliterator::createFromRules(
             ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
@@ -31,9 +32,9 @@ class StringHelper
         return $transliterator->transliterate($string);
     }
 
-    public static function getSanitizedWordPermutations($inStr): array
+    public function getSanitizedWordPermutations($inStr): array
     {
-        $inStr = static::removeDiacritics($inStr);
+        $inStr = $this->removeDiacritics($inStr);
         $inStr = mb_ereg_replace(
             '#[[:punct:]]#', '', trim(str_replace(['(c)', '(s)'], ['', ''], mb_strtolower($inStr)))
         );
@@ -43,14 +44,15 @@ class StringHelper
         $numTokenArr = count($tokenArr);
         $pointer = 0;
 
-        for ($i = 0; $i < $numTokenArr; $i++) {
-            if (!empty($tokenArr[$i])) {
-                $outArr[$pointer] = $tokenArr[$i];
+        foreach ($tokenArr as $index => $value) {
+            if (!empty($tokenArr[$index])) {
+                $outArr[$pointer] = $value;
             }
-            $tokenString = $tokenArr[$i];
+
+            $tokenString = $value;
             $pointer++;
 
-            for ($j = $i + 1; $j < $numTokenArr; $j++) {
+            for ($j = $index + 1; $j < $numTokenArr; $j++) {
                 $tokenString .= ' ' . $tokenArr[$j];
                 if (!empty($tokenString)) {
                     $outArr[$pointer] = $tokenString;

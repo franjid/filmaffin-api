@@ -4,7 +4,7 @@ namespace App\Domain\Helper;
 
 class FilmImageHelper
 {
-    public static function getImagePosters(int $idFilm): array
+    public function getImagePosters(int $idFilm): array
     {
         $imagePath = '/' . implode('/', str_split($idFilm, 2)) . '/';
 

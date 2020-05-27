@@ -17,16 +17,22 @@ class FilmsIndexerService implements FilmsIndexerInterface
     private string $elasticsearchIndexName;
     private string $elasticsearchTypeFilm;
     private array $indexParams;
+    private StringHelper $stringHelper;
+    private FilmImageHelper $filmImageHelper;
 
     public function __construct(
         ElasticsearchServiceInterface $elasticsearch,
         string $elasticsearchIndexName,
-        string $elasticsearchTypeFilm
+        string $elasticsearchTypeFilm,
+        StringHelper $stringHelper,
+        FilmImageHelper $filmImageHelper
     )
     {
         $this->elasticsearchClient = $elasticsearch->getClient();
         $this->elasticsearchIndexName = $elasticsearchIndexName;
         $this->elasticsearchTypeFilm = $elasticsearchTypeFilm;
+        $this->stringHelper = $stringHelper;
+        $this->filmImageHelper = $filmImageHelper;
 
         $this->indexParams = [
             'index' => $elasticsearchIndexName . '_' . time(),
@@ -123,8 +129,8 @@ class FilmsIndexerService implements FilmsIndexerInterface
                     'input' => array_values(
                         array_unique(
                             array_merge(
-                                StringHelper::getSanitizedWordPermutations($film->getTitle()),
-                                StringHelper::getSanitizedWordPermutations($film->getOriginalTitle())
+                                $this->stringHelper->getSanitizedWordPermutations($film->getTitle()),
+                                $this->stringHelper->getSanitizedWordPermutations($film->getOriginalTitle())
                             )
                         )
                     ),
@@ -142,7 +148,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'releaseDate' => $film->getReleaseDate(),
                 'directors' => explode(',', $film->getDirectors()),
                 'actors' => explode(',', $film->getActors()),
-                'posterImages' => FilmImageHelper::getImagePosters($film->getIdFilm()),
+                'posterImages' => $this->filmImageHelper->getImagePosters($film->getIdFilm()),
                 'synopsis' => $film->getSynopsis() ?? '',
                 'topics' => explode(',', $film->getTopics()),
                 'screenplayers' => explode(',', $film->getScreenplayers()),
