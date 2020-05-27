@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Application;
 
 use App\Application\DependencyInjection\Compiler\LogCompiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
