@@ -24,9 +24,9 @@ class GetFilm extends NormalQuery
         "actors",
         "screenplayers",
         "musicians",
-        "cinematographers"
+        "cinematographers",
         "topics",
-        "posterImages",
+        "posterImages"
     ],
     "query": {
         "function_score": {

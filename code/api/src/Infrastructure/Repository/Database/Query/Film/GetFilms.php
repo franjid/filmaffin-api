@@ -2,20 +2,13 @@
 
 namespace App\Infrastructure\Repository\Database\Query\Film;
 
+use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Film;
 use App\Infrastructure\Component\Db\GlobalReadQuery;
-use Doctrine\DBAL\DBALException;
 
 class GetFilms extends GlobalReadQuery
 {
-    /**
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return Film[]
-     * @throws DBALException
-     */
-    public function getResult(int $offset, int $limit): array
+    public function getResult(int $offset, int $limit): FilmCollection
     {
         $query = 'SELECT';
         $query .= '   idFilm';
@@ -37,6 +30,8 @@ class GetFilms extends GlobalReadQuery
         $query .= ' GROUP BY idFilm';
         $query .= ' LIMIT ' . (int) $offset . ', ' . (int) $limit;
 
-        return $this->fetchAllObject($query, Film::class);
+        $result = $this->fetchAllObject($query, Film::class);
+
+        return new FilmCollection(...$result);
     }
 }

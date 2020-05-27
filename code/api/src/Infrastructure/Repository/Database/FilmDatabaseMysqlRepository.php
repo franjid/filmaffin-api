@@ -2,6 +2,9 @@
 
 namespace App\Infrastructure\Repository\Database;
 
+use App\Domain\Entity\Collection\FilmAttributeCollection;
+use App\Domain\Entity\Collection\FilmCollection;
+use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmActors;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers;
@@ -14,7 +17,7 @@ use App\Infrastructure\Repository\RepositoryAbstract;
 
 class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmDatabaseRepositoryInterface
 {
-    public function getFilms(int $offset, int $limit): array
+    public function getFilms(int $offset, int $limit): FilmCollection
     {
         /** @var GetFilms $query */
         $query = $this->getQuery(GetFilms::class);
@@ -22,7 +25,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         return $query->getResult($offset, $limit);
     }
 
-    public function getFilmDirectors(int $idFilm): array
+    public function getFilmDirectors(int $idFilm): FilmParticipantCollection
     {
         /** @var GetFilmDirectors $query */
         $query = $this->getQuery(GetFilmDirectors::class);
@@ -30,7 +33,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         return $query->getResult($idFilm);
     }
 
-    public function getFilmActors(int $idFilm): array
+    public function getFilmActors(int $idFilm): FilmParticipantCollection
     {
         /** @var GetFilmActors $query */
         $query = $this->getQuery(GetFilmActors::class);
@@ -38,7 +41,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         return $query->getResult($idFilm);
     }
 
-    public function getFilmScreenplayers(int $idFilm): array
+    public function getFilmScreenplayers(int $idFilm): FilmParticipantCollection
     {
         /** @var GetFilmScreenplayers $query */
         $query = $this->getQuery(GetFilmScreenplayers::class);
@@ -46,7 +49,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         return $query->getResult($idFilm);
     }
 
-    public function getFilmMusicians(int $idFilm): array
+    public function getFilmMusicians(int $idFilm): FilmParticipantCollection
     {
         /** @var GetFilmMusicians $query */
         $query = $this->getQuery(GetFilmMusicians::class);
@@ -54,7 +57,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         return $query->getResult($idFilm);
     }
 
-    public function getFilmCinematographers(int $idFilm): array
+    public function getFilmCinematographers(int $idFilm): FilmParticipantCollection
     {
         /** @var GetFilmCinematographers $query */
         $query = $this->getQuery(GetFilmCinematographers::class);
@@ -62,7 +65,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         return $query->getResult($idFilm);
     }
 
-    public function getFilmTopics(int $idFilm): array
+    public function getFilmTopics(int $idFilm): FilmAttributeCollection
     {
         /** @var GetFilmTopics $query */
         $query = $this->getQuery(GetFilmTopics::class);

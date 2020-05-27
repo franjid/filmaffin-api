@@ -2,28 +2,18 @@
 
 namespace App\Infrastructure\Interfaces;
 
+use App\Domain\Entity\Collection\FilmAttributeCollection;
+use App\Domain\Entity\Collection\FilmCollection;
+use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Film;
-use App\Domain\Entity\FilmExtraInfo;
 
 interface FilmDatabaseRepositoryInterface
 {
-    /**
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return Film[]
-     */
-    public function getFilms(int $offset, int $limit): array;
-
-    public function getFilmDirectors(int $idFilm): array;
-
-    public function getFilmActors(int $idFilm): array;
-
-    public function getFilmScreenplayers(int $idFilm): array;
-
-    public function getFilmMusicians(int $idFilm): array;
-
-    public function getFilmCinematographers(int $idFilm): array;
-
-    public function getFilmTopics(int $idFilm): array;
+    public function getFilms(int $offset, int $limit): FilmCollection;
+    public function getFilmDirectors(int $idFilm): FilmParticipantCollection;
+    public function getFilmActors(int $idFilm): FilmParticipantCollection;
+    public function getFilmScreenplayers(int $idFilm): FilmParticipantCollection;
+    public function getFilmMusicians(int $idFilm): FilmParticipantCollection;
+    public function getFilmCinematographers(int $idFilm): FilmParticipantCollection;
+    public function getFilmTopics(int $idFilm): FilmAttributeCollection;
 }
