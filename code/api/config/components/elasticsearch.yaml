@@ -1,24 +1,24 @@
 services:
-    App\Component\Elasticsearch\ElasticsearchClientFactory:
-        class: App\Component\Elasticsearch\ElasticsearchClientFactory
+    App\Infrastructure\Component\Elasticsearch\ElasticsearchClientFactory:
+        class: App\Infrastructure\Component\Elasticsearch\ElasticsearchClientFactory
 
     ElasticsearchClient:
         class: Elasticsearch\Client
-        factory: ['@App\Component\Elasticsearch\ElasticsearchClientFactory', createClient]
+        factory: ['@App\Infrastructure\Component\Elasticsearch\ElasticsearchClientFactory', createClient]
         arguments:
             - '%elasticsearch_hosts%'
 
-    App\Component\Elasticsearch\QueryAbstract:
+    App\Infrastructure\Component\Elasticsearch\QueryAbstract:
         abstract: true
 
-    App\Component\Elasticsearch\SuggestionQuery:
+    App\Infrastructure\Component\Elasticsearch\SuggestionQuery:
         arguments:
             - '@ElasticsearchClient'
             - '%elasticsearch_index%'
         tags:
             - { name: logger, channel: elasticsearch_query }
 
-    App\Component\Elasticsearch\NormalQuery:
+    App\Infrastructure\Component\Elasticsearch\NormalQuery:
         arguments:
             - '@ElasticsearchClient'
             - '%elasticsearch_index%'

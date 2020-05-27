@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Repository\Index\Query\Film;
 
-use App\Component\Elasticsearch\NormalQuery;
+use App\Infrastructure\Component\Elasticsearch\NormalQuery;
 
 class GetFilmsInTheatres extends NormalQuery
 {

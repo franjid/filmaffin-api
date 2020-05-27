@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Repository\Index\Query\Film;
 
-use App\Component\Elasticsearch\SuggestionQuery;
+use App\Infrastructure\Component\Elasticsearch\SuggestionQuery;
 
 class SearchFilms extends SuggestionQuery
 {

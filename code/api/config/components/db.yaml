@@ -1,28 +1,28 @@
 services:
     # Base queries
-    App\Component\Db\QueryAbstract:
+    App\Infrastructure\Component\Db\QueryAbstract:
         abstract: true
-    App\Component\Db\GlobalReadQuery:
-        parent: App\Component\Db\QueryAbstract
+    App\Infrastructure\Component\Db\GlobalReadQuery:
+        parent: App\Infrastructure\Component\Db\QueryAbstract
         arguments: ['@doctrine.dbal.global_read_connection']
         tags:
             - { name: logger, channel: read_query }
-    App\Component\Db\GlobalWriteQuery:
-        parent: App\Component\Db\QueryAbstract
+    App\Infrastructure\Component\Db\GlobalWriteQuery:
+        parent: App\Infrastructure\Component\Db\QueryAbstract
         arguments: ['@doctrine.dbal.global_write_connection']
         tags:
             - { name: logger, channel: write_query }
-    App\Component\Db\ReadMasterQuery:
-        parent: App\Component\Db\QueryAbstract
+    App\Infrastructure\Component\Db\ReadMasterQuery:
+        parent: App\Infrastructure\Component\Db\QueryAbstract
         arguments: ['@doctrine.dbal.read_master_connection']
         tags:
             - { name: logger, channel: read_query }
-    App\Component\Db\ReadSlaveQuery:
-        parent: App\Component\Db\QueryAbstract
+    App\Infrastructure\Component\Db\ReadSlaveQuery:
+        parent: App\Infrastructure\Component\Db\QueryAbstract
         arguments: ['@doctrine.dbal.read_slave_connection']
         tags:
             - { name: logger, channel: read_query }
-    App\Component\Db\WriteDefaultQuery:
+    App\Infrastructure\Component\Db\WriteDefaultQuery:
         arguments: ['@doctrine.dbal.write_default_connection']
         tags:
             - { name: logger, channel: write_query }

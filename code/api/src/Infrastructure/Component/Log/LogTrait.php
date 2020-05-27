@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Component\Log;
+namespace App\Infrastructure\Component\Log;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;

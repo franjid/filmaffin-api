@@ -1,8 +1,8 @@
 imports:
   - { resource: parameters.yaml }
   - { resource: domain_services.yaml }
+  - { resource: infrastructure_components.yaml }
   - { resource: infrastructure_services.yaml }
-  - { resource: component.yaml }
 
 services:
     _defaults:

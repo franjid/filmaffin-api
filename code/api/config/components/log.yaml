@@ -9,7 +9,7 @@ services:
             - true
 
     Monolog\Formatter\Query:
-        class: App\Component\Log\Formatter\SqlFormatter
+        class: App\Infrastructure\Component\Log\Formatter\SqlFormatter
         arguments:
             - "%%datetime%% | %%level_name%% | %%context%% | %%message%%\n"
             - "Y-m-d H:i:s:u"

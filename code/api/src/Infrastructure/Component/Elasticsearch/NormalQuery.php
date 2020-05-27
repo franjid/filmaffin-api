@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Component\Elasticsearch;
+namespace App\Infrastructure\Component\Elasticsearch;
 
 class NormalQuery extends QueryAbstract
 {

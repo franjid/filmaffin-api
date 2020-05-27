@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Repository\Database\Query\Film;
 
-use App\Component\Db\GlobalReadQuery;
+use App\Infrastructure\Component\Db\GlobalReadQuery;
 use App\Domain\Entity\FilmExtraInfo;
 
 class GetFilmExtraInfo extends GlobalReadQuery

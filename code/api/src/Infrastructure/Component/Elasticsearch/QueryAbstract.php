@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Component\Elasticsearch;
+namespace App\Infrastructure\Component\Elasticsearch;
 
-use App\Component\Log\LogTrait;
+use App\Infrastructure\Component\Log\LogTrait;
 use Elasticsearch\Client;
 
 abstract class QueryAbstract

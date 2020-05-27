@@ -1,0 +1,4 @@
+imports:
+    - { resource: components/db.yaml }
+    - { resource: components/elasticsearch.yaml }
+    - { resource: components/log.yaml }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Component\Log\Formatter;
+namespace App\Infrastructure\Component\Log\Formatter;
 
 use Monolog\Formatter\NormalizerFormatter;
 

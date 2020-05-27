@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Component\Db;
+namespace App\Infrastructure\Component\Db;
 
 class DbException extends \Exception
 {
