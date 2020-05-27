@@ -2,6 +2,7 @@
 
 namespace App\Application\Command;
 
+use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\FilmAttribute;
 use App\Domain\Entity\FilmParticipant;
 use App\Domain\Interfaces\FilmsIndexerInterface;
@@ -72,7 +73,7 @@ class IndexFilmsCommand extends Command
                     $film->setTopics(implode(', ', array_column($topics, FilmAttribute::FIELD_NAME)));
                 }
 
-                $this->filmsIndexerService->index($films);
+                $this->filmsIndexerService->index(new FilmCollection(...$films));
 
                 $progressBar->advance(static::MAX_FILMS_PER_ITERATION);
                 $offset += static::MAX_FILMS_PER_ITERATION;

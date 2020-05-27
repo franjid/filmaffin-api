@@ -2,6 +2,7 @@
 
 namespace App\Domain\Service;
 
+use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Film;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;
@@ -114,13 +115,12 @@ class FilmsIndexerService implements FilmsIndexerInterface
         $this->elasticsearchClient->indices()->create($indexParams);
     }
 
-    public function index(array $films): void
+    public function index(FilmCollection $films): void
     {
         $this->indexParams['type'] = $this->elasticsearchTypeFilm;
         $this->indexParams['body'] = '';
 
-        /** @var Film $film */
-        foreach ($films as $film) {
+        foreach ($films->getItems() as $film) {
             $numRatings = $film->getNumRatings() ?: 0;
 
             $filmForIndex = [

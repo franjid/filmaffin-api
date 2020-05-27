@@ -10,6 +10,7 @@ class StringHelper
      * Replace letters with diacritics into a "normal" mode
      *
      * Examples:
+     *
      * abcd -> abcd
      * èe -> ee
      * € -> €
@@ -32,15 +33,36 @@ class StringHelper
         return $transliterator->transliterate($string);
     }
 
-    public function getSanitizedWordPermutations($inStr): array
+    /**
+     * Returns word permutations of a string
+     *
+     * Example:
+     *
+     * La vita è bella ->
+     *     'la',
+     *     'la vita',
+     *     'la vita e',
+     *     'la vita e bella',
+     *     'vita',
+     *     'vita e',
+     *     'vita e bella',
+     *     'e',
+     *     'e bella',
+     *     'bella',
+     *
+     * @param $string
+     *
+     * @return array
+     */
+    public function getSanitizedWordPermutations(string $string): array
     {
-        $inStr = $this->removeDiacritics($inStr);
-        $inStr = mb_ereg_replace(
-            '#[[:punct:]]#', '', trim(str_replace(['(c)', '(s)'], ['', ''], mb_strtolower($inStr)))
+        $string = $this->removeDiacritics($string);
+        $string = mb_ereg_replace(
+            '#[[:punct:]]#', '', trim(str_replace(['(c)', '(s)'], ['', ''], mb_strtolower($string)))
         );
 
         $outArr = [];
-        $tokenArr = explode(' ', $inStr);
+        $tokenArr = explode(' ', $string);
         $numTokenArr = count($tokenArr);
         $pointer = 0;
 
@@ -54,6 +76,7 @@ class StringHelper
 
             for ($j = $index + 1; $j < $numTokenArr; $j++) {
                 $tokenString .= ' ' . $tokenArr[$j];
+
                 if (!empty($tokenString)) {
                     $outArr[$pointer] = $tokenString;
                 }
