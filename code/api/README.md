@@ -11,6 +11,11 @@ Run:
 composer install
 ```
 
+## Run tests
+```
+./bin/phpunit
+```
+
 ## Index films
 Index films in Elasticsearch reading from DB executing
 ```

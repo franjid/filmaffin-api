@@ -3,7 +3,6 @@
 namespace App\Domain\Service;
 
 use App\Domain\Entity\Collection\FilmCollection;
-use App\Domain\Entity\Film;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;
 use App\Domain\Interfaces\FilmsIndexerInterface;
@@ -186,13 +185,6 @@ class FilmsIndexerService implements FilmsIndexerInterface
         }
     }
 
-    public function createIndexAlias(): void
-    {
-        $aliasParams['index'] = $this->indexParams['index'];
-        $aliasParams['name'] = $this->elasticsearchIndexName;
-        $this->elasticsearchClient->indices()->putAlias($aliasParams);
-    }
-
     private function getPreviousIndexes(): ?array
     {
         try {
@@ -202,5 +194,12 @@ class FilmsIndexerService implements FilmsIndexerInterface
         }
 
         return $indexes;
+    }
+
+    public function createIndexAlias(): void
+    {
+        $aliasParams['index'] = $this->indexParams['index'];
+        $aliasParams['name'] = $this->elasticsearchIndexName;
+        $this->elasticsearchClient->indices()->putAlias($aliasParams);
     }
 }

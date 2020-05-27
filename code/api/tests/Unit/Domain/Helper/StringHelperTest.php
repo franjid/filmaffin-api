@@ -7,19 +7,27 @@ use PHPUnit\Framework\TestCase;
 
 class StringHelperTest extends TestCase
 {
+    private StringHelper $stringHelper;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->stringHelper = new StringHelper();
+    }
+
     /**
-     * @dataProvider diacriticsProvider
+     * @dataProvider diacriticsDataProvider
      *
      * @param string $originalString
      * @param string $expectedString
      */
     public function testRemoveDiacritics(string $originalString, string $expectedString): void
     {
-        $stringHelper = new StringHelper();
-        $this->assertSame($expectedString, $stringHelper->removeDiacritics($originalString));
+        $this->assertSame($expectedString, $this->stringHelper->removeDiacritics($originalString));
     }
 
-    public function diacriticsProvider(): array
+    public function diacriticsDataProvider(): array
     {
         return [
             [
@@ -54,18 +62,17 @@ class StringHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider wordPermutationsProvider
+     * @dataProvider wordPermutationsDataProvider
      *
      * @param string $originalString
      * @param array $expectedPermutations
      */
     public function testGetSanitizedWordPermutations(string $originalString, array $expectedPermutations): void
     {
-        $stringHelper = new StringHelper();
-        $this->assertSame($expectedPermutations, $stringHelper->getSanitizedWordPermutations($originalString));
+        $this->assertSame($expectedPermutations, $this->stringHelper->getSanitizedWordPermutations($originalString));
     }
 
-    public function wordPermutationsProvider(): array
+    public function wordPermutationsDataProvider(): array
     {
         return [
             [
