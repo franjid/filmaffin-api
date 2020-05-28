@@ -28,7 +28,7 @@ class GetFilms extends GlobalReadQuery
         $query .= ' LEFT JOIN filmPopular USING(idFilm)';
         $query .= ' LEFT JOIN filmInTheatres USING(idFilm)';
         $query .= ' GROUP BY idFilm';
-        $query .= ' LIMIT ' . (int) $offset . ', ' . (int) $limit;
+        $query .= ' LIMIT ' . $offset . ', ' . $limit;
 
         $result = $this->fetchAllObject($query, Film::class);
 
