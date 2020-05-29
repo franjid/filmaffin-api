@@ -15,11 +15,9 @@ films_in_theatres:
         _controller: App\Application\Controller\FilmsController::getFilmsInTheatresAction
     methods:  [GET]
 film:
-    path: /films/{idFilm}
+    path: /films/{idFilmList}
     defaults:
         _controller: App\Application\Controller\FilmsController::getFilmAction
-    requirements:
-        page: '\d+'
     methods:  [GET]
 
 app.swagger_ui:

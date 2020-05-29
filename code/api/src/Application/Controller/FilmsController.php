@@ -28,12 +28,12 @@ class FilmsController extends AbstractController
      *         description="Returned when successful"
      *     ),
      *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when there are no films matching the given title"
-     *     ),
-     *     @SWG\Response(
      *         response="400",
      *         description="Returned if title parameter is not set or lenght is < 3"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when there are no films matching the given title"
      *     )
      * )
      *
@@ -68,10 +68,15 @@ class FilmsController extends AbstractController
     /**
      * @Operation(
      *     tags={"Films"},
-     *     summary="Get film",
+     *     summary="Get films by id",
+     *     description="It accepts a film id or a list (separated by commas: 1, 2, 3)",
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when the ids are not a list of integers"
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -79,17 +84,22 @@ class FilmsController extends AbstractController
      *     )
      * )
      *
-     * @param int                          $idFilm
+     * @param string                       $idFilmList
      * @param FilmIndexRepositoryInterface $filmIndexRepository
      *
      * @return JsonResponse
      */
     public function getFilmAction(
-        int $idFilm,
+        string $idFilmList,
         FilmIndexRepositoryInterface $filmIndexRepository
     ): JsonResponse
     {
-        $film = $filmIndexRepository->getFilm($idFilm);
+        try {
+            $film = $filmIndexRepository->getFilm($idFilmList);
+        } catch (\Throwable $e) {
+            return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         $response = empty($film) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
 
         return new JsonResponse($film, $response);

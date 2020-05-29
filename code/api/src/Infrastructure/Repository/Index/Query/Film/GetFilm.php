@@ -6,7 +6,15 @@ use App\Infrastructure\Component\Elasticsearch\NormalQuery;
 
 class GetFilm extends NormalQuery
 {
-    public function getResult(int $idFilm): array
+    /**
+     * The script in script_score is there to return films in the same order they were passed
+     * in the $idFilmList parameter
+     *
+     * @param string $idFilmList
+     *
+     * @return array
+     */
+    public function getResult(string $idFilmList): array
     {
         $query = <<<EOT
 {
@@ -33,14 +41,14 @@ class GetFilm extends NormalQuery
             "boost_mode": "replace",
             "query": {
                 "ids": {
-                    "values": [$idFilm]
+                    "values": [$idFilmList]
                 }
             },
             "script_score" : {
                 "script" : {
                   "lang": "painless",
                   "params": {
-                      "ids": [$idFilm]
+                      "ids": [$idFilmList]
                   },
                   "inline": "int idsLength = params.ids.size(); int idsIndex = 0; long id = doc['idFilm'].value; for (int i = 0; i < idsLength; ++i) { if (id == params.ids[i]) { idsIndex = i * -1; } } return idsIndex;"
                 }

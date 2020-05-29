@@ -19,12 +19,12 @@ class FilmIndexElasticsearchRepository extends RepositoryAbstract implements Fil
         return $query->getResult($title);
     }
 
-    public function getFilm(int $idFilm): array
+    public function getFilm(string $idFilmList): array
     {
         /** @var GetFilm $query */
         $query = $this->getQuery(GetFilm::class);
 
-        return $query->getResult($idFilm);
+        return $query->getResult($idFilmList);
     }
 
     public function getPopularFilms(int $numResults, int $offset): array
