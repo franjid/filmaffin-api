@@ -4,6 +4,7 @@ namespace Tests\Unit\Domain\Service;
 
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Film;
+use App\Domain\Exception\IndexInconsistencyException;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;
 use App\Domain\Service\FilmsIndexerService;
@@ -255,5 +256,43 @@ class FilmsIndexerServiceTest extends TestCase
             ->with($expectedAliasParams);
 
         $this->filmsIndexerService->createIndexAlias();
+    }
+
+    public function testGetLastIndexNameWithMoreThanOneIndex(): void
+    {
+        $this->expectException(IndexInconsistencyException::class);
+
+        $indicesMock = $this->createMock(IndicesNamespace::class);
+
+        $this->elasticsearchClientMock->expects(static::atLeastOnce())
+            ->method('indices')
+            ->willReturn($indicesMock);
+
+        $indicesMock->expects(static::once())
+            ->method('getMapping')
+            ->willReturn([
+                'filmaffin_test_1' => [],
+                'filmaffin_test_2' => [],
+            ]);
+
+        $this->filmsIndexerService->getLastIndexName();
+    }
+
+    public function testGetLastIndexName(): void
+    {
+        $expectedIndexName = 'filmaffin_test_1';
+        $indicesMock = $this->createMock(IndicesNamespace::class);
+
+        $this->elasticsearchClientMock->expects(static::atLeastOnce())
+            ->method('indices')
+            ->willReturn($indicesMock);
+
+        $indicesMock->expects(static::once())
+            ->method('getMapping')
+            ->willReturn([
+                $expectedIndexName => [],
+            ]);
+
+        $this->assertSame($expectedIndexName, $this->filmsIndexerService->getLastIndexName());
     }
 }

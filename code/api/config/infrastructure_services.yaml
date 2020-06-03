@@ -19,6 +19,10 @@ services:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
       public: true
 
+    App\Infrastructure\Repository\Database\Query\Film\GetFrequentlyUpdatedFilms:
+      parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+      public: true
+
     App\Infrastructure\Repository\Database\Query\Film\GetFilmDirectors:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
       public: true

@@ -13,6 +13,11 @@ docker-compose up
 docker-compose exec php bin/console filmaffin:index:films
 ```
 
+## Index frequently updated films
+```
+docker-compose exec php bin/console filmaffin:index:films:frequently_updated
+```
+
 ## Check the docs
 
 ```

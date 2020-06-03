@@ -9,6 +9,7 @@ use App\Domain\Entity\Collection\FilmParticipantCollection;
 interface FilmDatabaseRepositoryInterface
 {
     public function getFilms(int $offset, int $limit): FilmCollection;
+    public function getFrequentlyUpdatedFilms(): FilmCollection;
     public function getFilmDirectors(int $idFilm): FilmParticipantCollection;
     public function getFilmActors(int $idFilm): FilmParticipantCollection;
     public function getFilmScreenplayers(int $idFilm): FilmParticipantCollection;

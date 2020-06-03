@@ -16,10 +16,16 @@ composer install
 ./bin/phpunit
 ```
 
-## Index films
-Index films in Elasticsearch reading from DB executing
+## Index all films
+Index all films in Elasticsearch reading from DB executing
 ```
 bin/console filmaffin:index:films
+```
+
+## Index frequently updated films
+Index films that are frequently updated (popular, in theatres...)
+```
+bin/console filmaffin:index:films:frequently_updated
 ```
 
 ## Check the docs

@@ -3,6 +3,7 @@
 namespace App\Domain\Service;
 
 use App\Domain\Entity\Collection\FilmCollection;
+use App\Domain\Exception\IndexInconsistencyException;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;
 use App\Domain\Interfaces\FilmsIndexerInterface;
@@ -201,5 +202,23 @@ class FilmsIndexerService implements FilmsIndexerInterface
         $aliasParams['index'] = $this->indexParams['index'];
         $aliasParams['name'] = $this->elasticsearchIndexName;
         $this->elasticsearchClient->indices()->putAlias($aliasParams);
+    }
+
+    public function getLastIndexName(): string
+    {
+        $indexesNames = array_keys($this->getPreviousIndexes());
+
+        if (count($indexesNames) > 1) {
+            throw new IndexInconsistencyException(
+                'There are more than 1 index, this could cause problems. Run filmaffin:index:films to clean up'
+            );
+        }
+
+        return end($indexesNames);
+    }
+
+    public function setCurrentIndexName(string $indexName): void
+    {
+        $this->indexParams['index'] = $indexName;
     }
 }

@@ -9,6 +9,12 @@ services:
       - '@App\Domain\Helper\StringHelper'
       - '@App\Domain\Helper\FilmImageHelper'
 
+  App\Domain\Interfaces\FilmPopulatorInterface:
+    class: App\Domain\Service\FilmPopulatorService
+    public: true
+    arguments:
+      - '@App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface'
+
   App\Domain\Helper\StringHelper:
     class: App\Domain\Helper\StringHelper
     public: true

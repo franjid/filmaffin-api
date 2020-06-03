@@ -7,14 +7,11 @@ use App\Domain\Interfaces\FilmPopulatorInterface;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class IndexFilmsCommand extends Command
+class IndexFrequentlyUpdatedFilmsCommand extends Command
 {
-    private const MAX_FILMS_PER_ITERATION = 100;
-
     private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
     private FilmsIndexerInterface $filmsIndexerService;
     private FilmPopulatorInterface $filmPopulator;
@@ -35,37 +32,25 @@ class IndexFilmsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('filmaffin:index:films')
-            ->setDescription('Get films from DB and index them in Elasticsearch');
+            ->setName('filmaffin:index:films:frequently_updated')
+            ->setDescription('Index frequently updated films in Elasticsearch');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->filmsIndexerService->createMapping();
+        $indexName = $this->filmsIndexerService->getLastIndexName();
+        $this->filmsIndexerService->setCurrentIndexName($indexName);
 
-        $progressBar = new ProgressBar($output);
-        $progressBar->start();
+        $films = $this->filmDatabaseRepository->getFrequentlyUpdatedFilms()->getItems();
+        $filmsAvailable = count($films);
 
-        $offset = 0;
-
-        do {
-            $films = $this->filmDatabaseRepository->getFilms($offset, static::MAX_FILMS_PER_ITERATION)->getItems();
-            $filmsAvailable = count($films);
-
-            if ($filmsAvailable) {
-                foreach ($films as $film) {
-                    $this->filmPopulator->populateFilm($film);
-                }
-
-                $this->filmsIndexerService->index(new FilmCollection(...$films));
-
-                $progressBar->advance(static::MAX_FILMS_PER_ITERATION);
-                $offset += static::MAX_FILMS_PER_ITERATION;
+        if ($filmsAvailable) {
+            foreach ($films as $film) {
+                $this->filmPopulator->populateFilm($film);
             }
-        } while ($filmsAvailable);
 
-        $this->filmsIndexerService->deletePreviousIndexes();
-        $this->filmsIndexerService->createIndexAlias();
+            $this->filmsIndexerService->index(new FilmCollection(...$films));
+        }
 
         return 0;
     }

@@ -13,6 +13,7 @@ use App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilms;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmTopics;
+use App\Infrastructure\Repository\Database\Query\Film\GetFrequentlyUpdatedFilms;
 use App\Infrastructure\Repository\RepositoryAbstract;
 
 class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmDatabaseRepositoryInterface
@@ -23,6 +24,14 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         $query = $this->getQuery(GetFilms::class);
 
         return $query->getResult($offset, $limit);
+    }
+
+    public function getFrequentlyUpdatedFilms(): FilmCollection
+    {
+        /** @var GetFrequentlyUpdatedFilms $query */
+        $query = $this->getQuery(GetFrequentlyUpdatedFilms::class);
+
+        return $query->getResult();
     }
 
     public function getFilmDirectors(int $idFilm): FilmParticipantCollection

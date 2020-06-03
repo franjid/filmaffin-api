@@ -10,4 +10,6 @@ interface FilmsIndexerInterface
     public function index(FilmCollection $films): void;
     public function deletePreviousIndexes(): void;
     public function createIndexAlias(): void;
+    public function getLastIndexName(): string;
+    public function setCurrentIndexName(string $indexName): void;
 }
