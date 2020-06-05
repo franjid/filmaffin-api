@@ -4,15 +4,25 @@ namespace App\Domain\Event;
 
 class UserAddedEvent extends AbstractEvent
 {
-    private int $userId;
+    private int $userIdFilmaffinity;
+    private string $cookieFilmaffinity;
 
-    public function __construct(int $userId)
+    public function __construct(
+        int $userIdFilmaffinity,
+        string $cookieFilmaffinity
+    )
     {
-        $this->userId = $userId;
+        $this->userIdFilmaffinity = $userIdFilmaffinity;
+        $this->cookieFilmaffinity = $cookieFilmaffinity;
     }
 
-    public function getUserId(): int
+    public function getUserIdFilmaffinity(): int
     {
-        return $this->userId;
+        return $this->userIdFilmaffinity;
+    }
+
+    public function getCookieFilmaffinity(): string
+    {
+        return $this->cookieFilmaffinity;
     }
 }
