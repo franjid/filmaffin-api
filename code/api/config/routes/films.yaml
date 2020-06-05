@@ -1,0 +1,21 @@
+films:
+    path: /films
+    defaults:
+        _controller: App\Application\Controller\FilmsController::searchAction
+    methods:  [GET]
+films_popular:
+    path: /films/popular
+    defaults:
+        _controller: App\Application\Controller\FilmsController::getPopularFilmsAction
+    methods:  [GET]
+
+films_in_theatres:
+    path: /films/in-theatres
+    defaults:
+        _controller: App\Application\Controller\FilmsController::getFilmsInTheatresAction
+    methods:  [GET]
+film:
+    path: /films/{idFilmList}
+    defaults:
+        _controller: App\Application\Controller\FilmsController::getFilmAction
+    methods:  [GET]

@@ -4,6 +4,12 @@ services:
       abstract: true
       arguments: ['@service_container']
 
+    App\Infrastructure\Interfaces\FilmaffinityRepositoryInterface:
+        class: App\Infrastructure\Repository\Filmaffinity\FilmaffinityApiRepository
+        public: true
+        arguments:
+            - '@http_client'
+
     App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface:
       class: App\Infrastructure\Repository\Database\FilmDatabaseMysqlRepository
       parent: App\Infrastructure\Repository\RepositoryAbstract
@@ -14,6 +20,11 @@ services:
       parent: App\Infrastructure\Repository\RepositoryAbstract
       public: true
 
+    App\Infrastructure\Interfaces\UserDatabaseRepositoryInterface:
+        class: App\Infrastructure\Repository\Database\UserDatabaseMysqlRepository
+        parent: App\Infrastructure\Repository\RepositoryAbstract
+        public: true
+
     ##### Services
     App\Infrastructure\Interfaces\ElasticsearchServiceInterface:
         class: App\Infrastructure\Service\ElasticsearchService
@@ -21,6 +32,7 @@ services:
             - '@ElasticsearchClient'
 
     ##### Queries
+    ###### Film
     App\Infrastructure\Repository\Database\Query\Film\GetFilms:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
       public: true
@@ -68,6 +80,11 @@ services:
     App\Infrastructure\Repository\Index\Query\Film\GetFilmsInTheatres:
       parent: App\Infrastructure\Component\Elasticsearch\NormalQuery
       public: true
+
+    ###### User
+    App\Infrastructure\Repository\Database\Query\User\SaveUser:
+        parent: App\Infrastructure\Component\Db\GlobalWriteQuery
+        public: true
 
     ##### Queues
     App\Infrastructure\Queue\Middleware\AppMiddleware:
