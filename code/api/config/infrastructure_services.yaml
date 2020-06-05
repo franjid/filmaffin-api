@@ -14,6 +14,12 @@ services:
       parent: App\Infrastructure\Repository\RepositoryAbstract
       public: true
 
+    ##### Services
+    App\Infrastructure\Interfaces\ElasticsearchServiceInterface:
+        class: App\Infrastructure\Service\ElasticsearchService
+        arguments:
+            - '@ElasticsearchClient'
+
     ##### Queries
     App\Infrastructure\Repository\Database\Query\Film\GetFilms:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
@@ -63,8 +69,9 @@ services:
       parent: App\Infrastructure\Component\Elasticsearch\NormalQuery
       public: true
 
-    ##### Services
-    App\Infrastructure\Interfaces\ElasticsearchServiceInterface:
-      class: App\Infrastructure\Service\ElasticsearchService
-      arguments:
-        - '@ElasticsearchClient'
+    ##### Queues
+    App\Infrastructure\Queue\Middleware\AppMiddleware:
+        class: App\Infrastructure\Queue\Middleware\AppMiddleware
+        arguments:
+            - '@monolog.logger.messenger_audit'
+        public: true

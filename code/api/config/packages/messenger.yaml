@@ -1,0 +1,21 @@
+framework:
+    messenger:
+        default_bus: event.bus
+        buses:
+            event.bus:
+                middleware:
+                    - 'App\Infrastructure\Queue\Middleware\AppMiddleware'
+        serializer:
+            default_serializer: messenger.transport.symfony_serializer
+            symfony_serializer:
+                format: json
+                context: { }
+
+        transports:
+            external:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%filmaffin_api_events'
+                serializer: messenger.transport.symfony_serializer
+
+        routing:
+            'App\Domain\Event\AbstractEvent': external

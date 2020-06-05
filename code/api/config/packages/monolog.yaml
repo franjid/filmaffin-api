@@ -3,6 +3,7 @@ monolog:
         - "read_query"
         - "write_query"
         - "elasticsearch_query"
+        - "messenger_audit"
     handlers:
         main:
             type:   stream
@@ -42,5 +43,10 @@ monolog:
             channels: ["elasticsearch_query"]
             #type:  rotating_file
             #max_files: 10
+        messenger:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%_messenger.log"
+            level: debug
+            channels: ["messenger_audit"]
         console:
             type:   console
