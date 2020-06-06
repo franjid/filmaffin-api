@@ -58,11 +58,6 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
         }
 
         $filmaffinityUserCookie = $this->getUserCookie($headers);
-
-        if (!$filmaffinityUserCookie) {
-            throw new CookieNotFoundException('FSID cookie not found in headers');
-        }
-
         $userId = $this->getUserId($filmaffinityUserCookie);
 
         return new UserFilmaffinity($userId, $filmaffinityUserCookie);
@@ -87,6 +82,12 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
         throw new CookieNotFoundException('FSID cookie not found in headers');
     }
 
+    /**
+     * @param string $userCookie
+     *
+     * @return int
+     * @throws UserIdNotFoundException
+     */
     private function getUserId(string $userCookie): int
     {
         try {

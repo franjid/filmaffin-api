@@ -81,7 +81,7 @@ class UsersController extends AbstractController
         }
 
         /**
-         * This should by in the "try" (so only the first time we save the user we dispatch this event)
+         * This should be in the "try" (so only the first time we save the user we dispatch this event)
          * Otherwise everytime we hit this endpoint we will send the event
          *
          * Left here for dev/debug purposes
