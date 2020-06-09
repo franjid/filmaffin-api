@@ -109,7 +109,7 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
                 throw new \Exception();
             }
 
-            preg_match('/(user_profile\.php\?id-user=)([1-9]+)/', $content['html'], $matches);
+            preg_match('/(user_profile\.php\?id-user=)(\d+)/', $content['html'], $matches);
             $userId = (int) ($matches[2] ?? null);
 
             if (!$userId) {
