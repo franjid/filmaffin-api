@@ -6,11 +6,16 @@ use App\Infrastructure\Component\Db\GlobalWriteQuery;
 
 class SaveUser extends GlobalWriteQuery
 {
-    public function getResult(int $userIdFilmaffinity, string $cookieFilmaffinity): int
+    public function getResult(
+        int $userIdFilmaffinity,
+        string $userNameFilmaffinity,
+        string $cookieFilmaffinity
+    ): int
     {
-        $query = 'INSERT INTO user (`idUserFilmaffinity`, `cookieFilmaffinity`)';
+        $query = 'INSERT INTO user (`idUser`, `name`, `cookieFilmaffinity`)';
         $query .= ' VALUES (';
         $query .= $userIdFilmaffinity;
+        $query .= ' , ' . $this->quote($userNameFilmaffinity);
         $query .= ' , ' . $this->quote($cookieFilmaffinity);
         $query .= ')';
 

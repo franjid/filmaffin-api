@@ -72,7 +72,11 @@ class UsersController extends AbstractController
         $userFilmaffinity = $filmaffinity->loginUser($user, $password);
 
         try {
-            $userDatabaseRepository->saveUser($userFilmaffinity->getUserId(), $userFilmaffinity->getCookie());
+            $userDatabaseRepository->saveUser(
+                $userFilmaffinity->getUserId(),
+                $userFilmaffinity->getUserName(),
+                $userFilmaffinity->getCookie()
+            );
         } catch (UniqueConstraintViolationException $e) {
             /**
              * Do nothing for now. Maybe we could update the cookie in some future use case

@@ -6,6 +6,8 @@ use App\Domain\Entity\UserFilmaffinity;
 use App\Infrastructure\Exception\Filmaffinity\CookieNotFoundException;
 use App\Infrastructure\Exception\Filmaffinity\InvalidUserPasswordException;
 use App\Infrastructure\Exception\Filmaffinity\UserIdNotFoundException;
+use App\Infrastructure\Exception\Filmaffinity\UserNameNotFoundException;
+use App\Infrastructure\Exception\Filmaffinity\UserTemplateNotValidException;
 use App\Infrastructure\Interfaces\FilmaffinityRepositoryInterface;
 use Campo\UserAgent;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -28,9 +30,11 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
      * @param string $password
      *
      * @return UserFilmaffinity
-     * @throws InvalidUserPasswordException
      * @throws CookieNotFoundException
+     * @throws InvalidUserPasswordException
      * @throws UserIdNotFoundException
+     * @throws UserNameNotFoundException
+     * @throws UserTemplateNotValidException
      */
     public function loginUser(string $user, string $password): UserFilmaffinity
     {
@@ -58,9 +62,12 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
         }
 
         $filmaffinityUserCookie = $this->getUserCookie($headers);
-        $userId = $this->getUserId($filmaffinityUserCookie);
+        $templateContent = $this->getUserTemplate($filmaffinityUserCookie);
 
-        return new UserFilmaffinity($userId, $filmaffinityUserCookie);
+        $userId = $this->getUserId($templateContent);
+        $userName = $this->getUserName($templateContent);
+
+        return new UserFilmaffinity($userId, $userName, $filmaffinityUserCookie);
     }
 
     /**
@@ -83,12 +90,56 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
     }
 
     /**
-     * @param string $userCookie
+     * @param string $userTemplateContent
      *
      * @return int
      * @throws UserIdNotFoundException
      */
-    private function getUserId(string $userCookie): int
+    private function getUserId(string $userTemplateContent): int
+    {
+        try {
+            preg_match('/(user_profile\.php\?id-user=)(\d+)/', $userTemplateContent, $matches);
+            $userId = (int) ($matches[2] ?? null);
+
+            if (!$userId) {
+                throw new \Exception();
+            }
+
+            return $userId;
+        } catch (\Throwable $e) {
+            throw new UserIdNotFoundException('User id not found');
+        }
+    }
+
+    /**
+     * @param string $userTemplateContent
+     *
+     * @return string
+     * @throws UserNameNotFoundException
+     */
+    private function getUserName(string $userTemplateContent): string
+    {
+        try {
+            preg_match('/(<span id="u-n-wrapper">)([[:alnum:]]+)(<\/span>)/', $userTemplateContent, $matches);
+            $userName = $matches[2] ?? null;
+
+            if (!$userName) {
+                throw new \Exception();
+            }
+
+            return $userName;
+        } catch (\Throwable $e) {
+            throw new UserNameNotFoundException('User name not found');
+        }
+    }
+
+    /**
+     * @param string $userCookie
+     *
+     * @return string
+     * @throws UserTemplateNotValidException
+     */
+    private function getUserTemplate(string $userCookie): string
     {
         try {
             $response = $this->client->request(
@@ -108,17 +159,10 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
             if ($statusCode !== 200 || !isset($content['html'])) {
                 throw new \Exception();
             }
-
-            preg_match('/(user_profile\.php\?id-user=)(\d+)/', $content['html'], $matches);
-            $userId = (int) ($matches[2] ?? null);
-
-            if (!$userId) {
-                throw new \Exception();
-            }
-
-            return $userId;
         } catch (\Throwable $e) {
-            throw new UserIdNotFoundException('User id not found');
+            throw new UserTemplateNotValidException('User id not found');
         }
+
+        return $content['html'];
     }
 }
