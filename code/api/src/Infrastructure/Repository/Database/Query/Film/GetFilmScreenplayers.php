@@ -14,13 +14,21 @@ class GetFilmScreenplayers extends GlobalReadQuery
         $query .= ' screenplayer.name';
         $query .= ' FROM';
         $query .= ' film';
-        $query .= ' LEFT JOIN assocFilmScreenplayer USING(idFilm)';
-        $query .= ' LEFT JOIN screenplayer USING(idScreenplayer)';
+        $query .= ' JOIN assocFilmScreenplayer USING(idFilm)';
+        $query .= ' JOIN screenplayer USING(idScreenplayer)';
         $query .= ' WHERE idFilm = ' . $idFilm;
         $query .= ' ORDER BY assocFilmScreenplayer.relevancePosition';
 
-        $result = $this->fetchAllObject($query, FilmParticipant::class);
+        $results = $this->fetchAll($query);
+        if (!$results) {
+            return new FilmParticipantCollection();
+        }
 
-        return new FilmParticipantCollection(...$result);
+        $screenplayers = [];
+        foreach ($results as $result) {
+            $screenplayers[] = FilmParticipant::buildFromArray($result);
+        }
+
+        return new FilmParticipantCollection(...$screenplayers);
     }
 }

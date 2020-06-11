@@ -5,6 +5,7 @@ namespace App\Infrastructure\Interfaces;
 use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
+use App\Domain\Entity\Collection\FilmRatedByUserCollection;
 
 interface FilmDatabaseRepositoryInterface
 {
@@ -16,4 +17,9 @@ interface FilmDatabaseRepositoryInterface
     public function getFilmMusicians(int $idFilm): FilmParticipantCollection;
     public function getFilmCinematographers(int $idFilm): FilmParticipantCollection;
     public function getFilmTopics(int $idFilm): FilmAttributeCollection;
+    public function getFilmsRatedByUserFriends(
+        int $idUser,
+        int $numResults,
+        int $offset
+    ): FilmRatedByUserCollection;
 }

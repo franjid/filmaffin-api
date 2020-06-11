@@ -100,9 +100,9 @@ class FilmsController extends AbstractController
             return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $response = empty($film) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
+        $response = !$film->getItems() ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
 
-        return new JsonResponse($film, $response);
+        return new JsonResponse($film->toArray(), $response);
     }
 
     /**
@@ -112,7 +112,7 @@ class FilmsController extends AbstractController
      *     @SWG\Parameter(
      *         name="numResults",
      *         in="query",
-     *         description="Maximum amount of results to be returned",
+     *         description="Maximum amount of results to be returned (10 by default)",
      *         required=false,
      *         type="integer"
      *     ),

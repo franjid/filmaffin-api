@@ -3,6 +3,8 @@
 namespace App\Domain\Service;
 
 use App\Domain\Entity\Collection\FilmCollection;
+use App\Domain\Entity\FilmAttribute;
+use App\Domain\Entity\FilmParticipant;
 use App\Domain\Exception\IndexInconsistencyException;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;
@@ -146,14 +148,14 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'country' => $film->getCountry(),
                 'inTheatres' => $film->isInTheatres(),
                 'releaseDate' => $film->getReleaseDate(),
-                'directors' => explode(',', $film->getDirectors()),
-                'actors' => explode(',', $film->getActors()),
+                'directors' => array_column($film->getDirectors()->toArray(), FilmParticipant::FIELD_NAME),
+                'actors' => array_column($film->getActors()->toArray(), FilmParticipant::FIELD_NAME),
                 'posterImages' => $this->filmImageHelper->getImagePosters($film->getIdFilm()),
                 'synopsis' => $film->getSynopsis() ?? '',
-                'topics' => explode(',', $film->getTopics()),
-                'screenplayers' => explode(',', $film->getScreenplayers()),
-                'musicians' => explode(',', $film->getMusicians()),
-                'cinematographers' => explode(',', $film->getCinematographers()),
+                'topics' => array_column($film->getTopics()->toArray(), FilmAttribute::FIELD_NAME),
+                'screenplayers' => array_column($film->getScreenplayers()->toArray(), FilmParticipant::FIELD_NAME),
+                'musicians' => array_column($film->getMusicians()->toArray(), FilmParticipant::FIELD_NAME),
+                'cinematographers' => array_column($film->getCinematographers()->toArray(), FilmParticipant::FIELD_NAME),
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";

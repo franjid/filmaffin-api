@@ -29,8 +29,18 @@ class GetFrequentlyUpdatedFilms extends GlobalReadQuery
         $query .= ' LEFT JOIN filmInTheatres fit USING(idFilm)';
         $query .= ' WHERE fp.ranking IS NOT NULL OR fit.releaseDate IS NOT NULL';
 
-        $result = $this->fetchAllObject($query, Film::class);
+        $results = $this->fetchAll($query);
 
-        return new FilmCollection(...$result);
+        if (!$results) {
+            return new FilmCollection();
+        }
+
+        $films = [];
+
+        foreach ($results as $result) {
+            $films[] = Film::buildFromArray($result);
+        }
+
+        return new FilmCollection(...$films);
     }
 }

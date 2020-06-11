@@ -15,6 +15,14 @@ services:
     arguments:
       - '@App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface'
 
+  App\Domain\Interfaces\UserFriendsFilmsInterface:
+    class: App\Domain\Service\UserFriendsFilmsService
+    public: true
+    arguments:
+      - '@App\Infrastructure\Interfaces\UserDatabaseRepositoryInterface'
+      - '@App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface'
+      - '@App\Infrastructure\Interfaces\FilmIndexRepositoryInterface'
+
   App\Domain\Helper\StringHelper:
     class: App\Domain\Helper\StringHelper
     public: true

@@ -14,13 +14,21 @@ class GetFilmDirectors extends GlobalReadQuery
         $query .= ' director.name';
         $query .= ' FROM';
         $query .= ' film';
-        $query .= ' LEFT JOIN assocFilmDirector USING(idFilm)';
-        $query .= ' LEFT JOIN director USING(idDirector)';
+        $query .= ' JOIN assocFilmDirector USING(idFilm)';
+        $query .= ' JOIN director USING(idDirector)';
         $query .= ' WHERE idFilm = ' . $idFilm;
         $query .= ' ORDER BY assocFilmDirector.relevancePosition';
 
-        $result = $this->fetchAllObject($query, FilmParticipant::class);
+        $results = $this->fetchAll($query);
+        if (!$results) {
+            return new FilmParticipantCollection();
+        }
 
-        return new FilmParticipantCollection(...$result);
+        $directors = [];
+        foreach ($results as $result) {
+            $directors[] = FilmParticipant::buildFromArray($result);
+        }
+
+        return new FilmParticipantCollection(...$directors);
     }
 }

@@ -4,15 +4,15 @@ namespace App\Domain\Entity;
 
 class UserFilmaffinity
 {
-    public const FIELD_USER_ID = 'user_id';
-    public const FIELD_USER_NAME = 'user_name';
+    public const FIELD_USER_ID = 'userId';
+    public const FIELD_USER_NAME = 'userName';
     public const FIELD_COOKIE = 'cookie';
 
     private int $userId;
     private string $userName;
-    private string $cookie;
+    private ?string $cookie;
 
-    public function __construct(int $userId, string $userName, string $cookie)
+    public function __construct(int $userId, string $userName, ?string $cookie)
     {
         $this->userId = $userId;
         $this->userName = $userName;
@@ -29,7 +29,7 @@ class UserFilmaffinity
         return $this->userName;
     }
 
-    public function getCookie(): string
+    public function getCookie(): ?string
     {
         return $this->cookie;
     }

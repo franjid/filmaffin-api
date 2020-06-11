@@ -14,13 +14,21 @@ class GetFilmCinematographers extends GlobalReadQuery
         $query .= ' cinematographer.name';
         $query .= ' FROM';
         $query .= ' film';
-        $query .= ' LEFT JOIN assocFilmCinematographer USING(idFilm)';
-        $query .= ' LEFT JOIN cinematographer USING(idCinematographer)';
+        $query .= ' JOIN assocFilmCinematographer USING(idFilm)';
+        $query .= ' JOIN cinematographer USING(idCinematographer)';
         $query .= ' WHERE idFilm = ' . $idFilm;
         $query .= ' ORDER BY assocFilmCinematographer.relevancePosition';
 
-        $result = $this->fetchAllObject($query, FilmParticipant::class);
+        $results = $this->fetchAll($query);
+        if (!$results) {
+            return new FilmParticipantCollection();
+        }
 
-        return new FilmParticipantCollection(...$result);
+        $cinematographers = [];
+        foreach ($results as $result) {
+            $cinematographers[] = FilmParticipant::buildFromArray($result);
+        }
+
+        return new FilmParticipantCollection(...$cinematographers);
     }
 }

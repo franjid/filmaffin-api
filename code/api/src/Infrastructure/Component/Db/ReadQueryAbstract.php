@@ -20,9 +20,10 @@ abstract class ReadQueryAbstract extends QueryAbstract
      *
      * @param string $query
      *
-     * @return array
+     * @return array|false|mixed[]
+     * @throws DBALException
      */
-    protected function fetchAssoc(string $query): array
+    protected function fetchAssoc(string $query)
     {
         $startTimeMs = microtime(true);
 
@@ -32,7 +33,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
-            static::ROWS_AFFECTED_VAR_NAME => count($result),
+            static::ROWS_AFFECTED_VAR_NAME => is_array($result) ? count($result) : 0,
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 

@@ -2,8 +2,12 @@
 
 namespace Tests\Unit\Domain\Service;
 
+use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
+use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Film;
+use App\Domain\Entity\FilmAttribute;
+use App\Domain\Entity\FilmParticipant;
 use App\Domain\Exception\IndexInconsistencyException;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;
@@ -135,25 +139,26 @@ class FilmsIndexerServiceTest extends TestCase
 
     public function testIndex(): void
     {
-        $film = new Film();
-        $film->setIdFilm(1);
-        $film->setTitle('Film test title');
-        $film->setOriginalTitle('Film test title original');
-        $film->setRating(8);
-        $film->setNumRatings(5000);
-        $film->setPopularityRanking(5);
-        $film->setYear(2020);
-        $film->setDuration(120);
-        $film->setCountry('US');
-        $film->setInTheatres(false);
-        $film->setReleaseDate('2020-01-01');
-        $film->setSynopsis('Some synopsis');
-        $film->setDirectors('Director');
-        $film->setActors('Actor 1, Actor 2, Actor 3');
-        $film->setScreenplayers('Screenplayer 1, Screenplayer 2');
-        $film->setMusicians('Musician');
-        $film->setCinematographers('Cinematographer');
-        $film->setTopics('Topic 1, Topic 2, Topic 3, Topic 4');
+        $film = new Film(
+            1,
+            'Film test title',
+            'Film test title original',
+            8,
+            5000,
+            5,
+            2020,
+            120,
+            'US',
+            false,
+            '2020-01-01',
+            'Some synopsis',
+            new FilmParticipantCollection(...[new FilmParticipant('Director')]),
+            new FilmParticipantCollection(...[new FilmParticipant('Actor 1'), new FilmParticipant('Actor 2'), new FilmParticipant('Actor 3')]),
+            new FilmParticipantCollection(...[new FilmParticipant('Screenplayer 1'), new FilmParticipant('Screenplayer 2')]),
+            new FilmParticipantCollection(...[new FilmParticipant('Musician')]),
+            new FilmParticipantCollection(...[new FilmParticipant('Cinematographer')]),
+            new FilmAttributeCollection(...[new FilmAttribute('Topic 1'), new FilmAttribute('Topic 2'), new FilmAttribute('Topic 3')]),
+        );
         $filmCollection = new FilmCollection(...[$film]);
 
         $this->stringHelperMock->expects(static::atLeastOnce())
@@ -189,14 +194,14 @@ class FilmsIndexerServiceTest extends TestCase
             'country' => $film->getCountry(),
             'inTheatres' => $film->isInTheatres(),
             'releaseDate' => $film->getReleaseDate(),
-            'directors' => explode(',', $film->getDirectors()),
-            'actors' => explode(',', $film->getActors()),
+            'directors' => array_column($film->getDirectors()->toArray(), FilmParticipant::FIELD_NAME),
+            'actors' => array_column($film->getActors()->toArray(), FilmParticipant::FIELD_NAME),
             'posterImages' => [],
             'synopsis' => $film->getSynopsis() ?? '',
-            'topics' => explode(',', $film->getTopics()),
-            'screenplayers' => explode(',', $film->getScreenplayers()),
-            'musicians' => explode(',', $film->getMusicians()),
-            'cinematographers' => explode(',', $film->getCinematographers()),
+            'topics' => array_column($film->getTopics()->toArray(), FilmParticipant::FIELD_NAME),
+            'screenplayers' => array_column($film->getScreenplayers()->toArray(), FilmParticipant::FIELD_NAME),
+            'musicians' => array_column($film->getMusicians()->toArray(), FilmParticipant::FIELD_NAME),
+            'cinematographers' => array_column($film->getCinematographers()->toArray(), FilmParticipant::FIELD_NAME),
         ];
 
         $expectedIndexParams = [

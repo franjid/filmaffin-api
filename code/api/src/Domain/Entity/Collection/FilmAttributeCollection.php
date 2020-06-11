@@ -9,7 +9,7 @@ class FilmAttributeCollection
     /** @var FilmAttribute[] $attribute */
     private array $attributes;
 
-    public function __construct(FilmAttribute ...$attributes)
+    public function __construct(?FilmAttribute ...$attributes)
     {
         $this->attributes = $attributes;
     }

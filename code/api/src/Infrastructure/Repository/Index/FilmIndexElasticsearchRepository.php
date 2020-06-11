@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Repository\Index;
 
+use App\Domain\Entity\Collection\FilmCollection;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilm;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilmsInTheatres;
@@ -19,7 +20,7 @@ class FilmIndexElasticsearchRepository extends RepositoryAbstract implements Fil
         return $query->getResult($title);
     }
 
-    public function getFilm(string $idFilmList): array
+    public function getFilm(string $idFilmList): FilmCollection
     {
         /** @var GetFilm $query */
         $query = $this->getQuery(GetFilm::class);

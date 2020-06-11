@@ -4,12 +4,12 @@ users_login_filmaffinity:
         _controller: App\Application\Controller\UsersController::loginFilmaffinityAction
     methods:  [GET]
 #users_films:
-#    path: /users/{idUser}/films
+#    path: /users/{userId}/films
 #    defaults:
 #        _controller: App\Application\Controller\UsersController::userFilms
 #    methods:  [GET]
-#users_friends_films:
-#    path: /users/{idUser}/friends/films
-#    defaults:
-#        _controller: App\Application\Controller\UsersController::userFriendsFilms
-#    methods:  [GET]
+users_friends_films:
+    path: /users/{idUser}/friends/films
+    defaults:
+        _controller: App\Application\Controller\UsersController::userFriendsFilms
+    methods:  [GET]

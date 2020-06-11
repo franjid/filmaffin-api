@@ -6,10 +6,10 @@ use App\Domain\Entity\FilmParticipant;
 
 class FilmParticipantCollection
 {
-    /** @var FilmParticipant[] $participant */
+    /** @var FilmParticipant[] $participants */
     private array $participants;
 
-    public function __construct(FilmParticipant ...$participants)
+    public function __construct(?FilmParticipant ...$participants)
     {
         $this->participants = $participants;
     }

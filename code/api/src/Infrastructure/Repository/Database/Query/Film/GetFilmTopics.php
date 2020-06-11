@@ -14,13 +14,21 @@ class GetFilmTopics extends GlobalReadQuery
         $query .= ' topic.name';
         $query .= ' FROM';
         $query .= ' film';
-        $query .= ' LEFT JOIN assocFilmTopic USING(idFilm)';
-        $query .= ' LEFT JOIN topic USING(idTopic)';
+        $query .= ' JOIN assocFilmTopic USING(idFilm)';
+        $query .= ' JOIN topic USING(idTopic)';
         $query .= ' WHERE idFilm = ' . $idFilm;
         $query .= ' ORDER BY assocFilmTopic.relevancePosition';
 
-        $result = $this->fetchAllObject($query, FilmAttribute::class);
+        $results = $this->fetchAll($query);
+        if (!$results) {
+            return new FilmAttributeCollection();
+        }
 
-        return new FilmAttributeCollection(...$result);
+        $topics = [];
+        foreach ($results as $result) {
+            $topics[] = FilmAttribute::buildFromArray($result);
+        }
+
+        return new FilmAttributeCollection(...$topics);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repository\Database;
 use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
+use App\Domain\Entity\Collection\FilmRatedByUserCollection;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmActors;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers;
@@ -12,6 +13,7 @@ use App\Infrastructure\Repository\Database\Query\Film\GetFilmDirectors;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilms;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers;
+use App\Infrastructure\Repository\Database\Query\Film\GetFilmsRatedByUserFriends;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmTopics;
 use App\Infrastructure\Repository\Database\Query\Film\GetFrequentlyUpdatedFilms;
 use App\Infrastructure\Repository\RepositoryAbstract;
@@ -80,5 +82,17 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         $query = $this->getQuery(GetFilmTopics::class);
 
         return $query->getResult($idFilm);
+    }
+
+    public function getFilmsRatedByUserFriends(
+        int $idUser,
+        int $numResults,
+        int $offset
+    ): FilmRatedByUserCollection
+    {
+        /** @var GetFilmsRatedByUserFriends $query */
+        $query = $this->getQuery(GetFilmsRatedByUserFriends::class);
+
+        return $query->getResult($idUser, $numResults, $offset);
     }
 }

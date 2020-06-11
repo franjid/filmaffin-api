@@ -14,13 +14,21 @@ class GetFilmMusicians extends GlobalReadQuery
         $query .= ' musician.name';
         $query .= ' FROM';
         $query .= ' film';
-        $query .= ' LEFT JOIN assocFilmMusician USING(idFilm)';
-        $query .= ' LEFT JOIN musician USING(idMusician)';
+        $query .= ' JOIN assocFilmMusician USING(idFilm)';
+        $query .= ' JOIN musician USING(idMusician)';
         $query .= ' WHERE idFilm = ' . $idFilm;
         $query .= ' ORDER BY assocFilmMusician.relevancePosition';
 
-        $result = $this->fetchAllObject($query, FilmParticipant::class);
+        $results = $this->fetchAll($query);
+        if (!$results) {
+            return new FilmParticipantCollection();
+        }
 
-        return new FilmParticipantCollection(...$result);
+        $musicians = [];
+        foreach ($results as $result) {
+            $musicians[] = FilmParticipant::buildFromArray($result);
+        }
+
+        return new FilmParticipantCollection(...$musicians);
     }
 }

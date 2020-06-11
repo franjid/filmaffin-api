@@ -2,6 +2,9 @@
 
 namespace App\Domain\Entity;
 
+use App\Domain\Entity\Collection\FilmAttributeCollection;
+use App\Domain\Entity\Collection\FilmParticipantCollection;
+
 class Film
 {
     public const FIELD_ID_FILM = 'idFilm';
@@ -35,21 +38,57 @@ class Film
     private bool $inTheatres;
     private ?string $releaseDate;
     private ?string $synopsis;
-    private ?string $directors;
-    private ?string $actors;
-    private ?string $screenplayers;
-    private ?string $musicians;
-    private ?string $cinematographers;
-    private ?string $topics;
+    private FilmParticipantCollection $directors;
+    private FilmParticipantCollection $actors;
+    private FilmParticipantCollection $screenplayers;
+    private FilmParticipantCollection $musicians;
+    private FilmParticipantCollection $cinematographers;
+    private FilmAttributeCollection $topics;
+
+    public function __construct(
+        int $idFilm,
+        string $title,
+        string $originalTitle,
+        ?float $rating,
+        ?int $numRatings,
+        ?int $popularityRanking,
+        int $year,
+        ?int $duration,
+        string $country,
+        bool $inTheatres,
+        ?string $releaseDate,
+        ?string $synopsis,
+        FilmParticipantCollection $directors,
+        FilmParticipantCollection $actors,
+        FilmParticipantCollection $screenplayers,
+        FilmParticipantCollection $musicians,
+        FilmParticipantCollection $cinematographers,
+        FilmAttributeCollection $topics
+    )
+    {
+        $this->idFilm = $idFilm;
+        $this->title = $title;
+        $this->originalTitle = $originalTitle;
+        $this->rating = $rating;
+        $this->numRatings = $numRatings;
+        $this->popularityRanking = $popularityRanking;
+        $this->year = $year;
+        $this->duration = $duration;
+        $this->country = $country;
+        $this->inTheatres = $inTheatres;
+        $this->releaseDate = $releaseDate;
+        $this->synopsis = $synopsis;
+        $this->directors = $directors;
+        $this->actors = $actors;
+        $this->screenplayers = $screenplayers;
+        $this->musicians = $musicians;
+        $this->cinematographers = $cinematographers;
+        $this->topics = $topics;
+    }
 
     public function getIdFilm(): int
     {
         return $this->idFilm;
-    }
-
-    public function setIdFilm(int $idFilm): void
-    {
-        $this->idFilm = $idFilm;
     }
 
     public function getTitle(): string
@@ -57,19 +96,9 @@ class Film
         return $this->title;
     }
 
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
     public function getOriginalTitle(): string
     {
         return $this->originalTitle;
-    }
-
-    public function setOriginalTitle(string $originalTitle): void
-    {
-        $this->originalTitle = $originalTitle;
     }
 
     public function getRating(): ?float
@@ -77,19 +106,9 @@ class Film
         return $this->rating;
     }
 
-    public function setRating(?float $rating): void
-    {
-        $this->rating = $rating;
-    }
-
     public function getNumRatings(): ?int
     {
         return $this->numRatings;
-    }
-
-    public function setNumRatings(?int $numRatings): void
-    {
-        $this->numRatings = $numRatings;
     }
 
     public function getPopularityRanking(): ?int
@@ -97,19 +116,9 @@ class Film
         return $this->popularityRanking;
     }
 
-    public function setPopularityRanking(?int $popularityRanking): void
-    {
-        $this->popularityRanking = $popularityRanking;
-    }
-
     public function getYear(): int
     {
         return $this->year;
-    }
-
-    public function setYear(int $year): void
-    {
-        $this->year = $year;
     }
 
     public function getDuration(): ?int
@@ -117,19 +126,9 @@ class Film
         return $this->duration;
     }
 
-    public function setDuration(?int $duration): void
-    {
-        $this->duration = $duration;
-    }
-
     public function getCountry(): string
     {
         return $this->country;
-    }
-
-    public function setCountry(string $country): void
-    {
-        $this->country = $country;
     }
 
     public function isInTheatres(): bool
@@ -137,19 +136,9 @@ class Film
         return $this->inTheatres;
     }
 
-    public function setInTheatres(bool $inTheatres): void
-    {
-        $this->inTheatres = $inTheatres;
-    }
-
     public function getReleaseDate(): ?string
     {
         return $this->releaseDate;
-    }
-
-    public function setReleaseDate(?string $releaseDate): void
-    {
-        $this->releaseDate = $releaseDate;
     }
 
     public function getSynopsis(): ?string
@@ -157,67 +146,62 @@ class Film
         return $this->synopsis;
     }
 
-    public function setSynopsis(?string $synopsis): void
-    {
-        $this->synopsis = $synopsis;
-    }
-
-    public function getDirectors(): ?string
+    public function getDirectors(): FilmParticipantCollection
     {
         return $this->directors;
     }
 
-    public function setDirectors(?string $directors): void
+    public function setDirectors(FilmParticipantCollection $directors): void
     {
         $this->directors = $directors;
     }
 
-    public function getActors(): ?string
+    public function getActors(): FilmParticipantCollection
     {
         return $this->actors;
     }
 
-    public function setActors(?string $actors): void
+    public function setActors(FilmParticipantCollection $actors): void
     {
         $this->actors = $actors;
     }
 
-    public function getScreenplayers(): ?string
+    public function getScreenplayers(): FilmParticipantCollection
     {
         return $this->screenplayers;
     }
 
-    public function setScreenplayers(?string $screenplayers): void
+    public function setScreenplayers(FilmParticipantCollection $screenplayers): void
     {
         $this->screenplayers = $screenplayers;
     }
 
-    public function getMusicians(): ?string
+    public function getMusicians(): FilmParticipantCollection
     {
         return $this->musicians;
     }
 
-    public function setMusicians(?string $musicians): void
+    public function setMusicians(FilmParticipantCollection $musicians): void
     {
         $this->musicians = $musicians;
     }
 
-    public function getCinematographers(): ?string
+    public function getCinematographers(): FilmParticipantCollection
     {
         return $this->cinematographers;
     }
 
-    public function setCinematographers(?string $cinematographers): void
+    public function setCinematographers(FilmParticipantCollection $cinematographers): void
     {
         $this->cinematographers = $cinematographers;
     }
 
-    public function getTopics(): ?string
+    public function getTopics(): FilmAttributeCollection
     {
         return $this->topics;
     }
 
-    public function setTopics(?string $topics): void
+    public function setTopics(FilmAttributeCollection $topics): void
     {
         $this->topics = $topics;
     }
@@ -237,12 +221,72 @@ class Film
             self::FIELD_IN_THEATRES => $this->isInTheatres(),
             self::FIELD_RELEASE_DATE => $this->getReleaseDate(),
             self::FIELD_SYNOPSIS => $this->getSynopsis(),
-            self::FIELD_DIRECTORS => $this->getDirectors(),
-            self::FIELD_ACTORS => $this->getActors(),
-            self::FIELD_SCREENPLAYERS => $this->getScreenplayers(),
-            self::FIELD_MUSICIANS => $this->getMusicians(),
-            self::FIELD_CINEMATOGRAPHERS => $this->getCinematographers(),
-            self::FIELD_TOPICS => $this->getTopics(),
+            self::FIELD_DIRECTORS => $this->getDirectors()->toArray(),
+            self::FIELD_ACTORS => $this->getActors()->toArray(),
+            self::FIELD_SCREENPLAYERS => $this->getScreenplayers()->toArray(),
+            self::FIELD_MUSICIANS => $this->getMusicians()->toArray(),
+            self::FIELD_CINEMATOGRAPHERS => $this->getCinematographers()->toArray(),
+            self::FIELD_TOPICS => $this->getTopics()->toArray(),
         ];
+    }
+
+    public static function buildFromArray(array $data): self
+    {
+        $directors = isset($data[self::FIELD_DIRECTORS]) && is_array($data[self::FIELD_DIRECTORS])
+            ? new FilmParticipantCollection(
+                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_DIRECTORS])
+            )
+            : new FilmParticipantCollection();
+
+        $actors = isset($data[self::FIELD_ACTORS]) && is_array($data[self::FIELD_ACTORS])
+            ? new FilmParticipantCollection(
+                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_ACTORS])
+            )
+            : new FilmParticipantCollection();
+
+        $screenplayers = isset($data[self::FIELD_SCREENPLAYERS]) && is_array($data[self::FIELD_SCREENPLAYERS])
+            ? new FilmParticipantCollection(
+                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_SCREENPLAYERS])
+            )
+            : new FilmParticipantCollection();
+
+        $musicians = isset($data[self::FIELD_MUSICIANS]) && is_array($data[self::FIELD_MUSICIANS])
+            ? new FilmParticipantCollection(
+                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_MUSICIANS])
+            )
+            : new FilmParticipantCollection();
+
+        $cinematographers = isset($data[self::FIELD_CINEMATOGRAPHERS]) && is_array($data[self::FIELD_CINEMATOGRAPHERS])
+            ? new FilmParticipantCollection(
+                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_CINEMATOGRAPHERS])
+            )
+            : new FilmParticipantCollection();
+
+        $topics = isset($data[self::FIELD_TOPICS]) && is_array($data[self::FIELD_TOPICS])
+            ? new FilmAttributeCollection(
+                ...array_map(static function($name) {return new FilmAttribute($name);}, $data[self::FIELD_TOPICS])
+            )
+            : new FilmAttributeCollection();
+
+        return new self(
+            $data[self::FIELD_ID_FILM],
+            $data[self::FIELD_TITLE],
+            $data[self::FIELD_ORIGINAL_TITLE],
+            $data[self::FIELD_RATING] ?? null,
+            $data[self::FIELD_NUM_RATINGS] ?? null,
+            $data[self::FIELD_POPULARITY_RANKING] ?? null,
+            $data[self::FIELD_YEAR] ?? null,
+            $data[self::FIELD_DURATION] ?? null,
+            $data[self::FIELD_COUNTRY],
+            isset($data[self::FIELD_IN_THEATRES]) ? (bool) $data[self::FIELD_IN_THEATRES] : false,
+            $data[self::FIELD_RELEASE_DATE] ?? null,
+            $data[self::FIELD_SYNOPSIS] ?? null,
+            $directors,
+            $actors,
+            $screenplayers,
+            $musicians,
+            $cinematographers,
+            $topics
+        );
     }
 }

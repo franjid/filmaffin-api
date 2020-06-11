@@ -30,8 +30,18 @@ class GetFilms extends GlobalReadQuery
         $query .= ' GROUP BY idFilm';
         $query .= ' LIMIT ' . $offset . ', ' . $limit;
 
-        $result = $this->fetchAllObject($query, Film::class);
+        $results = $this->fetchAll($query);
 
-        return new FilmCollection(...$result);
+        if (!$results) {
+            return new FilmCollection();
+        }
+
+        $films = [];
+
+        foreach ($results as $result) {
+            $films[] = Film::buildFromArray($result);
+        }
+
+        return new FilmCollection(...$films);
     }
 }
