@@ -25,6 +25,7 @@ class Film
     public const FIELD_MUSICIANS = 'musicians';
     public const FIELD_CINEMATOGRAPHERS = 'cinematographers';
     public const FIELD_TOPICS = 'topics';
+    public const FIELD_POSTER_IMAGES = 'posterImages';
 
     private int $idFilm;
     private string $title;
@@ -44,6 +45,7 @@ class Film
     private FilmParticipantCollection $musicians;
     private FilmParticipantCollection $cinematographers;
     private FilmAttributeCollection $topics;
+    private ?PosterImages $posterImages;
 
     public function __construct(
         int $idFilm,
@@ -63,7 +65,8 @@ class Film
         FilmParticipantCollection $screenplayers,
         FilmParticipantCollection $musicians,
         FilmParticipantCollection $cinematographers,
-        FilmAttributeCollection $topics
+        FilmAttributeCollection $topics,
+        ?PosterImages $posterImages
     )
     {
         $this->idFilm = $idFilm;
@@ -84,6 +87,7 @@ class Film
         $this->musicians = $musicians;
         $this->cinematographers = $cinematographers;
         $this->topics = $topics;
+        $this->posterImages = $posterImages;
     }
 
     public function getIdFilm(): int
@@ -206,6 +210,11 @@ class Film
         $this->topics = $topics;
     }
 
+    public function getPosterImages(): ?PosterImages
+    {
+        return $this->posterImages;
+    }
+
     public function toArray(): array
     {
         return [
@@ -227,6 +236,7 @@ class Film
             self::FIELD_MUSICIANS => $this->getMusicians()->toArray(),
             self::FIELD_CINEMATOGRAPHERS => $this->getCinematographers()->toArray(),
             self::FIELD_TOPICS => $this->getTopics()->toArray(),
+            self::FIELD_POSTER_IMAGES => $this->getPosterImages() ? $this->getPosterImages()->toArray() : null,
         ];
     }
 
@@ -286,7 +296,8 @@ class Film
             $screenplayers,
             $musicians,
             $cinematographers,
-            $topics
+            $topics,
+            $data[self::FIELD_POSTER_IMAGES] ? PosterImages::buildFromArray($data[self::FIELD_POSTER_IMAGES]) : null,
         );
     }
 }
