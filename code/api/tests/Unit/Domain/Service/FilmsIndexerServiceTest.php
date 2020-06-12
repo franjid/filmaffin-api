@@ -158,6 +158,7 @@ class FilmsIndexerServiceTest extends TestCase
             new FilmParticipantCollection(...[new FilmParticipant('Musician')]),
             new FilmParticipantCollection(...[new FilmParticipant('Cinematographer')]),
             new FilmAttributeCollection(...[new FilmAttribute('Topic 1'), new FilmAttribute('Topic 2'), new FilmAttribute('Topic 3')]),
+            null
         );
         $filmCollection = new FilmCollection(...[$film]);
 
@@ -194,14 +195,14 @@ class FilmsIndexerServiceTest extends TestCase
             'country' => $film->getCountry(),
             'inTheatres' => $film->isInTheatres(),
             'releaseDate' => $film->getReleaseDate(),
-            'directors' => array_column($film->getDirectors()->toArray(), FilmParticipant::FIELD_NAME),
-            'actors' => array_column($film->getActors()->toArray(), FilmParticipant::FIELD_NAME),
+            'directors' => $film->getDirectors()->toArray(),
+            'actors' => $film->getActors()->toArray(),
             'posterImages' => [],
             'synopsis' => $film->getSynopsis() ?? '',
-            'topics' => array_column($film->getTopics()->toArray(), FilmParticipant::FIELD_NAME),
-            'screenplayers' => array_column($film->getScreenplayers()->toArray(), FilmParticipant::FIELD_NAME),
-            'musicians' => array_column($film->getMusicians()->toArray(), FilmParticipant::FIELD_NAME),
-            'cinematographers' => array_column($film->getCinematographers()->toArray(), FilmParticipant::FIELD_NAME),
+            'topics' => $film->getTopics()->toArray(),
+            'screenplayers' => $film->getScreenplayers()->toArray(),
+            'musicians' => $film->getMusicians()->toArray(),
+            'cinematographers' => $film->getCinematographers()->toArray(),
         ];
 
         $expectedIndexParams = [

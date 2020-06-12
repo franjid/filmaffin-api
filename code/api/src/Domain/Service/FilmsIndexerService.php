@@ -148,14 +148,14 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'country' => $film->getCountry(),
                 'inTheatres' => $film->isInTheatres(),
                 'releaseDate' => $film->getReleaseDate(),
-                'directors' => array_column($film->getDirectors()->toArray(), FilmParticipant::FIELD_NAME),
-                'actors' => array_column($film->getActors()->toArray(), FilmParticipant::FIELD_NAME),
+                'directors' => $film->getDirectors()->toArray(),
+                'actors' => $film->getActors()->toArray(),
                 'posterImages' => $this->filmImageHelper->getImagePosters($film->getIdFilm()),
                 'synopsis' => $film->getSynopsis() ?? '',
-                'topics' => array_column($film->getTopics()->toArray(), FilmAttribute::FIELD_NAME),
-                'screenplayers' => array_column($film->getScreenplayers()->toArray(), FilmParticipant::FIELD_NAME),
-                'musicians' => array_column($film->getMusicians()->toArray(), FilmParticipant::FIELD_NAME),
-                'cinematographers' => array_column($film->getCinematographers()->toArray(), FilmParticipant::FIELD_NAME),
+                'topics' => $film->getTopics()->toArray(),
+                'screenplayers' => $film->getScreenplayers()->toArray(),
+                'musicians' => $film->getMusicians()->toArray(),
+                'cinematographers' => $film->getCinematographers()->toArray(),
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";

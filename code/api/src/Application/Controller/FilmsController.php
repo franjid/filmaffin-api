@@ -60,9 +60,9 @@ class FilmsController extends AbstractController
         $title = $stringHelper->removeDiacritics($title);
 
         $films = $filmIndexRepository->searchFilms($title);
-        $response = empty($films) ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
+        $response = !$films->getItems() ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
 
-        return new JsonResponse($films, $response);
+        return new JsonResponse($films->toArray(), $response);
     }
 
     /**
@@ -149,9 +149,9 @@ class FilmsController extends AbstractController
         $offset = $offset !== null ? (int) $offset : 0;
 
         $film = $filmIndexRepository->getPopularFilms($numResults, $offset);
-        $response = empty($film) ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
+        $response = !$film->getItems() ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
 
-        return new JsonResponse($film, $response);
+        return new JsonResponse($film->toArray(), $response);
     }
 
     /**
@@ -198,8 +198,8 @@ class FilmsController extends AbstractController
         }
 
         $film = $filmIndexRepository->getFilmsInTheatres($sortBy);
-        $response = empty($film) ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
+        $response = !$film->getItems() ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
 
-        return new JsonResponse($film, $response);
+        return new JsonResponse($film->toArray(), $response);
     }
 }

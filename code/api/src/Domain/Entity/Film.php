@@ -297,7 +297,7 @@ class Film
             $musicians,
             $cinematographers,
             $topics,
-            $data[self::FIELD_POSTER_IMAGES] ? PosterImages::buildFromArray($data[self::FIELD_POSTER_IMAGES]) : null,
+            isset($data[self::FIELD_POSTER_IMAGES]) ? PosterImages::buildFromArray($data[self::FIELD_POSTER_IMAGES]) : null,
         );
     }
 }

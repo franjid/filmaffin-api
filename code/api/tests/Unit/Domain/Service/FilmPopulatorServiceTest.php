@@ -46,7 +46,8 @@ class FilmPopulatorServiceTest extends TestCase
             new FilmParticipantCollection(),
             new FilmParticipantCollection(),
             new FilmParticipantCollection(),
-            new FilmAttributeCollection()
+            new FilmAttributeCollection(),
+            null
         );
 
         $director1 = new FilmParticipant('Director 1');
@@ -87,11 +88,11 @@ class FilmPopulatorServiceTest extends TestCase
 
         $this->filmPopulatorService->populateFilm($film);
 
-        $this->assertSame([['name' => 'Director 1'], ['name' => 'Director 2']], $film->getDirectors()->toArray());
-        $this->assertSame([['name' => 'Actor 1'], ['name' => 'Actor 2']], $film->getActors()->toArray());
-        $this->assertSame([['name' => 'Screenplayer 1'], ['name' => 'Screenplayer 2']], $film->getScreenplayers()->toArray());
-        $this->assertSame([['name' => 'Musician 1'], ['name' => 'Musician 2']], $film->getMusicians()->toArray());
-        $this->assertSame([['name' => 'Cinematographer 1'], ['name' => 'Cinematographer 2']], $film->getCinematographers()->toArray());
-        $this->assertSame([['name' => 'Topic 1'], ['name' => 'Topic 2']], $film->getTopics()->toArray());
+        $this->assertSame(['Director 1', 'Director 2'], $film->getDirectors()->toArray());
+        $this->assertSame(['Actor 1', 'Actor 2'], $film->getActors()->toArray());
+        $this->assertSame(['Screenplayer 1', 'Screenplayer 2'], $film->getScreenplayers()->toArray());
+        $this->assertSame(['Musician 1', 'Musician 2'], $film->getMusicians()->toArray());
+        $this->assertSame(['Cinematographer 1', 'Cinematographer 2'], $film->getCinematographers()->toArray());
+        $this->assertSame(['Topic 1', 'Topic 2'], $film->getTopics()->toArray());
     }
 }

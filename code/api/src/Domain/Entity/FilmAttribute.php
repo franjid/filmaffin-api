@@ -18,11 +18,9 @@ class FilmAttribute
         return $this->name;
     }
 
-    public function toArray(): array
+    public function toArray(): string
     {
-        return [
-            self::FIELD_NAME => $this->getName(),
-        ];
+        return $this->getName();
     }
 
     public static function buildFromArray(array $data): self
