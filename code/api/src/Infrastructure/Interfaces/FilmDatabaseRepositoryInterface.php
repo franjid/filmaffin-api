@@ -10,6 +10,7 @@ use App\Domain\Entity\Collection\FilmRatedByUserCollection;
 interface FilmDatabaseRepositoryInterface
 {
     public function getFilms(int $offset, int $limit): FilmCollection;
+    public function getFilmsById(array $idFilms): FilmCollection;
     public function getFrequentlyUpdatedFilms(): FilmCollection;
     public function getFilmDirectors(int $idFilm): FilmParticipantCollection;
     public function getFilmActors(int $idFilm): FilmParticipantCollection;

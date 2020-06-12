@@ -17,6 +17,7 @@ use App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmDirectors;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilms;
+use App\Infrastructure\Repository\Database\Query\Film\GetFilmsById;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmsRatedByUserFriends;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmTopics;
@@ -30,6 +31,15 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         /** @var GetFilms $query */
         $query = $this->getQuery(GetFilms::class);
         $results = $query->getResult($offset, $limit);
+
+        return $this->populateFilmCollectionFromResults($results);
+    }
+
+    public function getFilmsById(array $idFilms): FilmCollection
+    {
+        /** @var GetFilmsById $query */
+        $query = $this->getQuery(GetFilmsById::class);
+        $results = $query->getResult($idFilms);
 
         return $this->populateFilmCollectionFromResults($results);
     }

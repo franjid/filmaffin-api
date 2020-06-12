@@ -6,7 +6,7 @@ use App\Infrastructure\Component\Elasticsearch\NormalQuery;
 
 class GetFilmsInTheatres extends NormalQuery
 {
-    public function getResult(string $sortBy): array
+    public function getResult(int $numResults, string $sortBy): array
     {
         $query = <<<EOT
 {
@@ -29,7 +29,7 @@ class GetFilmsInTheatres extends NormalQuery
             "order": "desc"
         }
     }],
-    "size": 20,
+    "size": $numResults,
     "query": {
         "term" : {
             "inTheatres" : true

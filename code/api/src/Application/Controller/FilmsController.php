@@ -197,7 +197,7 @@ class FilmsController extends AbstractController
             $sortBy = 'releaseDate'; // Default sort option
         }
 
-        $film = $filmIndexRepository->getFilmsInTheatres($sortBy);
+        $film = $filmIndexRepository->getFilmsInTheatres(50, $sortBy);
         $response = !$film->getItems() ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
 
         return new JsonResponse($film->toArray(), $response);

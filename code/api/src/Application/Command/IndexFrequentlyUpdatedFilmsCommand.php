@@ -3,9 +3,11 @@
 namespace App\Application\Command;
 
 use App\Domain\Entity\Collection\FilmCollection;
+use App\Domain\Entity\Film;
 use App\Domain\Interfaces\FilmPopulatorInterface;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
+use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,16 +15,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 class IndexFrequentlyUpdatedFilmsCommand extends Command
 {
     private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
+    private FilmIndexRepositoryInterface $filmIndexRepository;
     private FilmsIndexerInterface $filmsIndexerService;
     private FilmPopulatorInterface $filmPopulator;
 
     public function __construct(
         FilmDatabaseRepositoryInterface $filmDatabaseRepository,
+        FilmIndexRepositoryInterface $filmIndexRepository,
         FilmsIndexerInterface $filmsIndexerService,
         FilmPopulatorInterface $filmPopulator
     )
     {
         $this->filmDatabaseRepository = $filmDatabaseRepository;
+        $this->filmIndexRepository = $filmIndexRepository;
         $this->filmsIndexerService = $filmsIndexerService;
         $this->filmPopulator = $filmPopulator;
 
@@ -41,17 +46,45 @@ class IndexFrequentlyUpdatedFilmsCommand extends Command
         $indexName = $this->filmsIndexerService->getLastIndexName();
         $this->filmsIndexerService->setCurrentIndexName($indexName);
 
-        $films = $this->filmDatabaseRepository->getFrequentlyUpdatedFilms()->getItems();
-        $filmsAvailable = count($films);
+        $this->reindexCurrentFrequentFilms();
 
-        if ($filmsAvailable) {
-            foreach ($films as $film) {
-                $this->filmPopulator->populateFilm($film);
-            }
-
-            $this->filmsIndexerService->index(new FilmCollection(...$films));
-        }
+        $films = $this->filmDatabaseRepository->getFrequentlyUpdatedFilms();
+        $this->indexFilms($films);
 
         return 0;
+    }
+
+    /**
+     * We need to reindex "current" frequent films to be sure if they continue to be hot (popular/in theatres)
+     *
+     * One film could have been in theatres, but in a new crawling it is not anymore,
+     * so we have to check it and reindex (in this case `inTheatres` will be false)
+     */
+    private function reindexCurrentFrequentFilms(): void
+    {
+        $filmsInTheatres = $this->filmIndexRepository->getFilmsInTheatres(100, 'numRatings')->toArray();
+        $idFilmsInTheatres = array_column($filmsInTheatres, Film::FIELD_ID_FILM);
+        $films = $this->filmDatabaseRepository->getFilmsById($idFilmsInTheatres);
+        $this->indexFilms($films);
+
+        $popularFilms = $this->filmIndexRepository->getPopularFilms(100, 0)->toArray();
+        $idFilmsPopular = array_column($popularFilms, Film::FIELD_ID_FILM);
+        $films = $this->filmDatabaseRepository->getFilmsById($idFilmsPopular);
+        $this->indexFilms($films);
+    }
+
+    private function indexFilms(FilmCollection $films): void
+    {
+        $filmsItems = $films->getItems();
+
+        if (!count($filmsItems)) {
+            return;
+        }
+
+        foreach ($filmsItems as $film) {
+            $this->filmPopulator->populateFilm($film);
+        }
+
+        $this->filmsIndexerService->index(new FilmCollection(...$filmsItems));
     }
 }
