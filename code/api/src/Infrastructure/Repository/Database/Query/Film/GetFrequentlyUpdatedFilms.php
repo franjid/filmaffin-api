@@ -2,13 +2,11 @@
 
 namespace App\Infrastructure\Repository\Database\Query\Film;
 
-use App\Domain\Entity\Collection\FilmCollection;
-use App\Domain\Entity\Film;
 use App\Infrastructure\Component\Db\GlobalReadQuery;
 
 class GetFrequentlyUpdatedFilms extends GlobalReadQuery
 {
-    public function getResult(): FilmCollection
+    public function getResult(): array
     {
         $query = 'SELECT';
         $query .= '   f.idFilm';
@@ -29,18 +27,6 @@ class GetFrequentlyUpdatedFilms extends GlobalReadQuery
         $query .= ' LEFT JOIN filmInTheatres fit USING(idFilm)';
         $query .= ' WHERE fp.ranking IS NOT NULL OR fit.releaseDate IS NOT NULL';
 
-        $results = $this->fetchAll($query);
-
-        if (!$results) {
-            return new FilmCollection();
-        }
-
-        $films = [];
-
-        foreach ($results as $result) {
-            $films[] = Film::buildFromArray($result);
-        }
-
-        return new FilmCollection(...$films);
+        return $this->fetchAll($query);
     }
 }

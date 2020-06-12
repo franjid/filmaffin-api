@@ -2,9 +2,6 @@
 
 namespace App\Infrastructure\Repository\Database\Query\Film;
 
-use App\Domain\Entity\Collection\FilmRatedByUserCollection;
-use App\Domain\Entity\FilmRatedByUser;
-use App\Domain\Entity\UserFilmaffinity;
 use App\Infrastructure\Component\Db\GlobalReadQuery;
 
 class GetFilmsRatedByUserFriends extends GlobalReadQuery
@@ -13,7 +10,7 @@ class GetFilmsRatedByUserFriends extends GlobalReadQuery
         int $idUser,
         int $numResults,
         int $offset
-    ): FilmRatedByUserCollection
+    ): array
     {
         $query = 'SELECT';
         $query .= '   f.idFilm';
@@ -30,27 +27,6 @@ class GetFilmsRatedByUserFriends extends GlobalReadQuery
         $query .= ' ORDER BY ur.dateRated DESC, ur.position ASC';
         $query .= ' LIMIT ' . $offset . ', ' . $numResults;
 
-        $results = $this->fetchAll($query);
-
-        if (!$results) {
-            return new FilmRatedByUserCollection();
-        }
-
-        $filmsRatedByUser = [];
-
-        foreach ($results as $result) {
-            $filmsRatedByUser[] = new FilmRatedByUser(
-                $result['idFilm'],
-                new UserFilmaffinity(
-                    $result['idUser'],
-                    $result['name'],
-                    null
-                ),
-                $result['rating'],
-                (new \DateTimeImmutable())->setTimestamp($result['dateRated'])
-            );
-        }
-
-        return new FilmRatedByUserCollection(...$filmsRatedByUser);
+        return $this->fetchAll($query);
     }
 }

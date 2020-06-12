@@ -2,13 +2,11 @@
 
 namespace App\Infrastructure\Repository\Database\Query\Film;
 
-use App\Domain\Entity\Collection\FilmCollection;
-use App\Domain\Entity\Film;
 use App\Infrastructure\Component\Db\GlobalReadQuery;
 
 class GetFilms extends GlobalReadQuery
 {
-    public function getResult(int $offset, int $limit): FilmCollection
+    public function getResult(int $offset, int $limit): array
     {
         $query = 'SELECT';
         $query .= '   idFilm';
@@ -30,18 +28,6 @@ class GetFilms extends GlobalReadQuery
         $query .= ' GROUP BY idFilm';
         $query .= ' LIMIT ' . $offset . ', ' . $limit;
 
-        $results = $this->fetchAll($query);
-
-        if (!$results) {
-            return new FilmCollection();
-        }
-
-        $films = [];
-
-        foreach ($results as $result) {
-            $films[] = Film::buildFromArray($result);
-        }
-
-        return new FilmCollection(...$films);
+        return $this->fetchAll($query);
     }
 }

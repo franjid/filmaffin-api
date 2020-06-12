@@ -2,7 +2,6 @@
 
 namespace App\Domain\Service;
 
-use App\Domain\Entity\Collection\FilmRatedByUserCollection;
 use App\Domain\Entity\Collection\FilmRatedByUserExtendedCollection;
 use App\Domain\Entity\FilmRatedByUser;
 use App\Domain\Entity\FilmRatedByUserExtended;

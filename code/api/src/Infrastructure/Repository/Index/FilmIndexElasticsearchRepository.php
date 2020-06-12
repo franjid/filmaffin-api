@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Repository\Index;
 
 use App\Domain\Entity\Collection\FilmCollection;
+use App\Domain\Entity\Film;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilm;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilmsInTheatres;
@@ -24,8 +25,19 @@ class FilmIndexElasticsearchRepository extends RepositoryAbstract implements Fil
     {
         /** @var GetFilm $query */
         $query = $this->getQuery(GetFilm::class);
+        $results = $query->getResult($idFilmList);
 
-        return $query->getResult($idFilmList);
+        if (!$results) {
+            return new FilmCollection();
+        }
+
+        $films = [];
+
+        foreach ($results as $result) {
+            $films[] = Film::buildFromArray($result);
+        }
+
+        return new FilmCollection(...$films);
     }
 
     public function getPopularFilms(int $numResults, int $offset): array

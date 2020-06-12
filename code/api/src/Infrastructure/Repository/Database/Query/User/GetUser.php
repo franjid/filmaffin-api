@@ -2,21 +2,11 @@
 
 namespace App\Infrastructure\Repository\Database\Query\User;
 
-use App\Domain\Entity\UserFilmaffinity;
 use App\Infrastructure\Component\Db\GlobalReadQuery;
-use App\Infrastructure\Exception\Database\UserNotFoundException;
-use Doctrine\DBAL\DBALException;
 
 class GetUser extends GlobalReadQuery
 {
-    /**
-     * @param int $userIdFilmaffinity
-     *
-     * @return UserFilmaffinity
-     * @throws UserNotFoundException
-     * @throws DBALException
-     */
-    public function getResult(int $userIdFilmaffinity): UserFilmaffinity
+    public function getResult(int $userIdFilmaffinity): array
     {
         $query = 'SELECT';
         $query .= '   idUser';
@@ -26,16 +16,6 @@ class GetUser extends GlobalReadQuery
         $query .= ' user';
         $query .= ' WHERE idUser = ' . $userIdFilmaffinity;
 
-        $result = $this->fetchAssoc($query);
-
-        if (!$result) {
-            throw new UserNotFoundException('User id not found: ' . $userIdFilmaffinity);
-        }
-
-        return new UserFilmaffinity(
-            $result['idUser'],
-            $result['name'],
-            $result['cookieFilmaffinity'] !== '' ? $result['cookieFilmaffinity'] : null
-        );
+        return $this->fetchAll($query);
     }
 }

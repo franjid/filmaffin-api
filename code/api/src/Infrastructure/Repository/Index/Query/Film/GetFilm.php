@@ -2,8 +2,6 @@
 
 namespace App\Infrastructure\Repository\Index\Query\Film;
 
-use App\Domain\Entity\Collection\FilmCollection;
-use App\Domain\Entity\Film;
 use App\Infrastructure\Component\Elasticsearch\NormalQuery;
 
 class GetFilm extends NormalQuery
@@ -14,9 +12,9 @@ class GetFilm extends NormalQuery
      *
      * @param string $idFilmList
      *
-     * @return FilmCollection
+     * @return array
      */
-    public function getResult(string $idFilmList): FilmCollection
+    public function getResult(string $idFilmList): array
     {
         $numResults = count(explode(',', $idFilmList));
 
@@ -63,19 +61,6 @@ class GetFilm extends NormalQuery
 }
 EOT;
 
-        $results = $this->fetchAll($query);
-
-        if (!$results) {
-            return new FilmCollection();
-        }
-
-        $films = [];
-
-        foreach ($results as $result) {
-            $films[] = Film::buildFromArray($result);
-
-        }
-
-        return new FilmCollection(...$films);
+        return $this->fetchAll($query);
     }
 }

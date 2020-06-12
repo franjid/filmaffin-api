@@ -2,13 +2,11 @@
 
 namespace App\Infrastructure\Repository\Database\Query\Film;
 
-use App\Domain\Entity\Collection\FilmParticipantCollection;
-use App\Domain\Entity\FilmParticipant;
 use App\Infrastructure\Component\Db\GlobalReadQuery;
 
 class GetFilmCinematographers extends GlobalReadQuery
 {
-    public function getResult(int $idFilm): FilmParticipantCollection
+    public function getResult(int $idFilm): array
     {
         $query = 'SELECT';
         $query .= ' cinematographer.name';
@@ -19,16 +17,6 @@ class GetFilmCinematographers extends GlobalReadQuery
         $query .= ' WHERE idFilm = ' . $idFilm;
         $query .= ' ORDER BY assocFilmCinematographer.relevancePosition';
 
-        $results = $this->fetchAll($query);
-        if (!$results) {
-            return new FilmParticipantCollection();
-        }
-
-        $cinematographers = [];
-        foreach ($results as $result) {
-            $cinematographers[] = FilmParticipant::buildFromArray($result);
-        }
-
-        return new FilmParticipantCollection(...$cinematographers);
+        return $this->fetchAll($query);
     }
 }

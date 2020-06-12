@@ -2,13 +2,11 @@
 
 namespace App\Infrastructure\Repository\Database\Query\Film;
 
-use App\Domain\Entity\Collection\FilmAttributeCollection;
-use App\Domain\Entity\FilmAttribute;
 use App\Infrastructure\Component\Db\GlobalReadQuery;
 
 class GetFilmTopics extends GlobalReadQuery
 {
-    public function getResult(int $idFilm): FilmAttributeCollection
+    public function getResult(int $idFilm): array
     {
         $query = 'SELECT';
         $query .= ' topic.name';
@@ -19,16 +17,6 @@ class GetFilmTopics extends GlobalReadQuery
         $query .= ' WHERE idFilm = ' . $idFilm;
         $query .= ' ORDER BY assocFilmTopic.relevancePosition';
 
-        $results = $this->fetchAll($query);
-        if (!$results) {
-            return new FilmAttributeCollection();
-        }
-
-        $topics = [];
-        foreach ($results as $result) {
-            $topics[] = FilmAttribute::buildFromArray($result);
-        }
-
-        return new FilmAttributeCollection(...$topics);
+        return $this->fetchAll($query);
     }
 }

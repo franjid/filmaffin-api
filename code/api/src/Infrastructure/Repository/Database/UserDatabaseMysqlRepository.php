@@ -8,7 +8,6 @@ use App\Infrastructure\Interfaces\UserDatabaseRepositoryInterface;
 use App\Infrastructure\Repository\Database\Query\User\GetUser;
 use App\Infrastructure\Repository\Database\Query\User\SaveUser;
 use App\Infrastructure\Repository\RepositoryAbstract;
-use Doctrine\DBAL\DBALException;
 
 class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserDatabaseRepositoryInterface
 {
@@ -29,13 +28,23 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
      *
      * @return UserFilmaffinity
      * @throws UserNotFoundException
-     * @throws DBALException
      */
     public function getUser(int $userIdFilmaffinity): UserFilmaffinity
     {
         /** @var GetUser $query */
         $query = $this->getQuery(GetUser::class);
+        $result = $query->getResult($userIdFilmaffinity);
 
-        return $query->getResult($userIdFilmaffinity);
+        if (!$result) {
+            throw new UserNotFoundException('User id not found: ' . $userIdFilmaffinity);
+        }
+
+        $result = array_shift($result);
+
+        return new UserFilmaffinity(
+            $result['idUser'],
+            $result['name'],
+            $result['cookieFilmaffinity'] !== '' ? $result['cookieFilmaffinity'] : null
+        );
     }
 }
