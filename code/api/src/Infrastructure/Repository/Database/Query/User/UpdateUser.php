@@ -20,11 +20,11 @@ class UpdateUser extends GlobalWriteQuery
             $query .= ' name = ' . $this->quote($userNameFilmaffinity) . ', ';
         }
 
-        if ($cookieFilmaffinity) {
+        if ($cookieFilmaffinity && $cookieFilmaffinity !== 'null') {
             $query .= ' cookieFilmaffinity = ' . $this->quote($cookieFilmaffinity) . ', ';
         }
 
-        if ($appNotificationsToken) {
+        if ($appNotificationsToken && $appNotificationsToken !== 'null') {
             $query .= ' appNotificationsToken = ' . $this->quote($appNotificationsToken) . ', ';
         }
 

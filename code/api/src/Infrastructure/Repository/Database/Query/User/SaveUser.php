@@ -18,7 +18,7 @@ class SaveUser extends GlobalWriteQuery
         $query .= ' , `name`';
         $query .= ' , `cookieFilmaffinity`';
 
-        if ($appNotificationsToken) {
+        if ($appNotificationsToken && $appNotificationsToken !== 'null') {
             $query .= ' , `appNotificationsToken`';
         }
 
@@ -30,7 +30,7 @@ class SaveUser extends GlobalWriteQuery
         $query .= ' , ' . $this->quote($userNameFilmaffinity);
         $query .= ' , ' . $this->quote($cookieFilmaffinity);
 
-        if ($appNotificationsToken) {
+        if ($appNotificationsToken && $appNotificationsToken !== 'null') {
             $query .= ' , ' . $this->quote($appNotificationsToken);
         }
 
