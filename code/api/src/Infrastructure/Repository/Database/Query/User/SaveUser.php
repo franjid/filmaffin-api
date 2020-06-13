@@ -9,14 +9,31 @@ class SaveUser extends GlobalWriteQuery
     public function getResult(
         int $userIdFilmaffinity,
         string $userNameFilmaffinity,
-        string $cookieFilmaffinity
+        string $cookieFilmaffinity,
+        ?string $appNotificationsToken
     ): int
     {
-        $query = 'INSERT INTO user (`idUser`, `name`, `cookieFilmaffinity`, `dateAdded`)';
+        $query = 'INSERT INTO user (';
+        $query .= '  `idUser`';
+        $query .= ' , `name`';
+        $query .= ' , `cookieFilmaffinity`';
+
+        if ($appNotificationsToken) {
+            $query .= ' , `appNotificationsToken`';
+        }
+
+        $query .= ' , `dateAdded`';
+        $query .= ')';
+
         $query .= ' VALUES (';
         $query .= $userIdFilmaffinity;
         $query .= ' , ' . $this->quote($userNameFilmaffinity);
         $query .= ' , ' . $this->quote($cookieFilmaffinity);
+
+        if ($appNotificationsToken) {
+            $query .= ' , ' . $this->quote($appNotificationsToken);
+        }
+
         $query .= ' , UNIX_TIMESTAMP()';
         $query .= ')';
 

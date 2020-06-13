@@ -10,13 +10,15 @@ interface UserDatabaseRepositoryInterface
     public function saveUser(
         int $userIdFilmaffinity,
         string $userNameFilmaffinity,
-        string $cookieFilmaffinity
+        string $cookieFilmaffinity,
+        ?string $appNotificationsToken
     ): int;
 
     public function updateUser(
         int $userIdFilmaffinity,
         ?string $userNameFilmaffinity,
-        ?string $cookieFilmaffinity
+        ?string $cookieFilmaffinity,
+        ?string $appNotificationsToken
     ): int;
 
     /**

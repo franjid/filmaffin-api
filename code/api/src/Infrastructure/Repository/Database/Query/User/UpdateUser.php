@@ -9,7 +9,8 @@ class UpdateUser extends GlobalWriteQuery
     public function getResult(
         int $userIdFilmaffinity,
         ?string $userNameFilmaffinity,
-        ?string $cookieFilmaffinity
+        ?string $cookieFilmaffinity,
+        ?string $appNotificationsToken
     ): int
     {
         $query = 'UPDATE user';
@@ -21,6 +22,10 @@ class UpdateUser extends GlobalWriteQuery
 
         if ($cookieFilmaffinity) {
             $query .= ' cookieFilmaffinity = ' . $this->quote($cookieFilmaffinity) . ', ';
+        }
+
+        if ($appNotificationsToken) {
+            $query .= ' appNotificationsToken = ' . $this->quote($appNotificationsToken) . ', ';
         }
 
         $query .= ' dateUpdated = UNIX_TIMESTAMP()';

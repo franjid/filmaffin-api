@@ -15,25 +15,37 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
     public function saveUser(
         int $userIdFilmaffinity,
         string $userNameFilmaffinity,
-        string $cookieFilmaffinity
+        string $cookieFilmaffinity,
+        ?string $appNotificationsToken
     ): int
     {
         /** @var SaveUser $query */
         $query = $this->getQuery(SaveUser::class);
 
-        return $query->getResult($userIdFilmaffinity, $userNameFilmaffinity, $cookieFilmaffinity);
+        return $query->getResult(
+            $userIdFilmaffinity,
+            $userNameFilmaffinity,
+            $cookieFilmaffinity,
+            $appNotificationsToken
+        );
     }
 
     public function updateUser(
         int $userIdFilmaffinity,
         ?string $userNameFilmaffinity,
-        ?string $cookieFilmaffinity
+        ?string $cookieFilmaffinity,
+        ?string $appNotificationsToken
     ): int
     {
         /** @var UpdateUser $query */
         $query = $this->getQuery(UpdateUser::class);
 
-        return $query->getResult($userIdFilmaffinity, $userNameFilmaffinity, $cookieFilmaffinity);
+        return $query->getResult(
+            $userIdFilmaffinity,
+            $userNameFilmaffinity,
+            $cookieFilmaffinity,
+            $appNotificationsToken
+        );
     }
 
     /**
