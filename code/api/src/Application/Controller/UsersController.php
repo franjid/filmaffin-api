@@ -3,6 +3,7 @@
 namespace App\Application\Controller;
 
 use App\Domain\Event\UserAddedEvent;
+use App\Domain\Event\UserUpdatedEvent;
 use App\Domain\Exception\UserNotFoundException;
 use App\Domain\Interfaces\UserFriendsFilmsInterface;
 use App\Infrastructure\Interfaces\FilmaffinityRepositoryInterface;
@@ -79,21 +80,17 @@ class UsersController extends AbstractController
                 $userFilmaffinity->getUserName(),
                 $userFilmaffinity->getCookie()
             );
-        } catch (UniqueConstraintViolationException $e) {
-            /**
-             * Do nothing for now. Maybe we could update the cookie in some future use case
-             * And instead of dispatching UserAddedEvent, we could dispatch UserUpdatedEvent (to resync friends, etc)
-             */
-        }
 
-        /**
-         * This should be in the "try" (so only the first time we save the user we dispatch this event)
-         * Otherwise everytime we hit this endpoint we will send the event
-         *
-         * Left here for dev/debug purposes
-         * @TODO: Move dispatch of event to try (after saving user)
-         */
-        $bus->dispatch(new UserAddedEvent($userFilmaffinity->getUserId(), $userFilmaffinity->getCookie()));
+            $bus->dispatch(new UserAddedEvent($userFilmaffinity->getUserId(), $userFilmaffinity->getCookie()));
+        } catch (UniqueConstraintViolationException $e) {
+            $userDatabaseRepository->updateUser(
+                $userFilmaffinity->getUserId(),
+                $userFilmaffinity->getUserName(),
+                $userFilmaffinity->getCookie()
+            );
+
+            $bus->dispatch(new UserUpdatedEvent($userFilmaffinity->getUserId(), $userFilmaffinity->getCookie()));
+        }
 
         return new JsonResponse($userFilmaffinity->toArray(), JsonResponse::HTTP_OK);
     }

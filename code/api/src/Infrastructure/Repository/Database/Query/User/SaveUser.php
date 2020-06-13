@@ -12,11 +12,12 @@ class SaveUser extends GlobalWriteQuery
         string $cookieFilmaffinity
     ): int
     {
-        $query = 'INSERT INTO user (`idUser`, `name`, `cookieFilmaffinity`)';
+        $query = 'INSERT INTO user (`idUser`, `name`, `cookieFilmaffinity`, `dateAdded`)';
         $query .= ' VALUES (';
         $query .= $userIdFilmaffinity;
         $query .= ' , ' . $this->quote($userNameFilmaffinity);
         $query .= ' , ' . $this->quote($cookieFilmaffinity);
+        $query .= ' , UNIX_TIMESTAMP()';
         $query .= ')';
 
         return $this->insertAndGetLastInsertedId($query);

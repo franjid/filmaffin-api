@@ -13,6 +13,12 @@ interface UserDatabaseRepositoryInterface
         string $cookieFilmaffinity
     ): int;
 
+    public function updateUser(
+        int $userIdFilmaffinity,
+        ?string $userNameFilmaffinity,
+        ?string $cookieFilmaffinity
+    ): int;
+
     /**
      * @param int $userIdFilmaffinity
      *

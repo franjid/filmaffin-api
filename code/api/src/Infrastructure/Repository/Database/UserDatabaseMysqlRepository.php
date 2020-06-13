@@ -7,6 +7,7 @@ use App\Infrastructure\Exception\Database\UserNotFoundException;
 use App\Infrastructure\Interfaces\UserDatabaseRepositoryInterface;
 use App\Infrastructure\Repository\Database\Query\User\GetUser;
 use App\Infrastructure\Repository\Database\Query\User\SaveUser;
+use App\Infrastructure\Repository\Database\Query\User\UpdateUser;
 use App\Infrastructure\Repository\RepositoryAbstract;
 
 class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserDatabaseRepositoryInterface
@@ -19,6 +20,18 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
     {
         /** @var SaveUser $query */
         $query = $this->getQuery(SaveUser::class);
+
+        return $query->getResult($userIdFilmaffinity, $userNameFilmaffinity, $cookieFilmaffinity);
+    }
+
+    public function updateUser(
+        int $userIdFilmaffinity,
+        ?string $userNameFilmaffinity,
+        ?string $cookieFilmaffinity
+    ): int
+    {
+        /** @var UpdateUser $query */
+        $query = $this->getQuery(UpdateUser::class);
 
         return $query->getResult($userIdFilmaffinity, $userNameFilmaffinity, $cookieFilmaffinity);
     }

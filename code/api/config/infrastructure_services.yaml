@@ -98,6 +98,10 @@ services:
         parent: App\Infrastructure\Component\Db\GlobalWriteQuery
         public: true
 
+    App\Infrastructure\Repository\Database\Query\User\UpdateUser:
+        parent: App\Infrastructure\Component\Db\GlobalWriteQuery
+        public: true
+
     ##### Queues
     App\Infrastructure\Queue\Middleware\AppMiddleware:
         class: App\Infrastructure\Queue\Middleware\AppMiddleware
