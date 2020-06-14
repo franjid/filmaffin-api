@@ -24,7 +24,7 @@ class GetFilmsRatedByUserFriends extends GlobalReadQuery
         $query .= ' JOIN userFriendship uf ON uf.idUserTarget = ur.idUser';
         $query .= ' JOIN user u ON u.idUser = uf.idUserTarget';
         $query .= ' WHERE uf.idUserSource = ' . $idUser;
-        $query .= ' ORDER BY ur.dateRated DESC, ur.position ASC';
+        $query .= ' ORDER BY ur.dateRated DESC, ur.idUserRating DESC';
         $query .= ' LIMIT ' . $offset . ', ' . $numResults;
 
         return $this->fetchAll($query);
