@@ -209,10 +209,20 @@ class FilmsIndexerService implements FilmsIndexerInterface
     public function getLastIndexName(): string
     {
         $indexesNames = array_keys($this->getPreviousIndexes());
+        $projectIndexes = 0;
 
-        if (count($indexesNames) > 1) {
+        foreach ($indexesNames as $indexName) {
+            if (strpos($indexName, $this->elasticsearchIndexName) !== false) {
+                $projectIndexes++;
+            }
+        }
+
+        if ($projectIndexes > 1) {
             throw new IndexInconsistencyException(
-                'There are more than 1 index, this could cause problems. Run filmaffin:index:films to clean up'
+                sprintf(
+                'There are more than 1 %s index, this could cause problems. Run filmaffin:index:films to clean up',
+                $this->elasticsearchIndexName
+                )
             );
         }
 
