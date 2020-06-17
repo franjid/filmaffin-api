@@ -18,6 +18,7 @@ class GetFilms extends GlobalReadQuery
         $query .= ' , duration';
         $query .= ' , country';
         $query .= ' , synopsis';
+        $query .= ' , proReviews';
         $query .= ' , filmPopular.ranking AS popularityRanking';
         $query .= ' , IF (filmInTheatres.releaseDate IS NOT NULL, 1, 0) AS inTheatres';
         $query .= ' , filmInTheatres.releaseDate';

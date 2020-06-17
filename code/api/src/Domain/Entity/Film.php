@@ -4,6 +4,8 @@ namespace App\Domain\Entity;
 
 use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
+use App\Domain\Entity\Collection\ProReviewCollection;
+use JsonException;
 
 class Film
 {
@@ -26,6 +28,7 @@ class Film
     public const FIELD_CINEMATOGRAPHERS = 'cinematographers';
     public const FIELD_TOPICS = 'topics';
     public const FIELD_POSTER_IMAGES = 'posterImages';
+    public const FIELD_PRO_REVIEWS = 'proReviews';
 
     private int $idFilm;
     private string $title;
@@ -45,6 +48,7 @@ class Film
     private FilmParticipantCollection $musicians;
     private FilmParticipantCollection $cinematographers;
     private FilmAttributeCollection $topics;
+    private ProReviewCollection $proReviews;
     private ?PosterImages $posterImages;
 
     public function __construct(
@@ -66,6 +70,7 @@ class Film
         FilmParticipantCollection $musicians,
         FilmParticipantCollection $cinematographers,
         FilmAttributeCollection $topics,
+        ProReviewCollection $proReviews,
         ?PosterImages $posterImages
     )
     {
@@ -87,6 +92,7 @@ class Film
         $this->musicians = $musicians;
         $this->cinematographers = $cinematographers;
         $this->topics = $topics;
+        $this->proReviews = $proReviews;
         $this->posterImages = $posterImages;
     }
 
@@ -210,6 +216,16 @@ class Film
         $this->topics = $topics;
     }
 
+    public function getProReviews(): ProReviewCollection
+    {
+        return $this->proReviews;
+    }
+
+    public function setProReviews(ProReviewCollection $proReviews): void
+    {
+        $this->proReviews = $proReviews;
+    }
+
     public function getPosterImages(): ?PosterImages
     {
         return $this->posterImages;
@@ -236,6 +252,7 @@ class Film
             self::FIELD_MUSICIANS => $this->getMusicians()->toArray(),
             self::FIELD_CINEMATOGRAPHERS => $this->getCinematographers()->toArray(),
             self::FIELD_TOPICS => $this->getTopics()->toArray(),
+            self::FIELD_PRO_REVIEWS => $this->getProReviews()->toArray(),
             self::FIELD_POSTER_IMAGES => $this->getPosterImages() ? $this->getPosterImages()->toArray() : null,
         ];
     }
@@ -278,6 +295,35 @@ class Film
             )
             : new FilmAttributeCollection();
 
+        $proReviews = new ProReviewCollection();
+        if (isset($data[self::FIELD_PRO_REVIEWS])) {
+            if (is_array($data[self::FIELD_PRO_REVIEWS])) {
+                $proReviews = new ProReviewCollection(
+                    ...array_map(
+                        static function ($proReview) {
+                            return ProReview::buildFromArray($proReview);
+                        }
+                        , $data[self::FIELD_PRO_REVIEWS]
+                    )
+                );
+            } else {
+                try {
+                    $proReviews = isset($data[self::FIELD_PRO_REVIEWS])
+                        ? new ProReviewCollection(
+                            ...array_map(
+                                static function ($proReview) {
+                                    return ProReview::buildFromArray($proReview);
+                                }
+                                , json_decode($data[self::FIELD_PRO_REVIEWS], true, 512, JSON_THROW_ON_ERROR)
+                            )
+                        )
+                        : new ProReviewCollection();
+                } catch (JsonException $e) {
+                    $proReviews = new ProReviewCollection();
+                }
+            }
+        }
+
         return new self(
             $data[self::FIELD_ID_FILM],
             $data[self::FIELD_TITLE],
@@ -297,6 +343,7 @@ class Film
             $musicians,
             $cinematographers,
             $topics,
+            $proReviews,
             isset($data[self::FIELD_POSTER_IMAGES]) ? PosterImages::buildFromArray($data[self::FIELD_POSTER_IMAGES]) : null,
         );
     }

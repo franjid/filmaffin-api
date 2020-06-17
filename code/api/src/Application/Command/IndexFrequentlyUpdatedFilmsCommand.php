@@ -64,13 +64,17 @@ class IndexFrequentlyUpdatedFilmsCommand extends Command
     {
         $filmsInTheatres = $this->filmIndexRepository->getFilmsInTheatres(100, 'numRatings')->toArray();
         $idFilmsInTheatres = array_column($filmsInTheatres, Film::FIELD_ID_FILM);
-        $films = $this->filmDatabaseRepository->getFilmsById($idFilmsInTheatres);
-        $this->indexFilms($films);
+        if ($idFilmsInTheatres) {
+            $films = $this->filmDatabaseRepository->getFilmsById($idFilmsInTheatres);
+            $this->indexFilms($films);
+        }
 
         $popularFilms = $this->filmIndexRepository->getPopularFilms(100, 0)->toArray();
         $idFilmsPopular = array_column($popularFilms, Film::FIELD_ID_FILM);
-        $films = $this->filmDatabaseRepository->getFilmsById($idFilmsPopular);
-        $this->indexFilms($films);
+        if ($idFilmsPopular) {
+            $films = $this->filmDatabaseRepository->getFilmsById($idFilmsPopular);
+            $this->indexFilms($films);
+        }
     }
 
     private function indexFilms(FilmCollection $films): void
