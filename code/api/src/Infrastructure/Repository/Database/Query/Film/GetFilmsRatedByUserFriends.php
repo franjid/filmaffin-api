@@ -13,7 +13,8 @@ class GetFilmsRatedByUserFriends extends GlobalReadQuery
     ): array
     {
         $query = 'SELECT';
-        $query .= '   f.idFilm';
+        $query .= '   ur.idUserRating';
+        $query .= ' , f.idFilm';
         $query .= ' , u.idUser';
         $query .= ' , u.name';
         $query .= ' , ur.rating';

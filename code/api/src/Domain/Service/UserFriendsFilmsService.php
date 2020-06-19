@@ -60,25 +60,49 @@ class UserFriendsFilmsService implements UserFriendsFilmsInterface
         }
 
         $idFilms = array_column($filmsRatedByUserFriends->toArray(), FilmRatedByUser::FIELD_ID_FILM);
-        $filmsFromIndex = $this->filmIndexRepository->getFilm(implode(', ', $idFilms));
+        $filmsFromIndex = $this->filmIndexRepository->getFilm(implode(', ', $idFilms), false);
 
         $filmsRatedByUserFriendsArray = array_reduce($filmsRatedByUserFriends->toArray(), static function ($result, $item) {
-            $result[$item['idFilm']] = $item;
+            $result[$item['idFilm']][] = $item;
+
             return $result;
+        });
+
+        $filmsRatedByUserExtendedRaw = [];
+
+        foreach ($filmsFromIndex->getItems() as $film) {
+            foreach ($filmsRatedByUserFriendsArray[$film->getIdFilm()] as $userRating) {
+                $filmsRatedByUserExtendedRaw[] = [
+                    FilmRatedByUserExtended::FIELD_FILM => $film,
+                    FilmRatedByUserExtended::FIELD_USER => [
+                        UserFilmaffinity::FIELD_USER_ID => $userRating[FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_USER_ID],
+                        UserFilmaffinity::FIELD_USER_NAME => $userRating[FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_USER_NAME],
+                        UserFilmaffinity::FIELD_COOKIE => $userRating[FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_COOKIE],
+                    ],
+                    FilmRatedByUserExtended::FIELD_USER_RATING => $userRating[FilmRatedByUser::FIELD_USER_RATING],
+                    FilmRatedByUserExtended::FIELD_DATE_RATED => (new DateTimeImmutable())->setTimestamp($userRating[FilmRatedByUser::FIELD_DATE_RATED]),
+                    'dateRatedTimestamp' => $userRating[FilmRatedByUser::FIELD_DATE_RATED],
+                    'idUserRating' => $userRating[FilmRatedByUser::FIELD_ID_USER_RATING],
+                ];
+            }
+        }
+
+        usort($filmsRatedByUserExtendedRaw, static function ($a, $b) {
+            return $a['dateRatedTimestamp'] < $b['dateRatedTimestamp'];
         });
 
         $filmsRatedByUserExtended = [];
 
-        foreach ($filmsFromIndex->getItems() as $film) {
+        foreach ($filmsRatedByUserExtendedRaw as $filmRated) {
             $filmsRatedByUserExtended[] = new FilmRatedByUserExtended(
-                $film,
+                $filmRated['film'],
                 new UserFilmaffinity(
-                    $filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_USER_ID],
-                    $filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_USER_NAME],
-                    $filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_COOKIE],
+                    $filmRated[FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_USER_ID],
+                    $filmRated[FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_USER_NAME],
+                    $filmRated[FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_COOKIE],
                 ),
-                $filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_USER_RATING],
-                (new DateTimeImmutable())->setTimestamp($filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_DATE_RATED])
+                $filmRated[FilmRatedByUser::FIELD_USER_RATING],
+                $filmRated[FilmRatedByUser::FIELD_DATE_RATED]
             );
         }
 

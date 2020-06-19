@@ -21,6 +21,7 @@ use App\Infrastructure\Repository\Database\Query\Film\GetFilmGenres;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilms;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmsById;
+use App\Infrastructure\Repository\Database\Query\Film\GetFilmsCount;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmsRatedByUserFriends;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmTopics;
@@ -31,6 +32,14 @@ use DateTimeImmutable;
 
 class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmDatabaseRepositoryInterface
 {
+    public function getFilmsCount(): int
+    {
+        /** @var GetFilmsCount $query */
+        $query = $this->getQuery(GetFilmsCount::class);
+
+        return $query->getResult();
+    }
+
     public function getFilms(int $offset, int $limit): FilmCollection
     {
         /** @var GetFilms $query */
@@ -203,6 +212,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
 
         foreach ($results as $result) {
             $filmsRatedByUser[] = new FilmRatedByUser(
+                $result['idUserRating'],
                 $result['idFilm'],
                 new UserFilmaffinity(
                     $result['idUser'],

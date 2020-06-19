@@ -12,11 +12,19 @@ class GetFilm extends NormalQuery
      *
      * @param string $idFilmList
      *
+     * @param bool   $includeReviews
+     *
      * @return array
      */
-    public function getResult(string $idFilmList): array
+    public function getResult(
+        string $idFilmList,
+        bool $includeReviews
+    ): array
     {
         $numResults = count(explode(',', $idFilmList));
+        $reviews = static function(bool $includeReviews) {
+            return $includeReviews ? ',"proReviews", "userReviews"' : '';
+        };
 
         $query = <<<EOT
 {
@@ -37,9 +45,8 @@ class GetFilm extends NormalQuery
         "cinematographers",
         "genres",
         "topics",
-        "posterImages",
-        "proReviews",
-        "userReviews"
+        "posterImages"
+        {$reviews($includeReviews)}
     ],
     "size": $numResults,
     "query": {

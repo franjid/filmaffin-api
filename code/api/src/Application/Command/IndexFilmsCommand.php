@@ -43,7 +43,9 @@ class IndexFilmsCommand extends Command
     {
         $this->filmsIndexerService->createMapping();
 
-        $progressBar = new ProgressBar($output);
+        $progressBar = new ProgressBar($output, $this->filmDatabaseRepository->getFilmsCount());
+        $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%');
+
         $progressBar->start();
 
         $offset = 0;

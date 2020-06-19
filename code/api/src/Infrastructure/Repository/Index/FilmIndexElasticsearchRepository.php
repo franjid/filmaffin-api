@@ -22,11 +22,11 @@ class FilmIndexElasticsearchRepository extends RepositoryAbstract implements Fil
         return $this->populateFilmCollectionFromResults($results);
     }
 
-    public function getFilm(string $idFilmList): FilmCollection
+    public function getFilm(string $idFilmList, bool $includeReviews = true): FilmCollection
     {
         /** @var GetFilm $query */
         $query = $this->getQuery(GetFilm::class);
-        $results = $query->getResult($idFilmList);
+        $results = $query->getResult($idFilmList, $includeReviews);
 
         return $this->populateFilmCollectionFromResults($results);
     }

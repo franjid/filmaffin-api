@@ -61,6 +61,10 @@ services:
         parent: App\Infrastructure\Component\Db\ReadSlaveQuery
         public: true
 
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmsCount:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
+
     App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
       public: true
