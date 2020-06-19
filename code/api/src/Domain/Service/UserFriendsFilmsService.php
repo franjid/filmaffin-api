@@ -11,6 +11,7 @@ use App\Infrastructure\Exception\Database\UserNotFoundException;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use App\Infrastructure\Interfaces\UserDatabaseRepositoryInterface;
+use DateTimeImmutable;
 
 class UserFriendsFilmsService implements UserFriendsFilmsInterface
 {
@@ -77,7 +78,7 @@ class UserFriendsFilmsService implements UserFriendsFilmsInterface
                     $filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_COOKIE],
                 ),
                 $filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_USER_RATING],
-                (new \DateTimeImmutable())->setTimestamp($filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_DATE_RATED])
+                (new DateTimeImmutable())->setTimestamp($filmsRatedByUserFriendsArray[$film->getIdFilm()][FilmRatedByUser::FIELD_DATE_RATED])
             );
         }
 

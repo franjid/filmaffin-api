@@ -37,7 +37,8 @@ class GetFilm extends NormalQuery
         "cinematographers",
         "topics",
         "posterImages",
-        "proReviews"
+        "proReviews",
+        "userReviews"
     ],
     "size": $numResults,
     "query": {

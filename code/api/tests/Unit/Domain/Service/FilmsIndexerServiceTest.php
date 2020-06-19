@@ -5,9 +5,13 @@ namespace Tests\Unit\Domain\Service;
 use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
+use App\Domain\Entity\Collection\ProReviewCollection;
+use App\Domain\Entity\Collection\UserReviewCollection;
 use App\Domain\Entity\Film;
 use App\Domain\Entity\FilmAttribute;
 use App\Domain\Entity\FilmParticipant;
+use App\Domain\Entity\ProReview;
+use App\Domain\Entity\UserReview;
 use App\Domain\Exception\IndexInconsistencyException;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;
@@ -112,6 +116,12 @@ class FilmsIndexerServiceTest extends TestCase
                     'type' => 'keyword',
                     'index' => 'true',
                 ],
+                'proReviews' => [
+                    'type' => 'object',
+                ],
+                'userReviews' => [
+                    'type' => 'object',
+                ],
             ],
         ];
 
@@ -158,7 +168,9 @@ class FilmsIndexerServiceTest extends TestCase
             new FilmParticipantCollection(...[new FilmParticipant('Musician')]),
             new FilmParticipantCollection(...[new FilmParticipant('Cinematographer')]),
             new FilmAttributeCollection(...[new FilmAttribute('Topic 1'), new FilmAttribute('Topic 2'), new FilmAttribute('Topic 3')]),
-            null
+            new ProReviewCollection(...[new ProReview('Author', 'Review', 'positive')]),
+            new UserReviewCollection(...[new UserReview('username', 123, 10, 'Title', 'User Review', null, new \DateTimeImmutable())]),
+            null,
         );
         $filmCollection = new FilmCollection(...[$film]);
 
@@ -203,6 +215,8 @@ class FilmsIndexerServiceTest extends TestCase
             'screenplayers' => $film->getScreenplayers()->toArray(),
             'musicians' => $film->getMusicians()->toArray(),
             'cinematographers' => $film->getCinematographers()->toArray(),
+            'proReviews' => $film->getProReviews()->toArray(),
+            'userReviews' => $film->getUserReviews()->toArray(),
         ];
 
         $expectedIndexParams = [

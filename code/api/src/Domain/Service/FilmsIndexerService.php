@@ -107,6 +107,9 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'proReviews' => [
                     'type' => 'object',
                 ],
+                'userReviews' => [
+                    'type' => 'object',
+                ],
             ],
         ];
 
@@ -160,6 +163,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'musicians' => $film->getMusicians()->toArray(),
                 'cinematographers' => $film->getCinematographers()->toArray(),
                 'proReviews' => $film->getProReviews()->toArray(),
+                'userReviews' => $film->getUserReviews()->toArray(),
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";

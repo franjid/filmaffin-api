@@ -6,11 +6,13 @@ use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Collection\FilmRatedByUserCollection;
+use App\Domain\Entity\Collection\UserReviewCollection;
 use App\Domain\Entity\Film;
 use App\Domain\Entity\FilmAttribute;
 use App\Domain\Entity\FilmParticipant;
 use App\Domain\Entity\FilmRatedByUser;
 use App\Domain\Entity\UserFilmaffinity;
+use App\Domain\Entity\UserReview;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmActors;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers;
@@ -22,7 +24,9 @@ use App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmsRatedByUserFriends;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmTopics;
 use App\Infrastructure\Repository\Database\Query\Film\GetFrequentlyUpdatedFilms;
+use App\Infrastructure\Repository\Database\Query\Film\GetUserReviews;
 use App\Infrastructure\Repository\RepositoryAbstract;
+use DateTimeImmutable;
 
 class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmDatabaseRepositoryInterface
 {
@@ -152,6 +156,25 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         return new FilmAttributeCollection(...$attributes);
     }
 
+    public function getUserReviews(int $idFilm): UserReviewCollection
+    {
+        /** @var GetUserReviews $query */
+        $query = $this->getQuery(GetUserReviews::class);
+        $results = $query->getResult($idFilm);
+
+        if (!$results) {
+            return new UserReviewCollection();
+        }
+
+        $userReviews = [];
+
+        foreach ($results as $result) {
+            $userReviews[] = UserReview::buildFromArray($result);
+        }
+
+        return new UserReviewCollection(...$userReviews);
+    }
+
     public function getFilmsRatedByUserFriends(
         int $idUser,
         int $numResults,
@@ -177,7 +200,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
                     null
                 ),
                 $result['rating'],
-                (new \DateTimeImmutable())->setTimestamp($result['dateRated'])
+                (new DateTimeImmutable())->setTimestamp($result['dateRated'])
             );
         }
 

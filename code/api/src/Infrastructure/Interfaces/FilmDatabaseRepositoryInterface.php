@@ -6,6 +6,7 @@ use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Collection\FilmRatedByUserCollection;
+use App\Domain\Entity\Collection\UserReviewCollection;
 
 interface FilmDatabaseRepositoryInterface
 {
@@ -18,6 +19,7 @@ interface FilmDatabaseRepositoryInterface
     public function getFilmMusicians(int $idFilm): FilmParticipantCollection;
     public function getFilmCinematographers(int $idFilm): FilmParticipantCollection;
     public function getFilmTopics(int $idFilm): FilmAttributeCollection;
+    public function getUserReviews(int $idFilm): UserReviewCollection;
     public function getFilmsRatedByUserFriends(
         int $idUser,
         int $numResults,

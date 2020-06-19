@@ -73,6 +73,10 @@ services:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
       public: true
 
+    App\Infrastructure\Repository\Database\Query\Film\GetUserReviews:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
+
     App\Infrastructure\Repository\Index\Query\Film\SearchFilms:
       parent: App\Infrastructure\Component\Elasticsearch\SuggestionQuery
       public: true

@@ -5,6 +5,7 @@ namespace App\Domain\Entity;
 use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Collection\ProReviewCollection;
+use App\Domain\Entity\Collection\UserReviewCollection;
 use JsonException;
 
 class Film
@@ -29,6 +30,7 @@ class Film
     public const FIELD_TOPICS = 'topics';
     public const FIELD_POSTER_IMAGES = 'posterImages';
     public const FIELD_PRO_REVIEWS = 'proReviews';
+    public const FIELD_USER_REVIEWS = 'userReviews';
 
     private int $idFilm;
     private string $title;
@@ -71,6 +73,7 @@ class Film
         FilmParticipantCollection $cinematographers,
         FilmAttributeCollection $topics,
         ProReviewCollection $proReviews,
+        UserReviewCollection $userReviews,
         ?PosterImages $posterImages
     )
     {
@@ -93,6 +96,7 @@ class Film
         $this->cinematographers = $cinematographers;
         $this->topics = $topics;
         $this->proReviews = $proReviews;
+        $this->userReviews = $userReviews;
         $this->posterImages = $posterImages;
     }
 
@@ -226,6 +230,16 @@ class Film
         $this->proReviews = $proReviews;
     }
 
+    public function getUserReviews(): UserReviewCollection
+    {
+        return $this->userReviews;
+    }
+
+    public function setUserReviews(UserReviewCollection $userReviews): void
+    {
+        $this->userReviews = $userReviews;
+    }
+
     public function getPosterImages(): ?PosterImages
     {
         return $this->posterImages;
@@ -253,6 +267,7 @@ class Film
             self::FIELD_CINEMATOGRAPHERS => $this->getCinematographers()->toArray(),
             self::FIELD_TOPICS => $this->getTopics()->toArray(),
             self::FIELD_PRO_REVIEWS => $this->getProReviews()->toArray(),
+            self::FIELD_USER_REVIEWS => $this->getUserReviews()->toArray(),
             self::FIELD_POSTER_IMAGES => $this->getPosterImages() ? $this->getPosterImages()->toArray() : null,
         ];
     }
@@ -261,37 +276,49 @@ class Film
     {
         $directors = isset($data[self::FIELD_DIRECTORS]) && is_array($data[self::FIELD_DIRECTORS])
             ? new FilmParticipantCollection(
-                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_DIRECTORS])
+                ...array_map(static function ($name) {
+                    return new FilmParticipant($name);
+                }, $data[self::FIELD_DIRECTORS])
             )
             : new FilmParticipantCollection();
 
         $actors = isset($data[self::FIELD_ACTORS]) && is_array($data[self::FIELD_ACTORS])
             ? new FilmParticipantCollection(
-                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_ACTORS])
+                ...array_map(static function ($name) {
+                    return new FilmParticipant($name);
+                }, $data[self::FIELD_ACTORS])
             )
             : new FilmParticipantCollection();
 
         $screenplayers = isset($data[self::FIELD_SCREENPLAYERS]) && is_array($data[self::FIELD_SCREENPLAYERS])
             ? new FilmParticipantCollection(
-                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_SCREENPLAYERS])
+                ...array_map(static function ($name) {
+                    return new FilmParticipant($name);
+                }, $data[self::FIELD_SCREENPLAYERS])
             )
             : new FilmParticipantCollection();
 
         $musicians = isset($data[self::FIELD_MUSICIANS]) && is_array($data[self::FIELD_MUSICIANS])
             ? new FilmParticipantCollection(
-                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_MUSICIANS])
+                ...array_map(static function ($name) {
+                    return new FilmParticipant($name);
+                }, $data[self::FIELD_MUSICIANS])
             )
             : new FilmParticipantCollection();
 
         $cinematographers = isset($data[self::FIELD_CINEMATOGRAPHERS]) && is_array($data[self::FIELD_CINEMATOGRAPHERS])
             ? new FilmParticipantCollection(
-                ...array_map(static function($name) {return new FilmParticipant($name);}, $data[self::FIELD_CINEMATOGRAPHERS])
+                ...array_map(static function ($name) {
+                    return new FilmParticipant($name);
+                }, $data[self::FIELD_CINEMATOGRAPHERS])
             )
             : new FilmParticipantCollection();
 
         $topics = isset($data[self::FIELD_TOPICS]) && is_array($data[self::FIELD_TOPICS])
             ? new FilmAttributeCollection(
-                ...array_map(static function($name) {return new FilmAttribute($name);}, $data[self::FIELD_TOPICS])
+                ...array_map(static function ($name) {
+                    return new FilmAttribute($name);
+                }, $data[self::FIELD_TOPICS])
             )
             : new FilmAttributeCollection();
 
@@ -324,6 +351,16 @@ class Film
             }
         }
 
+        $userReviews = isset($data[self::FIELD_USER_REVIEWS]) && is_array($data[self::FIELD_USER_REVIEWS])
+            ? new UserReviewCollection(
+                ...array_map(
+                static function ($userReview) {
+                    return UserReview::buildFromArray($userReview);
+                }
+                , $data[self::FIELD_USER_REVIEWS]
+            ))
+            : new UserReviewCollection();
+
         return new self(
             $data[self::FIELD_ID_FILM],
             $data[self::FIELD_TITLE],
@@ -344,6 +381,7 @@ class Film
             $cinematographers,
             $topics,
             $proReviews,
+            $userReviews,
             isset($data[self::FIELD_POSTER_IMAGES]) ? PosterImages::buildFromArray($data[self::FIELD_POSTER_IMAGES]) : null,
         );
     }
