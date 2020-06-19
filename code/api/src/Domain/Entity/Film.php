@@ -27,6 +27,7 @@ class Film
     public const FIELD_SCREENPLAYERS = 'screenplayers';
     public const FIELD_MUSICIANS = 'musicians';
     public const FIELD_CINEMATOGRAPHERS = 'cinematographers';
+    public const FIELD_GENRES = 'genres';
     public const FIELD_TOPICS = 'topics';
     public const FIELD_POSTER_IMAGES = 'posterImages';
     public const FIELD_PRO_REVIEWS = 'proReviews';
@@ -49,6 +50,7 @@ class Film
     private FilmParticipantCollection $screenplayers;
     private FilmParticipantCollection $musicians;
     private FilmParticipantCollection $cinematographers;
+    private FilmAttributeCollection $genres;
     private FilmAttributeCollection $topics;
     private ProReviewCollection $proReviews;
     private ?PosterImages $posterImages;
@@ -71,6 +73,7 @@ class Film
         FilmParticipantCollection $screenplayers,
         FilmParticipantCollection $musicians,
         FilmParticipantCollection $cinematographers,
+        FilmAttributeCollection $genres,
         FilmAttributeCollection $topics,
         ProReviewCollection $proReviews,
         UserReviewCollection $userReviews,
@@ -94,6 +97,7 @@ class Film
         $this->screenplayers = $screenplayers;
         $this->musicians = $musicians;
         $this->cinematographers = $cinematographers;
+        $this->genres = $genres;
         $this->topics = $topics;
         $this->proReviews = $proReviews;
         $this->userReviews = $userReviews;
@@ -210,6 +214,16 @@ class Film
         $this->cinematographers = $cinematographers;
     }
 
+    public function getGenres(): FilmAttributeCollection
+    {
+        return $this->genres;
+    }
+
+    public function setGenres(FilmAttributeCollection $genres): void
+    {
+        $this->genres = $genres;
+    }
+
     public function getTopics(): FilmAttributeCollection
     {
         return $this->topics;
@@ -265,6 +279,7 @@ class Film
             self::FIELD_SCREENPLAYERS => $this->getScreenplayers()->toArray(),
             self::FIELD_MUSICIANS => $this->getMusicians()->toArray(),
             self::FIELD_CINEMATOGRAPHERS => $this->getCinematographers()->toArray(),
+            self::FIELD_GENRES => $this->getGenres()->toArray(),
             self::FIELD_TOPICS => $this->getTopics()->toArray(),
             self::FIELD_PRO_REVIEWS => $this->getProReviews()->toArray(),
             self::FIELD_USER_REVIEWS => $this->getUserReviews()->toArray(),
@@ -313,6 +328,14 @@ class Film
                 }, $data[self::FIELD_CINEMATOGRAPHERS])
             )
             : new FilmParticipantCollection();
+
+        $genres = isset($data[self::FIELD_GENRES]) && is_array($data[self::FIELD_GENRES])
+            ? new FilmAttributeCollection(
+                ...array_map(static function ($name) {
+                    return new FilmAttribute($name);
+                }, $data[self::FIELD_GENRES])
+            )
+            : new FilmAttributeCollection();
 
         $topics = isset($data[self::FIELD_TOPICS]) && is_array($data[self::FIELD_TOPICS])
             ? new FilmAttributeCollection(
@@ -379,6 +402,7 @@ class Film
             $screenplayers,
             $musicians,
             $cinematographers,
+            $genres,
             $topics,
             $proReviews,
             $userReviews,

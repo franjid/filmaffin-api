@@ -88,6 +88,10 @@ class FilmsIndexerService implements FilmsIndexerInterface
                     'type' => 'keyword',
                     'index' => 'false',
                 ],
+                'genres' => [
+                    'type' => 'keyword',
+                    'index' => 'true',
+                ],
                 'topics' => [
                     'type' => 'keyword',
                     'index' => 'true',
@@ -158,6 +162,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'actors' => $film->getActors()->toArray(),
                 'posterImages' => $this->filmImageHelper->getImagePosters($film->getIdFilm()),
                 'synopsis' => $film->getSynopsis() ?? '',
+                'genres' => $film->getGenres()->toArray(),
                 'topics' => $film->getTopics()->toArray(),
                 'screenplayers' => $film->getScreenplayers()->toArray(),
                 'musicians' => $film->getMusicians()->toArray(),

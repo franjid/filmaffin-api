@@ -17,6 +17,7 @@ use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmActors;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmDirectors;
+use App\Infrastructure\Repository\Database\Query\Film\GetFilmGenres;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilms;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmsById;
@@ -130,6 +131,15 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         }
 
         return new FilmParticipantCollection(...$participants);
+    }
+
+    public function getFilmGenres(int $idFilm): FilmAttributeCollection
+    {
+        /** @var GetFilmGenres $query */
+        $query = $this->getQuery(GetFilmGenres::class);
+        $results = $query->getResult($idFilm);
+
+        return $this->populateFilmAttributeCollectionFromResults($results);
     }
 
     public function getFilmTopics(int $idFilm): FilmAttributeCollection

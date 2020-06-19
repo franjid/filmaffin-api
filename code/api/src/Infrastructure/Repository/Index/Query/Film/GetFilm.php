@@ -35,6 +35,7 @@ class GetFilm extends NormalQuery
         "screenplayers",
         "musicians",
         "cinematographers",
+        "genres",
         "topics",
         "posterImages",
         "proReviews",

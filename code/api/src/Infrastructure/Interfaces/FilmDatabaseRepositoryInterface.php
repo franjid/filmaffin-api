@@ -18,6 +18,7 @@ interface FilmDatabaseRepositoryInterface
     public function getFilmScreenplayers(int $idFilm): FilmParticipantCollection;
     public function getFilmMusicians(int $idFilm): FilmParticipantCollection;
     public function getFilmCinematographers(int $idFilm): FilmParticipantCollection;
+    public function getFilmGenres(int $idFilm): FilmAttributeCollection;
     public function getFilmTopics(int $idFilm): FilmAttributeCollection;
     public function getUserReviews(int $idFilm): UserReviewCollection;
     public function getFilmsRatedByUserFriends(

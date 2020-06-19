@@ -33,25 +33,33 @@ services:
 
     ##### Queries
     ###### Film
-    App\Infrastructure\Repository\Database\Query\Film\GetFilms:
-      parent: App\Infrastructure\Component\Db\ReadSlaveQuery
-      public: true
-
-    App\Infrastructure\Repository\Database\Query\Film\GetFilmsById:
-      parent: App\Infrastructure\Component\Db\ReadSlaveQuery
-      public: true
-
-    App\Infrastructure\Repository\Database\Query\Film\GetFrequentlyUpdatedFilms:
-      parent: App\Infrastructure\Component\Db\ReadSlaveQuery
-      public: true
-
-    App\Infrastructure\Repository\Database\Query\Film\GetFilmDirectors:
-      parent: App\Infrastructure\Component\Db\ReadSlaveQuery
-      public: true
-
     App\Infrastructure\Repository\Database\Query\Film\GetFilmActors:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
       public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmDirectors:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmGenres:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilms:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
+
+    App\Infrastructure\Repository\Database\Query\Film\GetFilmsById:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
 
     App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
@@ -61,17 +69,13 @@ services:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
       public: true
 
-    App\Infrastructure\Repository\Database\Query\Film\GetFilmMusicians:
-      parent: App\Infrastructure\Component\Db\ReadSlaveQuery
-      public: true
-
     App\Infrastructure\Repository\Database\Query\Film\GetFilmTopics:
       parent: App\Infrastructure\Component\Db\ReadSlaveQuery
       public: true
 
-    App\Infrastructure\Repository\Database\Query\Film\GetFilmCinematographers:
-      parent: App\Infrastructure\Component\Db\ReadSlaveQuery
-      public: true
+    App\Infrastructure\Repository\Database\Query\Film\GetFrequentlyUpdatedFilms:
+        parent: App\Infrastructure\Component\Db\ReadSlaveQuery
+        public: true
 
     App\Infrastructure\Repository\Database\Query\Film\GetUserReviews:
         parent: App\Infrastructure\Component\Db\ReadSlaveQuery
