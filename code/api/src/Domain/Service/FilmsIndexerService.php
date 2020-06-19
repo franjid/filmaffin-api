@@ -3,8 +3,6 @@
 namespace App\Domain\Service;
 
 use App\Domain\Entity\Collection\FilmCollection;
-use App\Domain\Entity\FilmAttribute;
-use App\Domain\Entity\FilmParticipant;
 use App\Domain\Exception\IndexInconsistencyException;
 use App\Domain\Helper\FilmImageHelper;
 use App\Domain\Helper\StringHelper;

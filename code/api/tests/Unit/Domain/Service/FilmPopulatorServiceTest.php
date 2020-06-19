@@ -51,6 +51,7 @@ class FilmPopulatorServiceTest extends TestCase
             new FilmParticipantCollection(),
             new FilmParticipantCollection(),
             new FilmAttributeCollection(),
+            new FilmAttributeCollection(),
             new ProReviewCollection(),
             new UserReviewCollection(),
             null
@@ -92,6 +93,12 @@ class FilmPopulatorServiceTest extends TestCase
             ->method('getFilmTopics')
             ->willReturn(new FilmAttributeCollection(...[$topic1, $topic2]));
 
+        $genre1 = new FilmAttribute('Genre 1');
+        $genre2 = new FilmAttribute('Genre 2');
+        $this->filmDatabaseRepositoryMock->expects(static::once())
+            ->method('getFilmGenres')
+            ->willReturn(new FilmAttributeCollection(...[$genre1, $genre2]));
+
         $userReview1 = new UserReview('username 1', 1, 7, 'Title 1', 'Review 1', null, (new DateTimeImmutable())->setTimestamp(12345));
         $userReview2 = new UserReview('username 2', 2, 8, 'Title 2', 'Review 2', 'Spoiler 2', (new DateTimeImmutable())->setTimestamp(123456));
         $this->filmDatabaseRepositoryMock->expects(static::once())
@@ -105,6 +112,7 @@ class FilmPopulatorServiceTest extends TestCase
         $this->assertSame(['Screenplayer 1', 'Screenplayer 2'], $film->getScreenplayers()->toArray());
         $this->assertSame(['Musician 1', 'Musician 2'], $film->getMusicians()->toArray());
         $this->assertSame(['Cinematographer 1', 'Cinematographer 2'], $film->getCinematographers()->toArray());
+        $this->assertSame(['Genre 1', 'Genre 2'], $film->getGenres()->toArray());
         $this->assertSame(['Topic 1', 'Topic 2'], $film->getTopics()->toArray());
         $this->assertSame(
             [

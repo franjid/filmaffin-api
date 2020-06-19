@@ -100,6 +100,10 @@ class FilmsIndexerServiceTest extends TestCase
                     'type' => 'keyword',
                     'index' => 'false',
                 ],
+                'genres' => [
+                    'type' => 'keyword',
+                    'index' => 'true',
+                ],
                 'topics' => [
                     'type' => 'keyword',
                     'index' => 'true',
@@ -167,6 +171,7 @@ class FilmsIndexerServiceTest extends TestCase
             new FilmParticipantCollection(...[new FilmParticipant('Screenplayer 1'), new FilmParticipant('Screenplayer 2')]),
             new FilmParticipantCollection(...[new FilmParticipant('Musician')]),
             new FilmParticipantCollection(...[new FilmParticipant('Cinematographer')]),
+            new FilmAttributeCollection(...[new FilmAttribute('Genre 1'), new FilmAttribute('Genre 2')]),
             new FilmAttributeCollection(...[new FilmAttribute('Topic 1'), new FilmAttribute('Topic 2'), new FilmAttribute('Topic 3')]),
             new ProReviewCollection(...[new ProReview('Author', 'Review', 'positive')]),
             new UserReviewCollection(...[new UserReview('username', 123, 10, 'Title', 'User Review', null, new \DateTimeImmutable())]),
@@ -211,6 +216,7 @@ class FilmsIndexerServiceTest extends TestCase
             'actors' => $film->getActors()->toArray(),
             'posterImages' => [],
             'synopsis' => $film->getSynopsis() ?? '',
+            'genres' => $film->getGenres()->toArray(),
             'topics' => $film->getTopics()->toArray(),
             'screenplayers' => $film->getScreenplayers()->toArray(),
             'musicians' => $film->getMusicians()->toArray(),
