@@ -221,9 +221,11 @@ class FilmsIndexerService implements FilmsIndexerInterface
     {
         $indexesNames = array_keys($this->getPreviousIndexes());
         $projectIndexes = 0;
+        $lastIndexName = null;
 
         foreach ($indexesNames as $indexName) {
             if (strpos($indexName, $this->elasticsearchIndexName) !== false) {
+                $lastIndexName = $indexName;
                 $projectIndexes++;
             }
         }
@@ -237,7 +239,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
             );
         }
 
-        return end($indexesNames);
+        return $lastIndexName;
     }
 
     public function setCurrentIndexName(string $indexName): void
