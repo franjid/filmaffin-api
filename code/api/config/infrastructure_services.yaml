@@ -102,7 +102,19 @@ services:
       public: true
 
     ###### User
+    App\Infrastructure\Repository\Database\Query\User\GetLastIdUserRatingFromUserFriends:
+        parent: App\Infrastructure\Component\Db\GlobalReadQuery
+        public: true
+
+    App\Infrastructure\Repository\Database\Query\User\GetLastRatingNotificated:
+        parent: App\Infrastructure\Component\Db\GlobalReadQuery
+        public: true
+
     App\Infrastructure\Repository\Database\Query\User\GetUser:
+        parent: App\Infrastructure\Component\Db\GlobalReadQuery
+        public: true
+
+    App\Infrastructure\Repository\Database\Query\User\GetUsersWithFriends:
         parent: App\Infrastructure\Component\Db\GlobalReadQuery
         public: true
 
