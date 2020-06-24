@@ -9,11 +9,14 @@ use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class IndexFilmsCommand extends Command
 {
+    public const COMMAND_NAME = 'filmaffin:films:index';
     private const MAX_FILMS_PER_ITERATION = 100;
+    private const OPTION_TIMESTAMP = 'timestamp';
 
     private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
     private FilmsIndexerInterface $filmsIndexerService;
@@ -35,15 +38,28 @@ class IndexFilmsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('filmaffin:index:films')
-            ->setDescription('Get films from DB and index them in Elasticsearch');
+            ->setName(self::COMMAND_NAME)
+            ->setDescription('Get films from DB and index them in Elasticsearch')
+            ->addOption(
+                self::OPTION_TIMESTAMP,
+                't',
+                InputOption::VALUE_OPTIONAL,
+                'It will index films updated after the given timestamp',
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->filmsIndexerService->createMapping();
+        $timestamp = $input->getOption(self::OPTION_TIMESTAMP);
 
-        $progressBar = new ProgressBar($output, $this->filmDatabaseRepository->getFilmsCount());
+        if ($timestamp === null) {
+            $this->filmsIndexerService->createMapping();
+        } else {
+            $indexName = $this->filmsIndexerService->getLastIndexName();
+            $this->filmsIndexerService->setCurrentIndexName($indexName);
+        }
+
+        $progressBar = new ProgressBar($output, $this->filmDatabaseRepository->getFilmsCount($timestamp));
         $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%');
 
         $progressBar->start();
@@ -51,7 +67,11 @@ class IndexFilmsCommand extends Command
         $offset = 0;
 
         do {
-            $films = $this->filmDatabaseRepository->getFilms($offset, static::MAX_FILMS_PER_ITERATION)->getItems();
+            $films = $this->filmDatabaseRepository->getFilms(
+                $offset,
+                static::MAX_FILMS_PER_ITERATION,
+                $timestamp
+            )->getItems();
             $filmsAvailable = count($films);
 
             if ($filmsAvailable) {
@@ -61,13 +81,19 @@ class IndexFilmsCommand extends Command
 
                 $this->filmsIndexerService->index(new FilmCollection(...$films));
 
-                $progressBar->advance(static::MAX_FILMS_PER_ITERATION);
+                $progressBar->advance(
+                    $filmsAvailable < static::MAX_FILMS_PER_ITERATION
+                        ? $filmsAvailable
+                        : static::MAX_FILMS_PER_ITERATION
+                );
                 $offset += static::MAX_FILMS_PER_ITERATION;
             }
         } while ($filmsAvailable);
 
-        $this->filmsIndexerService->deletePreviousIndexes();
-        $this->filmsIndexerService->createIndexAlias();
+        if ($timestamp === null) {
+            $this->filmsIndexerService->deletePreviousIndexes();
+            $this->filmsIndexerService->createIndexAlias();
+        }
 
         return 0;
     }

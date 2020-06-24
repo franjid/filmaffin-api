@@ -32,19 +32,19 @@ use DateTimeImmutable;
 
 class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmDatabaseRepositoryInterface
 {
-    public function getFilmsCount(): int
+    public function getFilmsCount(?int $dateUpdatedNewestThanTimestamp): int
     {
         /** @var GetFilmsCount $query */
         $query = $this->getQuery(GetFilmsCount::class);
 
-        return $query->getResult();
+        return $query->getResult($dateUpdatedNewestThanTimestamp);
     }
 
-    public function getFilms(int $offset, int $limit): FilmCollection
+    public function getFilms(int $offset, int $limit, ?int $dateUpdatedNewestThanTimestamp): FilmCollection
     {
         /** @var GetFilms $query */
         $query = $this->getQuery(GetFilms::class);
-        $results = $query->getResult($offset, $limit);
+        $results = $query->getResult($offset, $limit, $dateUpdatedNewestThanTimestamp);
 
         return $this->populateFilmCollectionFromResults($results);
     }

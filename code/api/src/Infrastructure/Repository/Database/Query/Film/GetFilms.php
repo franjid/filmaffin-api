@@ -6,7 +6,7 @@ use App\Infrastructure\Component\Db\GlobalReadQuery;
 
 class GetFilms extends GlobalReadQuery
 {
-    public function getResult(int $offset, int $limit): array
+    public function getResult(int $offset, int $limit, ?int $dateUpdatedNewestThanTimestamp): array
     {
         $query = 'SELECT';
         $query .= '   idFilm';
@@ -26,6 +26,11 @@ class GetFilms extends GlobalReadQuery
         $query .= ' film';
         $query .= ' LEFT JOIN filmPopular USING(idFilm)';
         $query .= ' LEFT JOIN filmInTheatres USING(idFilm)';
+
+        if ($dateUpdatedNewestThanTimestamp !== null) {
+            $query .= ' WHERE dateUpdated >= ' . $dateUpdatedNewestThanTimestamp;
+        }
+
         $query .= ' GROUP BY idFilm';
         $query .= ' LIMIT ' . $offset . ', ' . $limit;
 

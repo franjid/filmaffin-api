@@ -37,7 +37,7 @@ class IndexFrequentlyUpdatedFilmsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('filmaffin:index:films:frequently_updated')
+            ->setName('filmaffin:films:index:frequently-updated')
             ->setDescription('Index frequently updated films in Elasticsearch');
     }
 

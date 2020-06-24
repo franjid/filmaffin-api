@@ -10,8 +10,8 @@ use App\Domain\Entity\Collection\UserReviewCollection;
 
 interface FilmDatabaseRepositoryInterface
 {
-    public function getFilmsCount(): int;
-    public function getFilms(int $offset, int $limit): FilmCollection;
+    public function getFilmsCount(?int $dateUpdatedNewestThanTimestamp): int;
+    public function getFilms(int $offset, int $limit, ?int $dateUpdatedNewestThanTimestamp): FilmCollection;
     public function getFilmsById(array $idFilms): FilmCollection;
     public function getFrequentlyUpdatedFilms(): FilmCollection;
     public function getFilmDirectors(int $idFilm): FilmParticipantCollection;

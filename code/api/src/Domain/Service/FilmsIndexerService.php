@@ -2,6 +2,7 @@
 
 namespace App\Domain\Service;
 
+use App\Application\Command\IndexFilmsCommand;
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Exception\IndexInconsistencyException;
 use App\Domain\Helper\FilmImageHelper;
@@ -233,8 +234,9 @@ class FilmsIndexerService implements FilmsIndexerInterface
         if ($projectIndexes > 1) {
             throw new IndexInconsistencyException(
                 sprintf(
-                'There are more than 1 %s index, this could cause problems. Run filmaffin:index:films to clean up',
-                $this->elasticsearchIndexName
+                'There are more than 1 %s index, this could cause inconsistency problems. Run %s to clean up',
+                $this->elasticsearchIndexName,
+                IndexFilmsCommand::COMMAND_NAME
                 )
             );
         }
