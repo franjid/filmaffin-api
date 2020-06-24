@@ -59,7 +59,14 @@ class IndexFilmsCommand extends Command
             $this->filmsIndexerService->setCurrentIndexName($indexName);
         }
 
-        $progressBar = new ProgressBar($output, $this->filmDatabaseRepository->getFilmsCount($timestamp));
+        $totalFilmsToIndex = $this->filmDatabaseRepository->getFilmsCount($timestamp);
+
+        if(!$totalFilmsToIndex) {
+            $output->writeln('Nothing to index');
+            return 0;
+        }
+
+        $progressBar = new ProgressBar($output, $totalFilmsToIndex);
         $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%');
 
         $progressBar->start();
