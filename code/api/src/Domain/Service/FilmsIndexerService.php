@@ -48,6 +48,8 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'idFilm' => ['type' => 'long'],
                 'suggest' => [
                     'type' => 'completion',
+                    'search_analyzer' => 'standard',
+                    'analyzer' => 'standard',
                 ],
                 'title' => [
                     'type' => 'text',
@@ -234,9 +236,9 @@ class FilmsIndexerService implements FilmsIndexerInterface
         if ($projectIndexes > 1) {
             throw new IndexInconsistencyException(
                 sprintf(
-                'There are more than 1 %s index, this could cause inconsistency problems. Run %s to clean up',
-                $this->elasticsearchIndexName,
-                IndexFilmsCommand::COMMAND_NAME
+                    'There are more than 1 %s index, this could cause inconsistency problems. Run %s to clean up',
+                    $this->elasticsearchIndexName,
+                    IndexFilmsCommand::COMMAND_NAME
                 )
             );
         }
