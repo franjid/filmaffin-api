@@ -2,10 +2,12 @@
 
 API based on Filmaffinity.com data
 
-Run:
-```
-docker-compose up
-```
+1) Copy `.env.dist` to `.env`
+2) Copy `code/api/.env.dist` to `code/api/.env`
+3) Run:
+    ```
+    docker-compose up
+    ```
 
 ## Index films
 
