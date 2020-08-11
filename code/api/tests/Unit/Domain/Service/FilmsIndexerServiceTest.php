@@ -4,6 +4,7 @@ namespace Tests\Unit\Domain\Service;
 
 use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
+use App\Domain\Entity\Collection\FilmFramesCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Collection\ProReviewCollection;
 use App\Domain\Entity\Collection\UserReviewCollection;
@@ -61,6 +62,8 @@ class FilmsIndexerServiceTest extends TestCase
                 'idFilm' => ['type' => 'long'],
                 'suggest' => [
                     'type' => 'completion',
+                    'search_analyzer' => 'standard',
+                    'analyzer' => 'standard',
                 ],
                 'title' => [
                     'type' => 'text',
@@ -126,6 +129,9 @@ class FilmsIndexerServiceTest extends TestCase
                 'userReviews' => [
                     'type' => 'object',
                 ],
+                'numFrames' => [
+                    'type' => 'integer',
+                ],
             ],
         ];
 
@@ -176,6 +182,8 @@ class FilmsIndexerServiceTest extends TestCase
             new ProReviewCollection(...[new ProReview('Author', 'Review', 'positive')]),
             new UserReviewCollection(...[new UserReview('username', 123, 10, 'Title', 'User Review', null, new \DateTimeImmutable())]),
             null,
+            0,
+            new FilmFramesCollection()
         );
         $filmCollection = new FilmCollection(...[$film]);
 
@@ -206,6 +214,7 @@ class FilmsIndexerServiceTest extends TestCase
             'originalTitle' => $film->getOriginalTitle(),
             'rating' => $film->getRating(),
             'numRatings' => $film->getNumRatings(),
+            'numFrames' => $film->getNumFrames(),
             'popularityRanking' => $film->getPopularityRanking(),
             'year' => $film->getYear(),
             'duration' => $film->getDuration(),

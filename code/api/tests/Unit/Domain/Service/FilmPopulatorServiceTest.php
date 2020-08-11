@@ -3,6 +3,7 @@
 namespace Tests\Unit\Domain\Service;
 
 use App\Domain\Entity\Collection\FilmAttributeCollection;
+use App\Domain\Entity\Collection\FilmFramesCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Collection\ProReviewCollection;
 use App\Domain\Entity\Collection\UserReviewCollection;
@@ -54,7 +55,9 @@ class FilmPopulatorServiceTest extends TestCase
             new FilmAttributeCollection(),
             new ProReviewCollection(),
             new UserReviewCollection(),
-            null
+            null,
+            0,
+            new FilmFramesCollection()
         );
 
         $director1 = new FilmParticipant('Director 1');

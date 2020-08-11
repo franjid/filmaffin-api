@@ -3,9 +3,11 @@
 namespace App\Domain\Entity;
 
 use App\Domain\Entity\Collection\FilmAttributeCollection;
+use App\Domain\Entity\Collection\FilmFramesCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Collection\ProReviewCollection;
 use App\Domain\Entity\Collection\UserReviewCollection;
+use App\Domain\Helper\FilmImageHelper;
 use JsonException;
 
 class Film
@@ -29,9 +31,11 @@ class Film
     public const FIELD_CINEMATOGRAPHERS = 'cinematographers';
     public const FIELD_GENRES = 'genres';
     public const FIELD_TOPICS = 'topics';
-    public const FIELD_POSTER_IMAGES = 'posterImages';
     public const FIELD_PRO_REVIEWS = 'proReviews';
     public const FIELD_USER_REVIEWS = 'userReviews';
+    public const FIELD_POSTER_IMAGES = 'posterImages';
+    public const FIELD_NUM_FRAMES = 'numFrames';
+    public const FIELD_FRAMES = 'frames';
 
     private int $idFilm;
     private string $title;
@@ -53,7 +57,10 @@ class Film
     private FilmAttributeCollection $genres;
     private FilmAttributeCollection $topics;
     private ProReviewCollection $proReviews;
+    private UserReviewCollection $userReviews;
     private ?PosterImages $posterImages;
+    private int $numFrames;
+    private FilmFramesCollection $frames;
 
     public function __construct(
         int $idFilm,
@@ -77,7 +84,9 @@ class Film
         FilmAttributeCollection $topics,
         ProReviewCollection $proReviews,
         UserReviewCollection $userReviews,
-        ?PosterImages $posterImages
+        ?PosterImages $posterImages,
+        int $numFrames,
+        FilmFramesCollection $frames
     )
     {
         $this->idFilm = $idFilm;
@@ -102,6 +111,8 @@ class Film
         $this->proReviews = $proReviews;
         $this->userReviews = $userReviews;
         $this->posterImages = $posterImages;
+        $this->numFrames = $numFrames;
+        $this->frames = $frames;
     }
 
     public function getIdFilm(): int
@@ -259,6 +270,16 @@ class Film
         return $this->posterImages;
     }
 
+    public function getNumFrames(): int
+    {
+        return $this->numFrames;
+    }
+
+    public function getFrames(): FilmFramesCollection
+    {
+        return $this->frames;
+    }
+
     public function toArray(): array
     {
         return [
@@ -284,6 +305,8 @@ class Film
             self::FIELD_PRO_REVIEWS => $this->getProReviews()->toArray(),
             self::FIELD_USER_REVIEWS => $this->getUserReviews()->toArray(),
             self::FIELD_POSTER_IMAGES => $this->getPosterImages() ? $this->getPosterImages()->toArray() : null,
+            self::FIELD_NUM_FRAMES => $this->getNumFrames(),
+            self::FIELD_FRAMES => $this->getFrames()->toArray(),
         ];
     }
 
@@ -384,6 +407,19 @@ class Film
             ))
             : new UserReviewCollection();
 
+        $frames = new FilmFramesCollection();
+        if (isset($data[self::FIELD_NUM_FRAMES]) && $data[self::FIELD_NUM_FRAMES] > 0) {
+            $filmImageHelper = new FilmImageHelper();
+            $frames = [];
+
+            for ($i = 0; $i < $data[self::FIELD_NUM_FRAMES]; $i++) {
+                $frames[] = FilmFrame::buildFromArray($filmImageHelper->getFrameImage($data[self::FIELD_ID_FILM], $i));
+            }
+
+            $frames = new FilmFramesCollection(...$frames);
+
+        }
+
         return new self(
             $data[self::FIELD_ID_FILM],
             $data[self::FIELD_TITLE],
@@ -407,6 +443,8 @@ class Film
             $proReviews,
             $userReviews,
             isset($data[self::FIELD_POSTER_IMAGES]) ? PosterImages::buildFromArray($data[self::FIELD_POSTER_IMAGES]) : null,
+            $data[self::FIELD_NUM_FRAMES] ?? 0,
+            $frames
         );
     }
 }

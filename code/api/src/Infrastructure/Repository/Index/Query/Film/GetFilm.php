@@ -45,6 +45,7 @@ class GetFilm extends NormalQuery
         "cinematographers",
         "genres",
         "topics",
+        "numFrames",
         "posterImages"
         {$reviews($includeReviews)}
     ],

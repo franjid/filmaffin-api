@@ -19,6 +19,7 @@ class GetFrequentlyUpdatedFilms extends GlobalReadQuery
         $query .= ' , country';
         $query .= ' , synopsis';
         $query .= ' , proReviews';
+        $query .= ' , numFrames';
         $query .= ' , fp.ranking AS popularityRanking';
         $query .= ' , IF (fit.releaseDate IS NOT NULL, 1, 0) AS inTheatres';
         $query .= ' , fit.releaseDate';
