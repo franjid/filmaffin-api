@@ -87,6 +87,12 @@
     "exsyst/swagger": {
         "version": "v0.4.1"
     },
+    "ezimuel/guzzlestreams": {
+        "version": "3.0.1"
+    },
+    "ezimuel/ringphp": {
+        "version": "1.1.2"
+    },
     "guzzlehttp/ringphp": {
         "version": "1.1.1"
     },

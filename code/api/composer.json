@@ -10,7 +10,7 @@
         "ext-pdo": "*",
         "campo/random-user-agent": "^1.3",
         "doctrine/doctrine-bundle": "^2.0",
-        "elasticsearch/elasticsearch": "^5.0",
+        "elasticsearch/elasticsearch": "7.10",
         "nelmio/api-doc-bundle": "^3.0",
         "symfony/asset": "^5.0",
         "symfony/console": "^5.0",
