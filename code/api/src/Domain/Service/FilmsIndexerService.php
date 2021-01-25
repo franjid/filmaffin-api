@@ -121,7 +121,9 @@ class FilmsIndexerService implements FilmsIndexerInterface
 
         $indexParams = $this->indexParams;
         $indexParams['body'] = [
-            'mappings' => $mapping,
+            'mappings' => [
+                $this->elasticsearchTypeFilm => $mapping,
+            ],
         ];
 
         $this->elasticsearchClient->indices()->create($indexParams);
@@ -129,6 +131,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
 
     public function index(FilmCollection $films): void
     {
+        $this->indexParams['type'] = $this->elasticsearchTypeFilm;
         $this->indexParams['body'] = '';
 
         foreach ($films->getItems() as $film) {

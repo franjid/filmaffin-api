@@ -64,7 +64,7 @@ class GetFilm extends NormalQuery
                   "params": {
                       "ids": [$idFilmList]
                   },
-                  "source": "int idsLength = params.ids.size(); int idsIndex = 99999; long id = doc['idFilm'].value; for (int i = 0; i < idsLength; ++i) { if (id != params.ids[i]) { idsIndex = idsIndex + i; } } return idsIndex;"
+                  "inline": "int idsLength = params.ids.size(); int idsIndex = 0; long id = doc['idFilm'].value; for (int i = 0; i < idsLength; ++i) { if (id == params.ids[i]) { idsIndex = i * -1; } } return idsIndex;"
                 }
             }
         }
