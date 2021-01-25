@@ -33,12 +33,13 @@ services:
             - elasticsearch
 
     elasticsearch:
-        image: elasticsearch:5.2.2
+        image: elasticsearch:7.10.1
         ports:
             - "9200:9200"
         environment:
-            - http.host=0.0.0.0
-            - transport.host=127.0.0.1
+#            - http.host=0.0.0.0
+#            - transport.host=127.0.0.1
+            - discovery.type=single-node
         networks:
             - app-network
         depends_on:
