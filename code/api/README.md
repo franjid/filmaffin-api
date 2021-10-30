@@ -19,13 +19,13 @@ composer install
 ## Index all films
 Index all films in Elasticsearch reading from DB executing
 ```
-bin/console filmaffin:index:films
+bin/console filmaffin:films:index --env=prod --no-debug
 ```
 
 ## Index frequently updated films
 Index films that are frequently updated (popular, in theatres...)
 ```
-bin/console filmaffin:index:films:frequently_updated
+bin/console filmaffin:films:index:frequently-updated --env=prod --no-debug
 ```
 
 ## Check the docs
