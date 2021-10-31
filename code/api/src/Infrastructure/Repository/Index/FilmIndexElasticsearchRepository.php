@@ -6,6 +6,7 @@ use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Film;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilm;
+use App\Infrastructure\Repository\Index\Query\Film\SearchFilmsByTeamMember;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilmsInTheatres;
 use App\Infrastructure\Repository\Index\Query\Film\GetPopularFilms;
 use App\Infrastructure\Repository\Index\Query\Film\SearchFilms;
@@ -45,6 +46,21 @@ class FilmIndexElasticsearchRepository extends RepositoryAbstract implements Fil
         /** @var GetFilmsInTheatres $query */
         $query = $this->getQuery(GetFilmsInTheatres::class);
         $results = $query->getResult($numResults, $sortBy);
+
+        return $this->populateFilmCollectionFromResults($results);
+    }
+
+    public function searchFilmsByTeamMember(
+        string $teamMemberType,
+        string $teamMemberName,
+        string $sortBy,
+        int $numResults,
+        int $offset
+    ): FilmCollection
+    {
+        /** @var SearchFilmsByTeamMember $query */
+        $query = $this->getQuery(SearchFilmsByTeamMember::class);
+        $results = $query->getResult($teamMemberType, $teamMemberName, $sortBy, $numResults, $offset);
 
         return $this->populateFilmCollectionFromResults($results);
     }

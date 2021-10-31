@@ -89,6 +89,10 @@ services:
       parent: App\Infrastructure\Component\Elasticsearch\SuggestionQuery
       public: true
 
+    App\Infrastructure\Repository\Index\Query\Film\SearchFilmsByTeamMember:
+      parent: App\Infrastructure\Component\Elasticsearch\NormalQuery
+      public: true
+
     App\Infrastructure\Repository\Index\Query\Film\GetFilm:
       parent: App\Infrastructure\Component\Elasticsearch\NormalQuery
       public: true

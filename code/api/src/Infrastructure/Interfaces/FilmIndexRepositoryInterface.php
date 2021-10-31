@@ -10,4 +10,11 @@ interface FilmIndexRepositoryInterface
     public function getFilm(string $idFilmList, bool $includeReviews = true): FilmCollection;
     public function getPopularFilms(int $numResults, int $offset): FilmCollection;
     public function getFilmsInTheatres(int $numResults, string $sortBy): FilmCollection;
+    public function searchFilmsByTeamMember(
+        string $teamMemberType,
+        string $teamMemberName,
+        string $sortBy,
+        int $numResults,
+        int $offset
+    ): FilmCollection;
 }

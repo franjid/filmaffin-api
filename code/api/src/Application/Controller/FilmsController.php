@@ -15,13 +15,48 @@ class FilmsController extends AbstractController
     /**
      * @Operation(
      *     tags={"Films"},
-     *     summary="Search films",
+     *     summary="Search films by title OR team member (if title is provided, team member filter is ignored)",
      *     @SWG\Parameter(
      *         name="title",
      *         in="query",
-     *         description="Films with that title",
-     *         required=true,
+     *         description="Films with that title. It returns 10 best suggestions",
+     *         required=false,
      *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="teamMemberType",
+     *         in="query",
+     *         description="[directors, actors, screenplayers]",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="teamMemberName",
+     *         in="query",
+     *         description="Director's name, actor's name, etc",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sort",
+     *         in="query",
+     *         description="(Only when filtering by team member) Sort by [year, rating]",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="numResults",
+     *         in="query",
+     *         description="(Only when filtering by team member) Maximum amount of results to be returned (10 by default)",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="offset",
+     *         in="query",
+     *         description="(Only when filtering by team member) Offset from the first result you want to fetch",
+     *         required=false,
+     *         type="integer"
      *     ),
      *     @SWG\Response(
      *         response="200",
@@ -51,15 +86,47 @@ class FilmsController extends AbstractController
         StringHelper $stringHelper
     ): JsonResponse
     {
-        $title = $request->query->get('title');
+        $availableTeamMemberType = ['directors', 'actors', 'screenplayers'];
+        $availableSort = ['year', 'rating'];
 
-        if (!$title || strlen($title) < 3) {
-            return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
+        $title = $request->query->get('title');
+        $teamMemberType = $request->query->get('teamMemberType');
+        $teamMemberName = $request->query->get('teamMemberName');
+        $sortBy = $request->query->get('sort');
+
+
+        if ($title && strlen($title) >= 3) {
+            $title = $stringHelper->removeDiacritics($title);
+
+            $films = $filmIndexRepository->searchFilms($title);
+        } else {
+            if ($teamMemberType !== null && !in_array($teamMemberType, $availableTeamMemberType, true)) {
+                return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            if (!$teamMemberName) {
+                return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            if ($sortBy !== null && !in_array($sortBy, $availableSort, true)) {
+                return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            if ($sortBy === null) {
+                $sortBy = 'year'; // Default sort option
+            }
+
+            $numResults = $request->query->get('numResults');
+            $numResults = $numResults !== null ? (int) $numResults : 10;
+            $offset = $request->query->get('offset');
+            $offset = $offset !== null ? (int) $offset : 0;
+
+            $films = $filmIndexRepository->searchFilmsByTeamMember(
+                $teamMemberType,
+                $teamMemberName,
+                $sortBy,
+                $numResults,
+                $offset
+            );
         }
 
-        $title = $stringHelper->removeDiacritics($title);
-
-        $films = $filmIndexRepository->searchFilms($title);
         $response = !$films->getItems() ? JsonResponse::HTTP_NOT_FOUND : JsonResponse::HTTP_OK;
 
         return new JsonResponse($films->toArray(), $response);
