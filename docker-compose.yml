@@ -33,7 +33,7 @@ services:
             - elasticsearch
 
     elasticsearch:
-        image: elasticsearch:5.2.2
+        image: elasticsearch:7.17
         ports:
             - "9200:9200"
         environment:
