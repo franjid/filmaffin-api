@@ -19,4 +19,3 @@ parameters:
     elasticsearch_hosts:
         - '%env(ELASTICSEARCH_HOST)%'
     elasticsearch_index: '%env(ELASTICSEARCH_INDEX)%'
-    elasticsearch_type_film: '%env(ELASTICSEARCH_TYPE_FILM)%'

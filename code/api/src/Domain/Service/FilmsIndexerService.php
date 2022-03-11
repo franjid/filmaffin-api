@@ -17,7 +17,6 @@ class FilmsIndexerService implements FilmsIndexerInterface
 {
     private Client $elasticsearchClient;
     private string $elasticsearchIndexName;
-    private string $elasticsearchTypeFilm;
     private array $indexParams;
     private StringHelper $stringHelper;
     private FilmImageHelper $filmImageHelper;
@@ -25,14 +24,12 @@ class FilmsIndexerService implements FilmsIndexerInterface
     public function __construct(
         ElasticsearchServiceInterface $elasticsearch,
         string $elasticsearchIndexName,
-        string $elasticsearchTypeFilm,
         StringHelper $stringHelper,
         FilmImageHelper $filmImageHelper
     )
     {
         $this->elasticsearchClient = $elasticsearch->getClient();
         $this->elasticsearchIndexName = $elasticsearchIndexName;
-        $this->elasticsearchTypeFilm = $elasticsearchTypeFilm;
         $this->stringHelper = $stringHelper;
         $this->filmImageHelper = $filmImageHelper;
 
@@ -129,7 +126,6 @@ class FilmsIndexerService implements FilmsIndexerInterface
 
     public function index(FilmCollection $films): void
     {
-        $this->indexParams['type'] = $this->elasticsearchTypeFilm;
         $this->indexParams['body'] = '';
 
         foreach ($films->getItems() as $film) {
@@ -181,7 +177,11 @@ class FilmsIndexerService implements FilmsIndexerInterface
             }
         }
 
-        $this->elasticsearchClient->bulk($this->indexParams);
+        $result = $this->elasticsearchClient->bulk($this->indexParams);
+
+        if ((boolean) $result['errors'] === true) {
+            throw new \Exception($result['items'][0]['index']['error']['reason']);
+        }
     }
 
     public function deletePreviousIndexes(): void

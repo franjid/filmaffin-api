@@ -5,7 +5,6 @@ services:
     arguments:
       - '@App\Infrastructure\Interfaces\ElasticsearchServiceInterface'
       - '%elasticsearch_index%'
-      - '%elasticsearch_type_film%'
       - '@App\Domain\Helper\StringHelper'
       - '@App\Domain\Helper\FilmImageHelper'
 
