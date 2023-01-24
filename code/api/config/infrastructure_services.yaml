@@ -105,6 +105,10 @@ services:
       parent: App\Infrastructure\Component\Elasticsearch\NormalQuery
       public: true
 
+    App\Infrastructure\Repository\Index\Query\Film\GetNewFilmsInPlatform:
+      parent: App\Infrastructure\Component\Elasticsearch\NormalQuery
+      public: true
+
     ###### User
     App\Infrastructure\Repository\Database\Query\User\GetLastIdUserRatingFromUserFriends:
         parent: App\Infrastructure\Component\Db\GlobalReadQuery

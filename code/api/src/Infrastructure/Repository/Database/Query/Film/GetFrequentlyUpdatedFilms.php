@@ -22,12 +22,14 @@ class GetFrequentlyUpdatedFilms extends GlobalReadQuery
         $query .= ' , numFrames';
         $query .= ' , fp.ranking AS popularityRanking';
         $query .= ' , IF (fit.releaseDate IS NOT NULL, 1, 0) AS inTheatres';
-        $query .= ' , fit.releaseDate';
+        $query .= ' , IF (fit.releaseDate IS NOT NULL, fit.releaseDate, nfip.releaseDate) AS releaseDate';
+        $query .= ' , nfip.platform';
         $query .= ' FROM';
         $query .= ' film f';
         $query .= ' LEFT JOIN filmPopular fp USING(idFilm)';
         $query .= ' LEFT JOIN filmInTheatres fit USING(idFilm)';
-        $query .= ' WHERE fp.ranking IS NOT NULL OR fit.releaseDate IS NOT NULL';
+        $query .= ' LEFT JOIN newFilmsInPlatform nfip USING(idFilm)';
+        $query .= ' WHERE fp.ranking IS NOT NULL OR fit.releaseDate IS NOT NULL OR nfip.releaseDate IS NOT NULL';
 
         return $this->fetchAll($query);
     }

@@ -36,6 +36,7 @@ class Film
     public const FIELD_POSTER_IMAGES = 'posterImages';
     public const FIELD_NUM_FRAMES = 'numFrames';
     public const FIELD_FRAMES = 'frames';
+    public const FIELD_PLATFORM = 'platform';
 
     private int $idFilm;
     private string $title;
@@ -61,6 +62,7 @@ class Film
     private ?PosterImages $posterImages;
     private int $numFrames;
     private FilmFramesCollection $frames;
+    private ?string $platform;
 
     public function __construct(
         int $idFilm,
@@ -86,7 +88,8 @@ class Film
         UserReviewCollection $userReviews,
         ?PosterImages $posterImages,
         int $numFrames,
-        FilmFramesCollection $frames
+        FilmFramesCollection $frames,
+        ?string $platform
     )
     {
         $this->idFilm = $idFilm;
@@ -113,6 +116,7 @@ class Film
         $this->posterImages = $posterImages;
         $this->numFrames = $numFrames;
         $this->frames = $frames;
+        $this->platform = $platform;
     }
 
     public function getIdFilm(): int
@@ -280,6 +284,11 @@ class Film
         return $this->frames;
     }
 
+    public function getPlatform(): ?string
+    {
+        return $this->platform;
+    }
+
     public function toArray(): array
     {
         return [
@@ -307,6 +316,7 @@ class Film
             self::FIELD_POSTER_IMAGES => $this->getPosterImages() ? $this->getPosterImages()->toArray() : null,
             self::FIELD_NUM_FRAMES => $this->getNumFrames(),
             self::FIELD_FRAMES => $this->getFrames()->toArray(),
+            self::FIELD_PLATFORM => $this->getPlatform(),
         ];
     }
 
@@ -444,7 +454,8 @@ class Film
             $userReviews,
             isset($data[self::FIELD_POSTER_IMAGES]) ? PosterImages::buildFromArray($data[self::FIELD_POSTER_IMAGES]) : null,
             $data[self::FIELD_NUM_FRAMES] ?? 0,
-            $frames
+            $frames,
+            $data[self::FIELD_PLATFORM] ?? null,
         );
     }
 }

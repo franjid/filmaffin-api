@@ -166,6 +166,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'cinematographers' => $film->getCinematographers()->toArray(),
                 'proReviews' => $film->getProReviews()->toArray(),
                 'userReviews' => $film->getUserReviews()->toArray(),
+                'platform' => $film->getPlatform(),
             ];
 
             $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";

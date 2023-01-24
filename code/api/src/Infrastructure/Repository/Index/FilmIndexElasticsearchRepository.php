@@ -6,6 +6,7 @@ use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Film;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilm;
+use App\Infrastructure\Repository\Index\Query\Film\GetNewFilmsInPlatform;
 use App\Infrastructure\Repository\Index\Query\Film\SearchFilmsByTeamMember;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilmsInTheatres;
 use App\Infrastructure\Repository\Index\Query\Film\GetPopularFilms;
@@ -46,6 +47,15 @@ class FilmIndexElasticsearchRepository extends RepositoryAbstract implements Fil
         /** @var GetFilmsInTheatres $query */
         $query = $this->getQuery(GetFilmsInTheatres::class);
         $results = $query->getResult($numResults, $sortBy);
+
+        return $this->populateFilmCollectionFromResults($results);
+    }
+
+    public function getNewFilmsInPlatform(string $platform, int $numResults): FilmCollection
+    {
+        /** @var GetNewFilmsInPlatform $query */
+        $query = $this->getQuery(GetNewFilmsInPlatform::class);
+        $results = $query->getResult($platform, $numResults);
 
         return $this->populateFilmCollectionFromResults($results);
     }

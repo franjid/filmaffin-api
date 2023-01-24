@@ -269,4 +269,30 @@ class FilmsController extends AbstractController
 
         return new JsonResponse($film->toArray(), $response);
     }
+
+    /**
+     * @Operation(
+     *     tags={"Films"},
+     *     summary="Get new films by platform",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned when successful"
+     *     ),
+     * )
+     *
+     * @param string                       $platform
+     * @param FilmIndexRepositoryInterface $filmIndexRepository
+     *
+     * @return JsonResponse
+     */
+    public function getNewFilmsInPlatformAction(
+        string $platform,
+        FilmIndexRepositoryInterface $filmIndexRepository
+    ): JsonResponse
+    {
+        $film = $filmIndexRepository->getNewFilmsInPlatform($platform, 50);
+        $response = !$film->getItems() ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
+
+        return new JsonResponse($film->toArray(), $response);
+    }
 }
