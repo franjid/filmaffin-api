@@ -15,7 +15,7 @@ films_in_theatres:
         _controller: App\Application\Controller\FilmsController::getFilmsInTheatresAction
     methods:  [GET]
 new_films_in_platform:
-    path: /films/{platform}
+    path: /films/platform/{platform}
     defaults:
         _controller: App\Application\Controller\FilmsController::getNewFilmsInPlatformAction
     methods:  [GET]
