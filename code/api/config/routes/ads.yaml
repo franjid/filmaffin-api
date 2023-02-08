@@ -1,0 +1,5 @@
+ads_config:
+    path: /ads/config
+    defaults:
+        _controller: App\Application\Controller\AdsController::configAction
+    methods:  [GET]

@@ -1,3 +1,6 @@
+ads:
+    resource: '../config/routes/ads.yaml'
+
 films:
     resource: '../config/routes/films.yaml'
 
