@@ -25,7 +25,7 @@ class AdsController extends AbstractController
     {
         return new JsonResponse([
             "enabled" => true,
-            "num_views_before_show_add" => 10,
+            "num_views_before_show_ad" => 10,
         ],
             JsonResponse::HTTP_OK
         );
