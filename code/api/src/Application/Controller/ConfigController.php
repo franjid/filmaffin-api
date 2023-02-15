@@ -7,12 +7,12 @@ use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class AdsController extends AbstractController
+class ConfigController extends AbstractController
 {
     /**
      * @Operation(
-     *     tags={"Ads"},
-     *     summary="Get ads config",
+     *     tags={"Config"},
+     *     summary="Get config",
      *     @SWG\Response(
      *         response="200",
      *         description=""
@@ -21,11 +21,13 @@ class AdsController extends AbstractController
      *
      * @return JsonResponse
      */
-    public function configAction(): JsonResponse
+    public function indexAction(): JsonResponse
     {
         return new JsonResponse([
-            "enabled" => true,
-            "num_views_before_show_ad" => 10,
+            "ads" => [
+                "enabled" => true,
+                "num_views_before_show_ad" => 10,
+            ],
         ],
             JsonResponse::HTTP_OK
         );

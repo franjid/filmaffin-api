@@ -1,5 +1,5 @@
-ads:
-    resource: '../config/routes/ads.yaml'
+config:
+    resource: '../config/routes/config.yaml'
 
 films:
     resource: '../config/routes/films.yaml'

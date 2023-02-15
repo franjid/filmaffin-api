@@ -1,0 +1,5 @@
+config:
+    path: /config
+    defaults:
+        _controller: App\Application\Controller\ConfigController::indexAction
+    methods:  [GET]
