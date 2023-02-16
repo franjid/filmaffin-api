@@ -38,6 +38,7 @@ class Film
     public const FIELD_NUM_FRAMES = 'numFrames';
     public const FIELD_FRAMES = 'frames';
     public const FIELD_PLATFORMS = 'platforms';
+    public const FIELD_NEW_IN_PLATFORM = 'newInPlatform';
 
     private int $idFilm;
     private string $title;
@@ -64,6 +65,7 @@ class Film
     private int $numFrames;
     private FilmFramesCollection $frames;
     private ?PlatformCollection $platforms;
+    private ?string $newInPlatform;
 
     public function __construct(
         int $idFilm,
@@ -90,7 +92,8 @@ class Film
         ?PosterImages $posterImages,
         int $numFrames,
         FilmFramesCollection $frames,
-        ?PlatformCollection $platforms
+        ?PlatformCollection $platforms,
+        ?string $newInPlatform
     )
     {
         $this->idFilm = $idFilm;
@@ -118,6 +121,7 @@ class Film
         $this->numFrames = $numFrames;
         $this->frames = $frames;
         $this->platforms = $platforms;
+        $this->newInPlatform = $newInPlatform;
     }
 
     public function getIdFilm(): int
@@ -295,6 +299,16 @@ class Film
         $this->platforms = $platforms;
     }
 
+    public function getNewInPlatform(): ?string
+    {
+        return $this->newInPlatform;
+    }
+
+    public function setNewInPlatform(?string $newInPlatform): void
+    {
+        $this->newInPlatform = $newInPlatform;
+    }
+
     public function toArray(): array
     {
         return [
@@ -323,6 +337,7 @@ class Film
             self::FIELD_NUM_FRAMES => $this->getNumFrames(),
             self::FIELD_FRAMES => $this->getFrames()->toArray(),
             self::FIELD_PLATFORMS => $this->getPlatforms()->toArray(),
+            self::FIELD_NEW_IN_PLATFORM => $this->getNewInPlatform(),
         ];
     }
 
@@ -471,6 +486,7 @@ class Film
             $data[self::FIELD_NUM_FRAMES] ?? 0,
             $frames,
             $platforms,
+            $data[self::FIELD_NEW_IN_PLATFORM] ?? null,
         );
     }
 }

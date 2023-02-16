@@ -23,7 +23,7 @@ class GetFrequentlyUpdatedFilms extends GlobalReadQuery
         $query .= ' , fp.ranking AS popularityRanking';
         $query .= ' , IF (fit.releaseDate IS NOT NULL, 1, 0) AS inTheatres';
         $query .= ' , IF (fit.releaseDate IS NOT NULL, fit.releaseDate, nfip.releaseDate) AS releaseDate';
-        $query .= ' , nfip.platform';
+        $query .= ' , nfip.platform AS newInPlatform';
         $query .= ' FROM';
         $query .= ' film f';
         $query .= ' LEFT JOIN filmPopular fp USING(idFilm)';

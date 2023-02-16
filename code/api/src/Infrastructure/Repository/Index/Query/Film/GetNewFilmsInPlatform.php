@@ -32,7 +32,7 @@ class GetNewFilmsInPlatform extends NormalQuery
     "size": $numResults,
     "query": {
         "term" : {
-            "platform" : "$platform"
+            "new_in_platform" : "$platform"
         }
     }
 }
