@@ -6,11 +6,13 @@ use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
 use App\Domain\Entity\Collection\FilmRatedByUserCollection;
+use App\Domain\Entity\Collection\PlatformCollection;
 use App\Domain\Entity\Collection\UserReviewCollection;
 use App\Domain\Entity\Film;
 use App\Domain\Entity\FilmAttribute;
 use App\Domain\Entity\FilmParticipant;
 use App\Domain\Entity\FilmRatedByUser;
+use App\Domain\Entity\PlatformAvailability;
 use App\Domain\Entity\UserFilmaffinity;
 use App\Domain\Entity\UserReview;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
@@ -26,6 +28,7 @@ use App\Infrastructure\Repository\Database\Query\Film\GetFilmScreenplayers;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmsRatedByUserFriends;
 use App\Infrastructure\Repository\Database\Query\Film\GetFilmTopics;
 use App\Infrastructure\Repository\Database\Query\Film\GetFrequentlyUpdatedFilms;
+use App\Infrastructure\Repository\Database\Query\Film\GetPlatforms;
 use App\Infrastructure\Repository\Database\Query\Film\GetUserReviews;
 use App\Infrastructure\Repository\RepositoryAbstract;
 use DateTimeImmutable;
@@ -192,6 +195,25 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         }
 
         return new UserReviewCollection(...$userReviews);
+    }
+
+    public function getPlatforms(int $idFilm): PlatformCollection
+    {
+        /** @var GetPlatforms $query */
+        $query = $this->getQuery(GetPlatforms::class);
+        $results = $query->getResult($idFilm);
+
+        if (!$results) {
+            return new PlatformCollection();
+        }
+
+        $platforms = [];
+
+        foreach ($results as $result) {
+            $platforms[] = PlatformAvailability::buildFromArray($result);
+        }
+
+        return new PlatformCollection(...$platforms);
     }
 
     public function getFilmsRatedByUserFriends(

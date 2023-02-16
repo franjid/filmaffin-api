@@ -5,6 +5,7 @@ namespace App\Domain\Entity;
 use App\Domain\Entity\Collection\FilmAttributeCollection;
 use App\Domain\Entity\Collection\FilmFramesCollection;
 use App\Domain\Entity\Collection\FilmParticipantCollection;
+use App\Domain\Entity\Collection\PlatformCollection;
 use App\Domain\Entity\Collection\ProReviewCollection;
 use App\Domain\Entity\Collection\UserReviewCollection;
 use App\Domain\Helper\FilmImageHelper;
@@ -36,7 +37,7 @@ class Film
     public const FIELD_POSTER_IMAGES = 'posterImages';
     public const FIELD_NUM_FRAMES = 'numFrames';
     public const FIELD_FRAMES = 'frames';
-    public const FIELD_PLATFORM = 'platform';
+    public const FIELD_PLATFORMS = 'platforms';
 
     private int $idFilm;
     private string $title;
@@ -62,7 +63,7 @@ class Film
     private ?PosterImages $posterImages;
     private int $numFrames;
     private FilmFramesCollection $frames;
-    private ?string $platform;
+    private ?PlatformCollection $platforms;
 
     public function __construct(
         int $idFilm,
@@ -89,7 +90,7 @@ class Film
         ?PosterImages $posterImages,
         int $numFrames,
         FilmFramesCollection $frames,
-        ?string $platform
+        ?PlatformCollection $platforms
     )
     {
         $this->idFilm = $idFilm;
@@ -116,7 +117,7 @@ class Film
         $this->posterImages = $posterImages;
         $this->numFrames = $numFrames;
         $this->frames = $frames;
-        $this->platform = $platform;
+        $this->platforms = $platforms;
     }
 
     public function getIdFilm(): int
@@ -284,9 +285,14 @@ class Film
         return $this->frames;
     }
 
-    public function getPlatform(): ?string
+    public function getPlatforms(): ?PlatformCollection
     {
-        return $this->platform;
+        return $this->platforms;
+    }
+
+    public function setPlatforms(?PlatformCollection $platforms): void
+    {
+        $this->platforms = $platforms;
     }
 
     public function toArray(): array
@@ -316,7 +322,7 @@ class Film
             self::FIELD_POSTER_IMAGES => $this->getPosterImages() ? $this->getPosterImages()->toArray() : null,
             self::FIELD_NUM_FRAMES => $this->getNumFrames(),
             self::FIELD_FRAMES => $this->getFrames()->toArray(),
-            self::FIELD_PLATFORM => $this->getPlatform(),
+            self::FIELD_PLATFORMS => $this->getPlatforms()->toArray(),
         ];
     }
 
@@ -427,8 +433,17 @@ class Film
             }
 
             $frames = new FilmFramesCollection(...$frames);
-
         }
+
+        $platforms = isset($data[self::FIELD_PLATFORMS]) && is_array($data[self::FIELD_PLATFORMS])
+            ? new PlatformCollection(
+                ...array_map(
+                static function ($platform) {
+                    return PlatformAvailability::buildFromArray($platform);
+                }
+                , $data[self::FIELD_PLATFORMS]
+            ))
+            : new PlatformCollection();
 
         return new self(
             $data[self::FIELD_ID_FILM],
@@ -455,7 +470,7 @@ class Film
             isset($data[self::FIELD_POSTER_IMAGES]) ? PosterImages::buildFromArray($data[self::FIELD_POSTER_IMAGES]) : null,
             $data[self::FIELD_NUM_FRAMES] ?? 0,
             $frames,
-            $data[self::FIELD_PLATFORM] ?? null,
+            $platforms,
         );
     }
 }

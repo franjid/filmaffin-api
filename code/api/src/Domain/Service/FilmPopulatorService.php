@@ -29,6 +29,7 @@ class FilmPopulatorService implements FilmPopulatorInterface
         $film->setGenres($this->filmDatabaseRepository->getFilmGenres($idFilm));
         $film->setTopics($this->filmDatabaseRepository->getFilmTopics($idFilm));
         $film->setUserReviews($this->filmDatabaseRepository->getUserReviews($idFilm));
+        $film->setPlatforms($this->filmDatabaseRepository->getPlatforms($idFilm));
 
         return $film;
     }
