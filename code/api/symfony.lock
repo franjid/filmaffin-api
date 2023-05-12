@@ -93,12 +93,6 @@
     "ezimuel/ringphp": {
         "version": "1.1.2"
     },
-    "guzzlehttp/ringphp": {
-        "version": "1.1.1"
-    },
-    "guzzlehttp/streams": {
-        "version": "3.0.0"
-    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -500,9 +494,6 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
-    },
-    "webimpress/safe-writer": {
-        "version": "2.0.1"
     },
     "webmozart/assert": {
         "version": "1.8.0"

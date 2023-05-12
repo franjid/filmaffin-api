@@ -212,7 +212,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
         try {
             $indexes = $this->elasticsearchClient->indices()->getMapping();
         } catch (Exception $e) {
-            $indexes = null;
+            $indexes = [];
         }
 
         return $indexes;
@@ -229,7 +229,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
     {
         $indexesNames = array_keys($this->getPreviousIndexes());
         $projectIndexes = 0;
-        $lastIndexName = null;
+        $lastIndexName = '';
 
         foreach ($indexesNames as $indexName) {
             if (strpos($indexName, $this->elasticsearchIndexName) !== false) {
