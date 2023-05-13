@@ -11,7 +11,6 @@ use App\Infrastructure\Exception\Database\UserNotFoundException;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use App\Infrastructure\Interfaces\UserDatabaseRepositoryInterface;
-use DateTimeImmutable;
 
 class UserFriendsFilmsService implements UserFriendsFilmsInterface
 {
@@ -23,30 +22,21 @@ class UserFriendsFilmsService implements UserFriendsFilmsInterface
         UserDatabaseRepositoryInterface $userDatabaseRepository,
         FilmDatabaseRepositoryInterface $filmDatabaseRepository,
         FilmIndexRepositoryInterface $filmIndexRepository
-    )
-    {
+    ) {
         $this->userDatabaseRepository = $userDatabaseRepository;
         $this->filmDatabaseRepository = $filmDatabaseRepository;
         $this->filmIndexRepository = $filmIndexRepository;
     }
 
-    /**
-     * @param int $idUser
-     * @param int $numResults
-     * @param int $offset
-     *
-     * @return FilmRatedByUserExtendedCollection
-     */
     public function getUserFriendsFilms(
         int $idUser,
         int $numResults,
         int $offset
-    ): FilmRatedByUserExtendedCollection
-    {
+    ): FilmRatedByUserExtendedCollection {
         try {
             $this->userDatabaseRepository->getUser($idUser);
         } catch (UserNotFoundException $e) {
-            throw new \App\Domain\Exception\UserNotFoundException('User id not found: ' . $idUser);
+            throw new \App\Domain\Exception\UserNotFoundException('User id not found: '.$idUser);
         }
 
         $filmsRatedByUserFriends = $this->filmDatabaseRepository->getFilmsRatedByUserFriends(
@@ -80,7 +70,7 @@ class UserFriendsFilmsService implements UserFriendsFilmsInterface
                         UserFilmaffinity::FIELD_COOKIE => $userRating[FilmRatedByUser::FIELD_USER][UserFilmaffinity::FIELD_COOKIE],
                     ],
                     FilmRatedByUserExtended::FIELD_USER_RATING => $userRating[FilmRatedByUser::FIELD_USER_RATING],
-                    FilmRatedByUserExtended::FIELD_DATE_RATED => (new DateTimeImmutable())->setTimestamp($userRating[FilmRatedByUser::FIELD_DATE_RATED]),
+                    FilmRatedByUserExtended::FIELD_DATE_RATED => (new \DateTimeImmutable())->setTimestamp($userRating[FilmRatedByUser::FIELD_DATE_RATED]),
                     'dateRatedTimestamp' => $userRating[FilmRatedByUser::FIELD_DATE_RATED],
                     'idUserRating' => $userRating[FilmRatedByUser::FIELD_ID_USER_RATING],
                 ];

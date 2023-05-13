@@ -18,7 +18,7 @@ class GetUserReviews extends GlobalReadQuery
         $query .= ' , datePublished';
         $query .= ' FROM';
         $query .= ' userReview';
-        $query .= ' WHERE idFilm = ' . $idFilm;
+        $query .= ' WHERE idFilm = '.$idFilm;
         $query .= ' ORDER BY position ASC';
         $query .= ' LIMIT 10';
 

@@ -27,8 +27,7 @@ class IndexFilmsCommand extends Command
         FilmDatabaseRepositoryInterface $filmDatabaseRepository,
         FilmsIndexerInterface $filmsIndexerService,
         FilmPopulatorInterface $filmPopulator
-    )
-    {
+    ) {
         $this->filmDatabaseRepository = $filmDatabaseRepository;
         $this->filmsIndexerService = $filmsIndexerService;
         $this->filmPopulator = $filmPopulator;
@@ -60,8 +59,9 @@ class IndexFilmsCommand extends Command
 
         $totalFilmsToIndex = $this->filmDatabaseRepository->getFilmsCount($timestamp);
 
-        if(!$totalFilmsToIndex) {
+        if (!$totalFilmsToIndex) {
             $output->writeln('Nothing to index');
+
             return 0;
         }
 

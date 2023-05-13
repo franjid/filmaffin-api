@@ -16,6 +16,7 @@ class FilmsController extends AbstractController
      * @Operation(
      *     tags={"Films"},
      *     summary="Search films by title OR team member (if title is provided, team member filter is ignored)",
+     *
      *     @SWG\Parameter(
      *         name="title",
      *         in="query",
@@ -58,6 +59,7 @@ class FilmsController extends AbstractController
      *         required=false,
      *         type="integer"
      *     ),
+     *
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful"
@@ -71,21 +73,12 @@ class FilmsController extends AbstractController
      *         description="Returned when there are no films matching the given title"
      *     )
      * )
-     *
-     *
-     * @param Request                      $request
-     * @param FilmIndexRepositoryInterface $filmIndexRepository
-     *
-     * @param StringHelper                 $stringHelper
-     *
-     * @return JsonResponse
      */
     public function searchAction(
         Request $request,
         FilmIndexRepositoryInterface $filmIndexRepository,
         StringHelper $stringHelper
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $availableTeamMemberType = ['directors', 'actors', 'screenplayers'];
         $availableSort = ['year', 'rating'];
 
@@ -93,7 +86,6 @@ class FilmsController extends AbstractController
         $teamMemberType = $request->query->get('teamMemberType');
         $teamMemberName = $request->query->get('teamMemberName');
         $sortBy = $request->query->get('sort');
-
 
         if ($title && strlen($title) >= 3) {
             $title = $stringHelper->removeDiacritics($title);
@@ -137,6 +129,7 @@ class FilmsController extends AbstractController
      *     tags={"Films"},
      *     summary="Get films by id",
      *     description="It accepts a film id or a list (separated by commas: 1, 2, 3)",
+     *
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful"
@@ -150,17 +143,11 @@ class FilmsController extends AbstractController
      *         description="Returned when the id does not exist"
      *     )
      * )
-     *
-     * @param string                       $idFilmList
-     * @param FilmIndexRepositoryInterface $filmIndexRepository
-     *
-     * @return JsonResponse
      */
     public function getFilmAction(
         string $idFilmList,
         FilmIndexRepositoryInterface $filmIndexRepository
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
             $film = $filmIndexRepository->getFilm($idFilmList);
         } catch (\Throwable $e) {
@@ -176,6 +163,7 @@ class FilmsController extends AbstractController
      * @Operation(
      *     tags={"Films"},
      *     summary="Get popular films",
+     *
      *     @SWG\Parameter(
      *         name="numResults",
      *         in="query",
@@ -190,6 +178,7 @@ class FilmsController extends AbstractController
      *         required=false,
      *         type="integer"
      *     ),
+     *
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful"
@@ -199,17 +188,11 @@ class FilmsController extends AbstractController
      *         description="Returned when the id does not exist"
      *     )
      * )
-     *
-     * @param Request                      $request
-     * @param FilmIndexRepositoryInterface $filmIndexRepository
-     *
-     * @return JsonResponse
      */
     public function getPopularFilmsAction(
         Request $request,
         FilmIndexRepositoryInterface $filmIndexRepository
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $numResults = $request->query->get('numResults');
         $numResults = $numResults !== null ? (int) $numResults : 10;
         $offset = $request->query->get('offset');
@@ -225,6 +208,7 @@ class FilmsController extends AbstractController
      * @Operation(
      *     tags={"Films"},
      *     summary="Get current films in theatres",
+     *
      *     @SWG\Parameter(
      *         name="sort",
      *         in="query",
@@ -232,6 +216,7 @@ class FilmsController extends AbstractController
      *         required=false,
      *         type="string"
      *     ),
+     *
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful"
@@ -241,17 +226,11 @@ class FilmsController extends AbstractController
      *         description="Returned when the id does not exist"
      *     )
      * )
-     *
-     * @param Request                      $request
-     * @param FilmIndexRepositoryInterface $filmIndexRepository
-     *
-     * @return JsonResponse
      */
     public function getFilmsInTheatresAction(
         Request $request,
         FilmIndexRepositoryInterface $filmIndexRepository
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $availableSort = ['releaseDate', 'rating', 'numRatings'];
 
         $sortBy = $request->query->get('sort');
@@ -274,22 +253,17 @@ class FilmsController extends AbstractController
      * @Operation(
      *     tags={"Films"},
      *     summary="Get new films by platform",
+     *
      *     @SWG\Response(
      *         response="200",
      *         description="Returned when successful"
      *     ),
      * )
-     *
-     * @param string                       $platform
-     * @param FilmIndexRepositoryInterface $filmIndexRepository
-     *
-     * @return JsonResponse
      */
     public function getNewFilmsInPlatformAction(
         string $platform,
         FilmIndexRepositoryInterface $filmIndexRepository
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $film = $filmIndexRepository->getNewFilmsInPlatform($platform, 50);
         $response = !$film->getItems() ? JsonResponse::HTTP_NO_CONTENT : JsonResponse::HTTP_OK;
 

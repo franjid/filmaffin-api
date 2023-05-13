@@ -2,12 +2,10 @@
 
 namespace App\Domain\Helper;
 
-use Transliterator;
-
 class StringHelper
 {
     /**
-     * Replace letters with diacritics into a "normal" mode
+     * Replace letters with diacritics into a "normal" mode.
      *
      * Examples:
      *
@@ -18,23 +16,19 @@ class StringHelper
      * àòùìéëu -> aouieeu
      * ÁOÒòoÍìI -> AOOooIiI
      * tiësto -> tiesto
-     *
-     * @param string $string
-     *
-     * @return string
      */
     public function removeDiacritics(string $string): string
     {
-        $transliterator = Transliterator::createFromRules(
+        $transliterator = \Transliterator::createFromRules(
             ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
-            Transliterator::FORWARD
+            \Transliterator::FORWARD
         );
 
         return $transliterator->transliterate($string);
     }
 
     /**
-     * Returns word permutations of a string
+     * Returns word permutations of a string.
      *
      * Example:
      *
@@ -49,10 +43,6 @@ class StringHelper
      *     'e',
      *     'e bella',
      *     'bella',
-     *
-     * @param $string
-     *
-     * @return array
      */
     public function getSanitizedWordPermutations(string $string): array
     {
@@ -72,16 +62,16 @@ class StringHelper
             }
 
             $tokenString = $value;
-            $pointer++;
+            ++$pointer;
 
-            for ($j = $index + 1; $j < $numTokenArr; $j++) {
-                $tokenString .= ' ' . $tokenArr[$j];
+            for ($j = $index + 1; $j < $numTokenArr; ++$j) {
+                $tokenString .= ' '.$tokenArr[$j];
 
                 if (!empty($tokenString)) {
                     $outArr[$pointer] = $tokenString;
                 }
 
-                $pointer++;
+                ++$pointer;
             }
         }
 

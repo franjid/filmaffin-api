@@ -12,8 +12,7 @@ class FilmPopulatorService implements FilmPopulatorInterface
 
     public function __construct(
         FilmDatabaseRepositoryInterface $filmDatabaseRepository
-    )
-    {
+    ) {
         $this->filmDatabaseRepository = $filmDatabaseRepository;
     }
 

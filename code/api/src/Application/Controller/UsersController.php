@@ -24,6 +24,7 @@ class UsersController extends AbstractController
      *     tags={"Users"},
      *     summary="Try to log in a user into Filmaffinity",
      *     description="User/password must be provided",
+     *
      *     @SWG\Parameter(
      *         name="user",
      *         in="query",
@@ -45,6 +46,7 @@ class UsersController extends AbstractController
      *         required=false,
      *         type="string"
      *     ),
+     *
      *     @SWG\Response(
      *         response="200",
      *         description="If user credentials were correct"
@@ -58,21 +60,13 @@ class UsersController extends AbstractController
      *         description="Unauthorized"
      *     )
      * )
-     *
-     * @param Request                         $request
-     * @param FilmaffinityRepositoryInterface $filmaffinity
-     * @param UserDatabaseRepositoryInterface $userDatabaseRepository
-     * @param MessageBusInterface             $bus
-     *
-     * @return JsonResponse
      */
     public function loginFilmaffinityAction(
         Request $request,
         FilmaffinityRepositoryInterface $filmaffinity,
         UserDatabaseRepositoryInterface $userDatabaseRepository,
         MessageBusInterface $bus
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $user = $request->query->get('user');
         $password = $request->query->get('password');
         $appNotificationsToken = $request->query->get('appNotificationsToken');
@@ -114,6 +108,7 @@ class UsersController extends AbstractController
      * @Operation(
      *     tags={"Users"},
      *     summary="Get last films rated by userId friends",
+     *
      *     @SWG\Parameter(
      *         name="numResults",
      *         in="query",
@@ -128,6 +123,7 @@ class UsersController extends AbstractController
      *         required=false,
      *         type="integer"
      *     ),
+     *
      *     @SWG\Response(
      *         response="200",
      *         description=""
@@ -141,20 +137,12 @@ class UsersController extends AbstractController
      *         description="If no userId is provided"
      *     )
      * )
-     *
-     * @param                           $idUser
-     *
-     * @param Request                   $request
-     * @param UserFriendsFilmsInterface $userFriendsFilmsService
-     *
-     * @return JsonResponse
      */
     public function userFriendsFilms(
         $idUser,
         Request $request,
         UserFriendsFilmsInterface $userFriendsFilmsService
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if (!is_numeric($idUser)) {
             return new JsonResponse(null, JsonResponse::HTTP_BAD_REQUEST);
         }

@@ -13,20 +13,19 @@ class ConfigController extends AbstractController
      * @Operation(
      *     tags={"Config"},
      *     summary="Get config",
+     *
      *     @SWG\Response(
      *         response="200",
      *         description=""
      *     ),
      * )
-     *
-     * @return JsonResponse
      */
     public function indexAction(): JsonResponse
     {
         return new JsonResponse([
-            "ads" => [
-                "enabled" => true,
-                "num_views_before_show_ad" => 10,
+            'ads' => [
+                'enabled' => true,
+                'num_views_before_show_ad' => 10,
             ],
         ],
             JsonResponse::HTTP_OK

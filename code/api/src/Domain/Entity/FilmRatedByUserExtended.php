@@ -2,11 +2,9 @@
 
 namespace App\Domain\Entity;
 
-use DateTimeImmutable;
-
 /**
  * The "extension" refers to the film
- * In this one the entity stores Film type instead of the idFilm (as int)
+ * In this one the entity stores Film type instead of the idFilm (as int).
  */
 class FilmRatedByUserExtended
 {
@@ -18,15 +16,14 @@ class FilmRatedByUserExtended
     private Film $film;
     private UserFilmaffinity $user;
     private int $userRating;
-    private DateTimeImmutable $dateRated;
+    private \DateTimeImmutable $dateRated;
 
     public function __construct(
         Film $film,
         UserFilmaffinity $user,
         int $userRating,
-        DateTimeImmutable $dateRated
-    )
-    {
+        \DateTimeImmutable $dateRated
+    ) {
         $this->film = $film;
         $this->user = $user;
         $this->userRating = $userRating;
@@ -48,7 +45,7 @@ class FilmRatedByUserExtended
         return $this->userRating;
     }
 
-    public function getDateRated(): DateTimeImmutable
+    public function getDateRated(): \DateTimeImmutable
     {
         return $this->dateRated;
     }

@@ -12,6 +12,8 @@
 /composer.phar
 .idea
 var
+/tools/php-cs-fixer/vendor
+/.php-cs-fixer.cache
 
 ###> symfony/phpunit-bridge ###
 .phpunit

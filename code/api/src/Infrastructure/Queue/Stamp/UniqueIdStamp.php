@@ -12,6 +12,7 @@ class UniqueIdStamp implements StampInterface
     {
         $this->uniqueId = uniqid('', true);
     }
+
     public function getUniqueId(): string
     {
         return $this->uniqueId;

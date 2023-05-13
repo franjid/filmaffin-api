@@ -10,8 +10,7 @@ class GetFilmsRatedByUserFriends extends GlobalReadQuery
         int $idUser,
         int $numResults,
         int $offset
-    ): array
-    {
+    ): array {
         $query = 'SELECT';
         $query .= '   ur.idUserRating';
         $query .= ' , f.idFilm';
@@ -24,9 +23,9 @@ class GetFilmsRatedByUserFriends extends GlobalReadQuery
         $query .= ' JOIN film f USING(idFilm)';
         $query .= ' JOIN userFriendship uf ON uf.idUserTarget = ur.idUser';
         $query .= ' JOIN user u ON u.idUser = uf.idUserTarget';
-        $query .= ' WHERE uf.idUserSource = ' . $idUser;
+        $query .= ' WHERE uf.idUserSource = '.$idUser;
         $query .= ' ORDER BY ur.dateRated DESC, ur.idUserRating DESC';
-        $query .= ' LIMIT ' . $offset . ', ' . $numResults;
+        $query .= ' LIMIT '.$offset.', '.$numResults;
 
         return $this->fetchAll($query);
     }

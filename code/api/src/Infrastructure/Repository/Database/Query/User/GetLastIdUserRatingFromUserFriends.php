@@ -13,7 +13,7 @@ class GetLastIdUserRatingFromUserFriends extends GlobalReadQuery
         $query .= ' FROM';
         $query .= ' userRating ur';
         $query .= ' JOIN userFriendship uf ON uf.idUserTarget = ur.idUser';
-        $query .= ' WHERE uf.idUserSource = ' . $idUser;
+        $query .= ' WHERE uf.idUserSource = '.$idUser;
         $query .= ' ORDER BY idUserRating DESC';
         $query .= ' LIMIT 1';
 

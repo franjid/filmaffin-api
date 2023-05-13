@@ -14,7 +14,7 @@ class GetFilmScreenplayers extends GlobalReadQuery
         $query .= ' film';
         $query .= ' JOIN assocFilmScreenplayer USING(idFilm)';
         $query .= ' JOIN screenplayer USING(idScreenplayer)';
-        $query .= ' WHERE idFilm = ' . $idFilm;
+        $query .= ' WHERE idFilm = '.$idFilm;
         $query .= ' ORDER BY assocFilmScreenplayer.relevancePosition';
 
         return $this->fetchAll($query);

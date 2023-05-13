@@ -6,7 +6,7 @@ use App\Domain\Entity\UserFilmaffinity;
 
 class UserFilmaffinityCollection
 {
-    /** @var UserFilmaffinity[] $users */
+    /** @var UserFilmaffinity[] */
     private array $users;
 
     public function __construct(UserFilmaffinity ...$users)

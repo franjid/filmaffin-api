@@ -6,11 +6,11 @@ use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Entity\Film;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilm;
-use App\Infrastructure\Repository\Index\Query\Film\GetNewFilmsInPlatform;
-use App\Infrastructure\Repository\Index\Query\Film\SearchFilmsByTeamMember;
 use App\Infrastructure\Repository\Index\Query\Film\GetFilmsInTheatres;
+use App\Infrastructure\Repository\Index\Query\Film\GetNewFilmsInPlatform;
 use App\Infrastructure\Repository\Index\Query\Film\GetPopularFilms;
 use App\Infrastructure\Repository\Index\Query\Film\SearchFilms;
+use App\Infrastructure\Repository\Index\Query\Film\SearchFilmsByTeamMember;
 use App\Infrastructure\Repository\RepositoryAbstract;
 
 class FilmIndexElasticsearchRepository extends RepositoryAbstract implements FilmIndexRepositoryInterface
@@ -66,8 +66,7 @@ class FilmIndexElasticsearchRepository extends RepositoryAbstract implements Fil
         string $sortBy,
         int $numResults,
         int $offset
-    ): FilmCollection
-    {
+    ): FilmCollection {
         /** @var SearchFilmsByTeamMember $query */
         $query = $this->getQuery(SearchFilmsByTeamMember::class);
         $results = $query->getResult($teamMemberType, $teamMemberName, $sortBy, $numResults, $offset);

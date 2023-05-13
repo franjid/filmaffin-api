@@ -19,17 +19,12 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
 
     public function __construct(
         HttpClientInterface $client
-    )
-    {
+    ) {
         $this->client = $client;
         $this->userAgent = UserAgent::random(['device_type' => 'Mobile']);
     }
 
     /**
-     * @param string $user
-     * @param string $password
-     *
-     * @return UserFilmaffinity
      * @throws CookieNotFoundException
      * @throws InvalidUserPasswordException
      * @throws UserIdNotFoundException
@@ -71,9 +66,6 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
     }
 
     /**
-     * @param array $headers
-     *
-     * @return string
      * @throws CookieNotFoundException
      */
     private function getUserCookie(array $headers): string
@@ -90,9 +82,6 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
     }
 
     /**
-     * @param string $userTemplateContent
-     *
-     * @return int
      * @throws UserIdNotFoundException
      */
     private function getUserId(string $userTemplateContent): int
@@ -112,9 +101,6 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
     }
 
     /**
-     * @param string $userTemplateContent
-     *
-     * @return string
      * @throws UserNameNotFoundException
      */
     private function getUserName(string $userTemplateContent): string
@@ -134,9 +120,6 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
     }
 
     /**
-     * @param string $userCookie
-     *
-     * @return string
      * @throws UserTemplateNotValidException
      */
     private function getUserTemplate(string $userCookie): string
@@ -149,7 +132,7 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
                     'headers' => [
                         'user-agent' => $this->userAgent,
                         'cookie' => $userCookie,
-                    ]
+                    ],
                 ]
             );
 

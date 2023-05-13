@@ -13,8 +13,7 @@ class FilmFrame
     public function __construct(
         string $small,
         string $large
-    )
-    {
+    ) {
         $this->small = $small;
         $this->large = $large;
     }

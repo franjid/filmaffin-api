@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Component\Db;
 
 use Doctrine\DBAL\DBALException;
-use PDO;
 
 abstract class ReadQueryAbstract extends QueryAbstract
 {
@@ -16,11 +15,10 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * Returns the first row of the result as an associative array
-     *
-     * @param string $query
+     * Returns the first row of the result as an associative array.
      *
      * @return array|false|mixed[]
+     *
      * @throws DBALException
      */
     protected function fetchAssoc(string $query)
@@ -41,10 +39,10 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * @param string $query
      * @param string $class Full name class (with namespace)
      *
      * @return mixed
+     *
      * @throws DBALException
      */
     protected function fetchObject(string $query, string $class = '\stdClass')
@@ -66,10 +64,6 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
     /**
      * Returns the result as an associative array.
-     *
-     * @param string $query
-     *
-     * @return array
      */
     protected function fetchAll(string $query): array
     {
@@ -89,19 +83,17 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * Returns the result as an associative array of objects
+     * Returns the result as an associative array of objects.
      *
-     * @param string      $query
-     * @param string|null $class Full name class (with namespace).
+     * @param string|null $class full name class (with namespace)
      *
-     * @return array
      * @throws DBALException
      */
     protected function fetchAllObject(string $query, ?string $class = '\stdClass'): array
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->executeQuery($query)->fetchAll(PDO::FETCH_CLASS, $class);
+        $result = $this->getConnection()->executeQuery($query)->fetchAll(\PDO::FETCH_CLASS, $class);
 
         $endTimeMs = microtime(true);
 
@@ -115,8 +107,6 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * @param string $query
-     *
      * @return mixed
      */
     protected function fetchColumn(string $query)

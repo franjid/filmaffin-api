@@ -14,7 +14,7 @@ class GetFilmTopics extends GlobalReadQuery
         $query .= ' film';
         $query .= ' JOIN assocFilmTopic USING(idFilm)';
         $query .= ' JOIN topic USING(idTopic)';
-        $query .= ' WHERE idFilm = ' . $idFilm;
+        $query .= ' WHERE idFilm = '.$idFilm;
         $query .= ' ORDER BY assocFilmTopic.relevancePosition';
 
         return $this->fetchAll($query);

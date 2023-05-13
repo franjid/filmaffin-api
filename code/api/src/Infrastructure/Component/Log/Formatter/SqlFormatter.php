@@ -16,15 +16,13 @@ class SqlFormatter extends NormalizerFormatter
      * @param string $format                The format of the message
      * @param string $dateFormat            The format of the timestamp: one supported by DateTime::format
      * @param bool   $allowInlineLineBreaks Whether to allow inline line breaks in log entries
-     * @param bool   $ignoreEmptyContextAndExtra
      */
     public function __construct(
         ?string $format = null,
         ?string $dateFormat = null,
         bool $allowInlineLineBreaks = false,
         bool $ignoreEmptyContextAndExtra = false
-    )
-    {
+    ) {
         $this->format = $format ?: static::SIMPLE_FORMAT;
         $this->allowInlineLineBreaks = $allowInlineLineBreaks;
         $this->ignoreEmptyContextAndExtra = $ignoreEmptyContextAndExtra;
@@ -43,15 +41,15 @@ class SqlFormatter extends NormalizerFormatter
         $formattedRecords = parent::format($records);
         $contextData = $formattedRecords['context'];
 
-        $context = $contextData['Class'] . ' | ' . $contextData['Pool']
-            . ' | ' . $contextData['Time'] . ' | ' . $contextData['RowsAffected'];
+        $context = $contextData['Class'].' | '.$contextData['Pool']
+            .' | '.$contextData['Time'].' | '.$contextData['RowsAffected'];
 
         $output = $this->format;
         $output = str_replace('%context%', $context, $output);
 
         foreach ($formattedRecords as $formattedRecord => $val) {
-            if (false !== strpos($output, '%' . $formattedRecord . '%')) {
-                $output = str_replace('%' . $formattedRecord . '%', $this->stringify($val), $output);
+            if (false !== strpos($output, '%'.$formattedRecord.'%')) {
+                $output = str_replace('%'.$formattedRecord.'%', $this->stringify($val), $output);
             }
         }
 
@@ -69,9 +67,9 @@ class SqlFormatter extends NormalizerFormatter
 
         if (null === $data || is_bool($data)) {
             $stringValue = var_export($data, true);
-        } else if (is_scalar($data)) {
+        } elseif (is_scalar($data)) {
             $stringValue = (string) $data;
-        } else if (PHP_VERSION_ID >= 50400) {
+        } elseif (PHP_VERSION_ID >= 50400) {
             $stringValue = $this->toJson($data, true);
         } else {
             $stringValue = str_replace('\\/', '/', json_encode($data));

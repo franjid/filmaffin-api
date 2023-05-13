@@ -16,8 +16,7 @@ class PosterImages
         string $small,
         string $medium,
         string $large
-    )
-    {
+    ) {
         $this->small = $small;
         $this->medium = $medium;
         $this->large = $large;

@@ -14,7 +14,7 @@ class GetUser extends GlobalReadQuery
         $query .= ' , cookieFilmaffinity';
         $query .= ' FROM';
         $query .= ' user';
-        $query .= ' WHERE idUser = ' . $userIdFilmaffinity;
+        $query .= ' WHERE idUser = '.$userIdFilmaffinity;
 
         return $this->fetchAll($query);
     }

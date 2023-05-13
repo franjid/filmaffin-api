@@ -12,8 +12,7 @@ class SearchFilmsByTeamMember extends NormalQuery
         string $sortBy,
         int $numResults,
         int $offset
-    ): array
-    {
+    ): array {
         $query = <<<EOT
 {
     "_source": [

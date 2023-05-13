@@ -6,7 +6,7 @@ use App\Domain\Entity\Film;
 
 class FilmCollection
 {
-    /** @var Film[] $film */
+    /** @var Film[] */
     private array $films;
 
     public function __construct(Film ...$films)

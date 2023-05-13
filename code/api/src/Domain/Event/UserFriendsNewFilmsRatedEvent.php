@@ -8,8 +8,7 @@ class UserFriendsNewFilmsRatedEvent extends AbstractEvent
 
     public function __construct(
         int $userIdFilmaffinity
-    )
-    {
+    ) {
         $this->userIdFilmaffinity = $userIdFilmaffinity;
     }
 

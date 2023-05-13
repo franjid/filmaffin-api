@@ -2,8 +2,6 @@
 
 namespace App\Domain\Entity;
 
-use DateTimeImmutable;
-
 class FilmRatedByUser
 {
     public const FIELD_ID_USER_RATING = 'idUserRating';
@@ -16,16 +14,15 @@ class FilmRatedByUser
     private int $idFilm;
     private UserFilmaffinity $user;
     private int $userRating;
-    private DateTimeImmutable $dateRated;
+    private \DateTimeImmutable $dateRated;
 
     public function __construct(
         int $idUserRating,
         int $idFilm,
         UserFilmaffinity $user,
         int $userRating,
-        DateTimeImmutable $dateRated
-    )
-    {
+        \DateTimeImmutable $dateRated
+    ) {
         $this->idUserRating = $idUserRating;
         $this->idFilm = $idFilm;
         $this->user = $user;
@@ -53,7 +50,7 @@ class FilmRatedByUser
         return $this->userRating;
     }
 
-    public function getDateRated(): DateTimeImmutable
+    public function getDateRated(): \DateTimeImmutable
     {
         return $this->dateRated;
     }

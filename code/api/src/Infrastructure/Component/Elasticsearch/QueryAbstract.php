@@ -7,10 +7,9 @@ use Elasticsearch\Client;
 
 abstract class QueryAbstract
 {
+    use LogTrait;
     protected const TIME_QUERY = 'Time';
     protected const TOTAL_RESULTS = 'RowsAffected';
-
-    use LogTrait;
 
     private Client $client;
     private string $elasticsearchIndexName;
@@ -18,8 +17,7 @@ abstract class QueryAbstract
     public function __construct(
         Client $client,
         string $elasticsearchIndexName
-    )
-    {
+    ) {
         $this->client = $client;
         $this->elasticsearchIndexName = $elasticsearchIndexName;
     }
@@ -30,9 +28,7 @@ abstract class QueryAbstract
     }
 
     /**
-     * Get custom data for logging
-     *
-     * @return array
+     * Get custom data for logging.
      */
     public function getExtraDataLog(): array
     {
@@ -48,8 +44,8 @@ abstract class QueryAbstract
     protected function search(string $query): array
     {
         $searchParams = '{
-            "index": "' . $this->elasticsearchIndexName . '",
-            "body": ' . $query . '
+            "index": "'.$this->elasticsearchIndexName.'",
+            "body": '.$query.'
         }';
 
         $searchParams = json_decode($searchParams, true, 512, JSON_THROW_ON_ERROR);

@@ -6,7 +6,7 @@ use App\Domain\Entity\FilmAttribute;
 
 class FilmAttributeCollection
 {
-    /** @var FilmAttribute[] $attribute */
+    /** @var FilmAttribute[] */
     private array $attributes;
 
     public function __construct(?FilmAttribute ...$attributes)

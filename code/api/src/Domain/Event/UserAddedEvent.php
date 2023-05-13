@@ -10,8 +10,7 @@ class UserAddedEvent extends AbstractEvent
     public function __construct(
         int $userIdFilmaffinity,
         string $cookieFilmaffinity
-    )
-    {
+    ) {
         $this->userIdFilmaffinity = $userIdFilmaffinity;
         $this->cookieFilmaffinity = $cookieFilmaffinity;
     }

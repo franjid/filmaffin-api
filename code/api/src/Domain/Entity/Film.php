@@ -9,7 +9,6 @@ use App\Domain\Entity\Collection\PlatformCollection;
 use App\Domain\Entity\Collection\ProReviewCollection;
 use App\Domain\Entity\Collection\UserReviewCollection;
 use App\Domain\Helper\FilmImageHelper;
-use JsonException;
 
 class Film
 {
@@ -94,8 +93,7 @@ class Film
         FilmFramesCollection $frames,
         ?PlatformCollection $platforms,
         ?string $newInPlatform
-    )
-    {
+    ) {
         $this->idFilm = $idFilm;
         $this->title = $title;
         $this->originalTitle = $originalTitle;
@@ -406,8 +404,7 @@ class Film
                     ...array_map(
                         static function ($proReview) {
                             return ProReview::buildFromArray($proReview);
-                        }
-                        , $data[self::FIELD_PRO_REVIEWS]
+                        }, $data[self::FIELD_PRO_REVIEWS]
                     )
                 );
             } else {
@@ -417,12 +414,11 @@ class Film
                             ...array_map(
                                 static function ($proReview) {
                                     return ProReview::buildFromArray($proReview);
-                                }
-                                , json_decode($data[self::FIELD_PRO_REVIEWS], true, 512, JSON_THROW_ON_ERROR)
+                                }, json_decode($data[self::FIELD_PRO_REVIEWS], true, 512, JSON_THROW_ON_ERROR)
                             )
                         )
                         : new ProReviewCollection();
-                } catch (JsonException $e) {
+                } catch (\JsonException $e) {
                     $proReviews = new ProReviewCollection();
                 }
             }
@@ -431,11 +427,10 @@ class Film
         $userReviews = isset($data[self::FIELD_USER_REVIEWS]) && is_array($data[self::FIELD_USER_REVIEWS])
             ? new UserReviewCollection(
                 ...array_map(
-                static function ($userReview) {
-                    return UserReview::buildFromArray($userReview);
-                }
-                , $data[self::FIELD_USER_REVIEWS]
-            ))
+                    static function ($userReview) {
+                        return UserReview::buildFromArray($userReview);
+                    }, $data[self::FIELD_USER_REVIEWS]
+                ))
             : new UserReviewCollection();
 
         $frames = new FilmFramesCollection();
@@ -443,7 +438,7 @@ class Film
             $filmImageHelper = new FilmImageHelper();
             $frames = [];
 
-            for ($i = 0; $i < $data[self::FIELD_NUM_FRAMES]; $i++) {
+            for ($i = 0; $i < $data[self::FIELD_NUM_FRAMES]; ++$i) {
                 $frames[] = FilmFrame::buildFromArray($filmImageHelper->getFrameImage($data[self::FIELD_ID_FILM], $i));
             }
 
@@ -453,11 +448,10 @@ class Film
         $platforms = isset($data[self::FIELD_PLATFORMS]) && is_array($data[self::FIELD_PLATFORMS])
             ? new PlatformCollection(
                 ...array_map(
-                static function ($platform) {
-                    return PlatformAvailability::buildFromArray($platform);
-                }
-                , $data[self::FIELD_PLATFORMS]
-            ))
+                    static function ($platform) {
+                        return PlatformAvailability::buildFromArray($platform);
+                    }, $data[self::FIELD_PLATFORMS]
+                ))
             : new PlatformCollection();
 
         return new self(

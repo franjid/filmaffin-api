@@ -6,7 +6,7 @@ use App\Domain\Entity\ProReview;
 
 class ProReviewCollection
 {
-    /** @var ProReview[] $proReviews */
+    /** @var ProReview[] */
     private array $proReviews;
 
     public function __construct(ProReview ...$proReviews)

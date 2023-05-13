@@ -21,8 +21,7 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
         string $userNameFilmaffinity,
         string $cookieFilmaffinity,
         ?string $appNotificationsToken
-    ): int
-    {
+    ): int {
         /** @var SaveUser $query */
         $query = $this->getQuery(SaveUser::class);
 
@@ -39,8 +38,7 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
         ?string $userNameFilmaffinity,
         ?string $cookieFilmaffinity,
         ?string $appNotificationsToken
-    ): int
-    {
+    ): int {
         /** @var UpdateUser $query */
         $query = $this->getQuery(UpdateUser::class);
 
@@ -53,9 +51,6 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
     }
 
     /**
-     * @param int $userIdFilmaffinity
-     *
-     * @return UserFilmaffinity
      * @throws UserNotFoundException
      */
     public function getUser(int $userIdFilmaffinity): UserFilmaffinity
@@ -65,7 +60,7 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
         $result = $query->getResult($userIdFilmaffinity);
 
         if (!$result) {
-            throw new UserNotFoundException('User id not found: ' . $userIdFilmaffinity);
+            throw new UserNotFoundException('User id not found: '.$userIdFilmaffinity);
         }
 
         $result = array_shift($result);
@@ -95,8 +90,7 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
                         $user['name'],
                         $user['cookieFilmaffinity']
                     );
-                }
-                , $result
+                }, $result
             )
         );
     }

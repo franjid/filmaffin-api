@@ -16,8 +16,7 @@ class ProReview
         string $author,
         string $review,
         string $trend
-    )
-    {
+    ) {
         $this->author = $author;
         $this->review = $review;
         $this->trend = $trend;

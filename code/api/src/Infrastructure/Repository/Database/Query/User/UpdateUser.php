@@ -11,25 +11,24 @@ class UpdateUser extends GlobalWriteQuery
         ?string $userNameFilmaffinity,
         ?string $cookieFilmaffinity,
         ?string $appNotificationsToken
-    ): int
-    {
+    ): int {
         $query = 'UPDATE user';
         $query .= ' SET';
 
         if ($userNameFilmaffinity) {
-            $query .= ' name = ' . $this->quote($userNameFilmaffinity) . ', ';
+            $query .= ' name = '.$this->quote($userNameFilmaffinity).', ';
         }
 
         if ($cookieFilmaffinity && $cookieFilmaffinity !== 'null') {
-            $query .= ' cookieFilmaffinity = ' . $this->quote($cookieFilmaffinity) . ', ';
+            $query .= ' cookieFilmaffinity = '.$this->quote($cookieFilmaffinity).', ';
         }
 
         if ($appNotificationsToken && $appNotificationsToken !== 'null') {
-            $query .= ' appNotificationsToken = ' . $this->quote($appNotificationsToken) . ', ';
+            $query .= ' appNotificationsToken = '.$this->quote($appNotificationsToken).', ';
         }
 
         $query .= ' dateUpdated = UNIX_TIMESTAMP()';
-        $query .= ' WHERE idUser = ' . $userIdFilmaffinity;
+        $query .= ' WHERE idUser = '.$userIdFilmaffinity;
 
         return $this->executeUpdate($query);
     }

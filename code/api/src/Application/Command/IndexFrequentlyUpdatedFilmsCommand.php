@@ -25,8 +25,7 @@ class IndexFrequentlyUpdatedFilmsCommand extends Command
         FilmIndexRepositoryInterface $filmIndexRepository,
         FilmsIndexerInterface $filmsIndexerService,
         FilmPopulatorInterface $filmPopulator
-    )
-    {
+    ) {
         $this->filmDatabaseRepository = $filmDatabaseRepository;
         $this->filmIndexRepository = $filmIndexRepository;
         $this->filmsIndexerService = $filmsIndexerService;
@@ -54,7 +53,7 @@ class IndexFrequentlyUpdatedFilmsCommand extends Command
     }
 
     /**
-     * We need to reindex "current" frequent films to be sure if they continue to be hot (popular/in theatres)
+     * We need to reindex "current" frequent films to be sure if they continue to be hot (popular/in theatres).
      *
      * One film could have been in theatres, but in a new crawling it is not anymore,
      * so we have to check it and reindex (in this case `inTheatres` will be false)

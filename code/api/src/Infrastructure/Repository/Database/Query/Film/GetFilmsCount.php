@@ -14,7 +14,7 @@ class GetFilmsCount extends GlobalReadQuery
         $query .= ' film';
 
         if ($dateUpdatedNewestThanTimestamp !== null) {
-            $query .= ' WHERE dateUpdated >= ' . $dateUpdatedNewestThanTimestamp;
+            $query .= ' WHERE dateUpdated >= '.$dateUpdatedNewestThanTimestamp;
         }
 
         return (int) $this->fetchAssoc($query)['numResults'];

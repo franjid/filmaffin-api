@@ -14,7 +14,7 @@ class GetFilmCinematographers extends GlobalReadQuery
         $query .= ' film';
         $query .= ' JOIN assocFilmCinematographer USING(idFilm)';
         $query .= ' JOIN cinematographer USING(idCinematographer)';
-        $query .= ' WHERE idFilm = ' . $idFilm;
+        $query .= ' WHERE idFilm = '.$idFilm;
         $query .= ' ORDER BY assocFilmCinematographer.relevancePosition';
 
         return $this->fetchAll($query);

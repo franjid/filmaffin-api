@@ -18,8 +18,7 @@ class CheckUsersFriendsNewRatingsCommand extends Command
     public function __construct(
         UserDatabaseRepositoryInterface $userDatabaseRepository,
         MessageBusInterface $bus
-    )
-    {
+    ) {
         $this->userDatabaseRepository = $userDatabaseRepository;
         $this->bus = $bus;
 

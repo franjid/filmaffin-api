@@ -2,8 +2,6 @@
 
 namespace App\Domain\Entity;
 
-use DateTimeImmutable;
-
 class UserReview
 {
     public const FIELD_USERNAME = 'username';
@@ -20,7 +18,7 @@ class UserReview
     private string $title;
     private string $review;
     private ?string $spoiler;
-    private DateTimeImmutable $datePublished;
+    private \DateTimeImmutable $datePublished;
 
     public function __construct(
         string $username,
@@ -29,9 +27,8 @@ class UserReview
         string $title,
         string $review,
         ?string $spoiler,
-        DateTimeImmutable $datePublished
-    )
-    {
+        \DateTimeImmutable $datePublished
+    ) {
         $this->username = $username;
         $this->idUser = $idUser;
         $this->rating = $rating;
@@ -71,7 +68,7 @@ class UserReview
         return $this->spoiler;
     }
 
-    public function getDatePublished(): DateTimeImmutable
+    public function getDatePublished(): \DateTimeImmutable
     {
         return $this->datePublished;
     }
@@ -98,7 +95,7 @@ class UserReview
             $data[self::FIELD_TITLE],
             $data[self::FIELD_REVIEW],
             $data[self::FIELD_SPOILER],
-            (new DateTimeImmutable())->setTimestamp($data[self::FIELD_DATE_PUBLISHED]),
+            (new \DateTimeImmutable())->setTimestamp($data[self::FIELD_DATE_PUBLISHED]),
         );
     }
 }
