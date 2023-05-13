@@ -77,7 +77,7 @@ class UsersController extends AbstractController
 
         try {
             $userFilmaffinity = $filmaffinity->loginUser($user, $password);
-        } catch (InvalidUserPasswordException $e) {
+        } catch (InvalidUserPasswordException) {
             return new JsonResponse(null, JsonResponse::HTTP_UNAUTHORIZED);
         }
 
@@ -90,7 +90,7 @@ class UsersController extends AbstractController
             );
 
             $bus->dispatch(new UserAddedEvent($userFilmaffinity->getUserId(), $userFilmaffinity->getCookie()));
-        } catch (UniqueConstraintViolationException $e) {
+        } catch (UniqueConstraintViolationException) {
             $userDatabaseRepository->updateUser(
                 $userFilmaffinity->getUserId(),
                 $userFilmaffinity->getUserName(),
@@ -160,7 +160,7 @@ class UsersController extends AbstractController
 
         try {
             $filmsRatedByUserFriends = $userFriendsFilmsService->getUserFriendsFilms($idUser, $numResults, $offset);
-        } catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException) {
             return new JsonResponse(null, JsonResponse::HTTP_NOT_FOUND);
         }
 

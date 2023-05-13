@@ -119,7 +119,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
-            static::ROWS_AFFECTED_VAR_NAME => count($result),
+            static::ROWS_AFFECTED_VAR_NAME => is_countable($result) ? count($result) : 0,
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 

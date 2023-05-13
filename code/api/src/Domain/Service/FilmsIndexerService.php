@@ -13,22 +13,16 @@ use Elasticsearch\Client;
 
 class FilmsIndexerService implements FilmsIndexerInterface
 {
-    private Client $elasticsearchClient;
-    private string $elasticsearchIndexName;
+    private readonly Client $elasticsearchClient;
     private array $indexParams;
-    private StringHelper $stringHelper;
-    private FilmImageHelper $filmImageHelper;
 
     public function __construct(
         ElasticsearchServiceInterface $elasticsearch,
-        string $elasticsearchIndexName,
-        StringHelper $stringHelper,
-        FilmImageHelper $filmImageHelper
+        private readonly string $elasticsearchIndexName,
+        private readonly StringHelper $stringHelper,
+        private readonly FilmImageHelper $filmImageHelper
     ) {
         $this->elasticsearchClient = $elasticsearch->getClient();
-        $this->elasticsearchIndexName = $elasticsearchIndexName;
-        $this->stringHelper = $stringHelper;
-        $this->filmImageHelper = $filmImageHelper;
 
         $this->indexParams = [
             'index' => $elasticsearchIndexName.'_'.time(),
@@ -174,7 +168,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
 
             try {
                 $this->indexParams['body'] .= json_encode($filmForIndex, JSON_THROW_ON_ERROR)."\n";
-            } catch (\JsonException $e) {
+            } catch (\JsonException) {
                 trigger_error('Json malformed. Film id: '.$film->getIdFilm());
             }
         }
@@ -208,7 +202,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
     {
         try {
             $indexes = $this->elasticsearchClient->indices()->getMapping();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $indexes = [];
         }
 
@@ -217,6 +211,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
 
     public function createIndexAlias(): void
     {
+        $aliasParams = [];
         $aliasParams['index'] = $this->indexParams['index'];
         $aliasParams['name'] = $this->elasticsearchIndexName;
         $this->elasticsearchClient->indices()->putAlias($aliasParams);
@@ -229,7 +224,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
         $lastIndexName = '';
 
         foreach ($indexesNames as $indexName) {
-            if (strpos($indexName, $this->elasticsearchIndexName) !== false) {
+            if (str_contains((string) $indexName, $this->elasticsearchIndexName)) {
                 $lastIndexName = $indexName;
                 ++$projectIndexes;
             }

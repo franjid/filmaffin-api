@@ -12,114 +12,35 @@ use App\Domain\Helper\FilmImageHelper;
 
 class Film
 {
-    public const FIELD_ID_FILM = 'idFilm';
-    public const FIELD_TITLE = 'title';
-    public const FIELD_ORIGINAL_TITLE = 'originalTitle';
-    public const FIELD_RATING = 'rating';
-    public const FIELD_NUM_RATINGS = 'numRatings';
-    public const FIELD_POPULARITY_RANKING = 'popularityRanking';
-    public const FIELD_YEAR = 'year';
-    public const FIELD_DURATION = 'duration';
-    public const FIELD_COUNTRY = 'country';
-    public const FIELD_IN_THEATRES = 'inTheatres';
-    public const FIELD_RELEASE_DATE = 'releaseDate';
-    public const FIELD_SYNOPSIS = 'synopsis';
-    public const FIELD_DIRECTORS = 'directors';
-    public const FIELD_ACTORS = 'actors';
-    public const FIELD_SCREENPLAYERS = 'screenplayers';
-    public const FIELD_MUSICIANS = 'musicians';
-    public const FIELD_CINEMATOGRAPHERS = 'cinematographers';
-    public const FIELD_GENRES = 'genres';
-    public const FIELD_TOPICS = 'topics';
-    public const FIELD_PRO_REVIEWS = 'proReviews';
-    public const FIELD_USER_REVIEWS = 'userReviews';
-    public const FIELD_POSTER_IMAGES = 'posterImages';
-    public const FIELD_NUM_FRAMES = 'numFrames';
-    public const FIELD_FRAMES = 'frames';
-    public const FIELD_PLATFORMS = 'platforms';
-    public const FIELD_NEW_IN_PLATFORM = 'newInPlatform';
+    final public const FIELD_ID_FILM = 'idFilm';
+    final public const FIELD_TITLE = 'title';
+    final public const FIELD_ORIGINAL_TITLE = 'originalTitle';
+    final public const FIELD_RATING = 'rating';
+    final public const FIELD_NUM_RATINGS = 'numRatings';
+    final public const FIELD_POPULARITY_RANKING = 'popularityRanking';
+    final public const FIELD_YEAR = 'year';
+    final public const FIELD_DURATION = 'duration';
+    final public const FIELD_COUNTRY = 'country';
+    final public const FIELD_IN_THEATRES = 'inTheatres';
+    final public const FIELD_RELEASE_DATE = 'releaseDate';
+    final public const FIELD_SYNOPSIS = 'synopsis';
+    final public const FIELD_DIRECTORS = 'directors';
+    final public const FIELD_ACTORS = 'actors';
+    final public const FIELD_SCREENPLAYERS = 'screenplayers';
+    final public const FIELD_MUSICIANS = 'musicians';
+    final public const FIELD_CINEMATOGRAPHERS = 'cinematographers';
+    final public const FIELD_GENRES = 'genres';
+    final public const FIELD_TOPICS = 'topics';
+    final public const FIELD_PRO_REVIEWS = 'proReviews';
+    final public const FIELD_USER_REVIEWS = 'userReviews';
+    final public const FIELD_POSTER_IMAGES = 'posterImages';
+    final public const FIELD_NUM_FRAMES = 'numFrames';
+    final public const FIELD_FRAMES = 'frames';
+    final public const FIELD_PLATFORMS = 'platforms';
+    final public const FIELD_NEW_IN_PLATFORM = 'newInPlatform';
 
-    private int $idFilm;
-    private string $title;
-    private string $originalTitle;
-    private ?float $rating;
-    private ?int $numRatings;
-    private ?int $popularityRanking;
-    private int $year;
-    private ?int $duration;
-    private string $country;
-    private bool $inTheatres;
-    private ?string $releaseDate;
-    private ?string $synopsis;
-    private FilmParticipantCollection $directors;
-    private FilmParticipantCollection $actors;
-    private FilmParticipantCollection $screenplayers;
-    private FilmParticipantCollection $musicians;
-    private FilmParticipantCollection $cinematographers;
-    private FilmAttributeCollection $genres;
-    private FilmAttributeCollection $topics;
-    private ProReviewCollection $proReviews;
-    private UserReviewCollection $userReviews;
-    private ?PosterImages $posterImages;
-    private int $numFrames;
-    private FilmFramesCollection $frames;
-    private ?PlatformCollection $platforms;
-    private ?string $newInPlatform;
-
-    public function __construct(
-        int $idFilm,
-        string $title,
-        string $originalTitle,
-        ?float $rating,
-        ?int $numRatings,
-        ?int $popularityRanking,
-        int $year,
-        ?int $duration,
-        string $country,
-        bool $inTheatres,
-        ?string $releaseDate,
-        ?string $synopsis,
-        FilmParticipantCollection $directors,
-        FilmParticipantCollection $actors,
-        FilmParticipantCollection $screenplayers,
-        FilmParticipantCollection $musicians,
-        FilmParticipantCollection $cinematographers,
-        FilmAttributeCollection $genres,
-        FilmAttributeCollection $topics,
-        ProReviewCollection $proReviews,
-        UserReviewCollection $userReviews,
-        ?PosterImages $posterImages,
-        int $numFrames,
-        FilmFramesCollection $frames,
-        ?PlatformCollection $platforms,
-        ?string $newInPlatform
-    ) {
-        $this->idFilm = $idFilm;
-        $this->title = $title;
-        $this->originalTitle = $originalTitle;
-        $this->rating = $rating;
-        $this->numRatings = $numRatings;
-        $this->popularityRanking = $popularityRanking;
-        $this->year = $year;
-        $this->duration = $duration;
-        $this->country = $country;
-        $this->inTheatres = $inTheatres;
-        $this->releaseDate = $releaseDate;
-        $this->synopsis = $synopsis;
-        $this->directors = $directors;
-        $this->actors = $actors;
-        $this->screenplayers = $screenplayers;
-        $this->musicians = $musicians;
-        $this->cinematographers = $cinematographers;
-        $this->genres = $genres;
-        $this->topics = $topics;
-        $this->proReviews = $proReviews;
-        $this->userReviews = $userReviews;
-        $this->posterImages = $posterImages;
-        $this->numFrames = $numFrames;
-        $this->frames = $frames;
-        $this->platforms = $platforms;
-        $this->newInPlatform = $newInPlatform;
+    public function __construct(private readonly int $idFilm, private readonly string $title, private readonly string $originalTitle, private readonly ?float $rating, private readonly ?int $numRatings, private readonly ?int $popularityRanking, private readonly int $year, private readonly ?int $duration, private readonly string $country, private readonly bool $inTheatres, private readonly ?string $releaseDate, private readonly ?string $synopsis, private FilmParticipantCollection $directors, private FilmParticipantCollection $actors, private FilmParticipantCollection $screenplayers, private FilmParticipantCollection $musicians, private FilmParticipantCollection $cinematographers, private FilmAttributeCollection $genres, private FilmAttributeCollection $topics, private ProReviewCollection $proReviews, private UserReviewCollection $userReviews, private readonly ?\App\Domain\Entity\PosterImages $posterImages, private readonly int $numFrames, private readonly FilmFramesCollection $frames, private ?\App\Domain\Entity\Collection\PlatformCollection $platforms, private ?string $newInPlatform)
+    {
     }
 
     public function getIdFilm(): int
@@ -343,57 +264,43 @@ class Film
     {
         $directors = isset($data[self::FIELD_DIRECTORS]) && is_array($data[self::FIELD_DIRECTORS])
             ? new FilmParticipantCollection(
-                ...array_map(static function ($name) {
-                    return new FilmParticipant($name);
-                }, $data[self::FIELD_DIRECTORS])
+                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_DIRECTORS])
             )
             : new FilmParticipantCollection();
 
         $actors = isset($data[self::FIELD_ACTORS]) && is_array($data[self::FIELD_ACTORS])
             ? new FilmParticipantCollection(
-                ...array_map(static function ($name) {
-                    return new FilmParticipant($name);
-                }, $data[self::FIELD_ACTORS])
+                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_ACTORS])
             )
             : new FilmParticipantCollection();
 
         $screenplayers = isset($data[self::FIELD_SCREENPLAYERS]) && is_array($data[self::FIELD_SCREENPLAYERS])
             ? new FilmParticipantCollection(
-                ...array_map(static function ($name) {
-                    return new FilmParticipant($name);
-                }, $data[self::FIELD_SCREENPLAYERS])
+                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_SCREENPLAYERS])
             )
             : new FilmParticipantCollection();
 
         $musicians = isset($data[self::FIELD_MUSICIANS]) && is_array($data[self::FIELD_MUSICIANS])
             ? new FilmParticipantCollection(
-                ...array_map(static function ($name) {
-                    return new FilmParticipant($name);
-                }, $data[self::FIELD_MUSICIANS])
+                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_MUSICIANS])
             )
             : new FilmParticipantCollection();
 
         $cinematographers = isset($data[self::FIELD_CINEMATOGRAPHERS]) && is_array($data[self::FIELD_CINEMATOGRAPHERS])
             ? new FilmParticipantCollection(
-                ...array_map(static function ($name) {
-                    return new FilmParticipant($name);
-                }, $data[self::FIELD_CINEMATOGRAPHERS])
+                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_CINEMATOGRAPHERS])
             )
             : new FilmParticipantCollection();
 
         $genres = isset($data[self::FIELD_GENRES]) && is_array($data[self::FIELD_GENRES])
             ? new FilmAttributeCollection(
-                ...array_map(static function ($name) {
-                    return new FilmAttribute($name);
-                }, $data[self::FIELD_GENRES])
+                ...array_map(static fn($name) => new FilmAttribute($name), $data[self::FIELD_GENRES])
             )
             : new FilmAttributeCollection();
 
         $topics = isset($data[self::FIELD_TOPICS]) && is_array($data[self::FIELD_TOPICS])
             ? new FilmAttributeCollection(
-                ...array_map(static function ($name) {
-                    return new FilmAttribute($name);
-                }, $data[self::FIELD_TOPICS])
+                ...array_map(static fn($name) => new FilmAttribute($name), $data[self::FIELD_TOPICS])
             )
             : new FilmAttributeCollection();
 
@@ -402,9 +309,7 @@ class Film
             if (is_array($data[self::FIELD_PRO_REVIEWS])) {
                 $proReviews = new ProReviewCollection(
                     ...array_map(
-                        static function ($proReview) {
-                            return ProReview::buildFromArray($proReview);
-                        }, $data[self::FIELD_PRO_REVIEWS]
+                        static fn($proReview) => ProReview::buildFromArray($proReview), $data[self::FIELD_PRO_REVIEWS]
                     )
                 );
             } else {
@@ -412,13 +317,11 @@ class Film
                     $proReviews = isset($data[self::FIELD_PRO_REVIEWS])
                         ? new ProReviewCollection(
                             ...array_map(
-                                static function ($proReview) {
-                                    return ProReview::buildFromArray($proReview);
-                                }, json_decode($data[self::FIELD_PRO_REVIEWS], true, 512, JSON_THROW_ON_ERROR)
+                                static fn($proReview) => ProReview::buildFromArray($proReview), json_decode((string) $data[self::FIELD_PRO_REVIEWS], true, 512, JSON_THROW_ON_ERROR)
                             )
                         )
                         : new ProReviewCollection();
-                } catch (\JsonException $e) {
+                } catch (\JsonException) {
                     $proReviews = new ProReviewCollection();
                 }
             }
@@ -427,9 +330,7 @@ class Film
         $userReviews = isset($data[self::FIELD_USER_REVIEWS]) && is_array($data[self::FIELD_USER_REVIEWS])
             ? new UserReviewCollection(
                 ...array_map(
-                    static function ($userReview) {
-                        return UserReview::buildFromArray($userReview);
-                    }, $data[self::FIELD_USER_REVIEWS]
+                    static fn($userReview) => UserReview::buildFromArray($userReview), $data[self::FIELD_USER_REVIEWS]
                 ))
             : new UserReviewCollection();
 
@@ -448,9 +349,7 @@ class Film
         $platforms = isset($data[self::FIELD_PLATFORMS]) && is_array($data[self::FIELD_PLATFORMS])
             ? new PlatformCollection(
                 ...array_map(
-                    static function ($platform) {
-                        return PlatformAvailability::buildFromArray($platform);
-                    }, $data[self::FIELD_PLATFORMS]
+                    static fn($platform) => PlatformAvailability::buildFromArray($platform), $data[self::FIELD_PLATFORMS]
                 ))
             : new PlatformCollection();
 

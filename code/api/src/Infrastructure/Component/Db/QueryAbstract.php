@@ -9,11 +9,8 @@ abstract class QueryAbstract
 {
     use LogTrait;
 
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     abstract public function isReadOnly(): bool;
@@ -72,7 +69,7 @@ abstract class QueryAbstract
      *
      * @return string the quoted parameter
      */
-    public function quote($input, ?string $type = null): string
+    public function quote(mixed $input, ?string $type = null): string
     {
         return $this->getConnection()->quote($input, $type);
     }

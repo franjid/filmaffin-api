@@ -7,7 +7,7 @@ use App\Domain\Entity\PlatformAvailability;
 class PlatformCollection
 {
     /** @var PlatformAvailability[] */
-    private array $platforms;
+    private readonly array $platforms;
 
     public function __construct(PlatformAvailability ...$platforms)
     {

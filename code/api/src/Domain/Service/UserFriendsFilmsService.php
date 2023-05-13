@@ -14,18 +14,8 @@ use App\Infrastructure\Interfaces\UserDatabaseRepositoryInterface;
 
 class UserFriendsFilmsService implements UserFriendsFilmsInterface
 {
-    private UserDatabaseRepositoryInterface $userDatabaseRepository;
-    private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
-    private FilmIndexRepositoryInterface $filmIndexRepository;
-
-    public function __construct(
-        UserDatabaseRepositoryInterface $userDatabaseRepository,
-        FilmDatabaseRepositoryInterface $filmDatabaseRepository,
-        FilmIndexRepositoryInterface $filmIndexRepository
-    ) {
-        $this->userDatabaseRepository = $userDatabaseRepository;
-        $this->filmDatabaseRepository = $filmDatabaseRepository;
-        $this->filmIndexRepository = $filmIndexRepository;
+    public function __construct(private readonly UserDatabaseRepositoryInterface $userDatabaseRepository, private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository, private readonly FilmIndexRepositoryInterface $filmIndexRepository)
+    {
     }
 
     public function getUserFriendsFilms(
@@ -35,7 +25,7 @@ class UserFriendsFilmsService implements UserFriendsFilmsInterface
     ): FilmRatedByUserExtendedCollection {
         try {
             $this->userDatabaseRepository->getUser($idUser);
-        } catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException) {
             throw new \App\Domain\Exception\UserNotFoundException('User id not found: '.$idUser);
         }
 
@@ -77,9 +67,7 @@ class UserFriendsFilmsService implements UserFriendsFilmsInterface
             }
         }
 
-        usort($filmsRatedByUserExtendedRaw, static function ($a, $b) {
-            return $a['dateRatedTimestamp'] < $b['dateRatedTimestamp'];
-        });
+        usort($filmsRatedByUserExtendedRaw, static fn($a, $b) => $a['dateRatedTimestamp'] < $b['dateRatedTimestamp']);
 
         $filmsRatedByUserExtended = [];
 

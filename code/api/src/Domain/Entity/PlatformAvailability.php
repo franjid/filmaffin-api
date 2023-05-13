@@ -4,18 +4,11 @@ namespace App\Domain\Entity;
 
 class PlatformAvailability
 {
-    public const FIELD_TYPE = 'type';
-    public const FIELD_NAME = 'name';
+    final public const FIELD_TYPE = 'type';
+    final public const FIELD_NAME = 'name';
 
-    private string $type;
-    private string $name;
-
-    public function __construct(
-        string $type,
-        string $name
-    ) {
-        $this->type = $type;
-        $this->name = $name;
+    public function __construct(private readonly string $type, private readonly string $name)
+    {
     }
 
     public function getType(): string

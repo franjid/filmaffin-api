@@ -15,23 +15,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 class IndexFilmsCommand extends Command
 {
     protected static $defaultName = self::COMMAND_NAME;
-    public const COMMAND_NAME = 'filmaffin:films:index';
+    final public const COMMAND_NAME = 'filmaffin:films:index';
     private const MAX_FILMS_PER_ITERATION = 100;
     private const OPTION_TIMESTAMP = 'timestamp';
 
-    private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
-    private FilmsIndexerInterface $filmsIndexerService;
-    private FilmPopulatorInterface $filmPopulator;
-
     public function __construct(
-        FilmDatabaseRepositoryInterface $filmDatabaseRepository,
-        FilmsIndexerInterface $filmsIndexerService,
-        FilmPopulatorInterface $filmPopulator
+        private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository,
+        private readonly FilmsIndexerInterface $filmsIndexerService,
+        private readonly FilmPopulatorInterface $filmPopulator
     ) {
-        $this->filmDatabaseRepository = $filmDatabaseRepository;
-        $this->filmsIndexerService = $filmsIndexerService;
-        $this->filmPopulator = $filmPopulator;
-
         parent::__construct();
     }
 

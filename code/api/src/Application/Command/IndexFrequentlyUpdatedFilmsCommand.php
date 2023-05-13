@@ -15,22 +15,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class IndexFrequentlyUpdatedFilmsCommand extends Command
 {
     protected static $defaultName = 'filmaffin:films:index:frequently-updated';
-    private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
-    private FilmIndexRepositoryInterface $filmIndexRepository;
-    private FilmsIndexerInterface $filmsIndexerService;
-    private FilmPopulatorInterface $filmPopulator;
 
     public function __construct(
-        FilmDatabaseRepositoryInterface $filmDatabaseRepository,
-        FilmIndexRepositoryInterface $filmIndexRepository,
-        FilmsIndexerInterface $filmsIndexerService,
-        FilmPopulatorInterface $filmPopulator
+        private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository,
+        private readonly FilmIndexRepositoryInterface $filmIndexRepository,
+        private readonly FilmsIndexerInterface $filmsIndexerService,
+        private readonly FilmPopulatorInterface $filmPopulator
     ) {
-        $this->filmDatabaseRepository = $filmDatabaseRepository;
-        $this->filmIndexRepository = $filmIndexRepository;
-        $this->filmsIndexerService = $filmsIndexerService;
-        $this->filmPopulator = $filmPopulator;
-
         parent::__construct();
     }
 

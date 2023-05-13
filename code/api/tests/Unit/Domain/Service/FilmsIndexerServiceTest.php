@@ -202,10 +202,7 @@ class FilmsIndexerServiceTest extends TestCase
             'suggest' => [
                 'input' => array_values(
                     array_unique(
-                        array_merge(
-                            [$film->getTitle()],
-                            [$film->getOriginalTitle()],
-                        )
+                        [$film->getTitle(), $film->getOriginalTitle()]
                     )
                 ),
                 'weight' => $film->getNumRatings(),

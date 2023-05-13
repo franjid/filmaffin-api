@@ -150,7 +150,7 @@ class FilmsController extends AbstractController
     ): JsonResponse {
         try {
             $film = $filmIndexRepository->getFilm($idFilmList);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return new JsonResponse([], JsonResponse::HTTP_BAD_REQUEST);
         }
 

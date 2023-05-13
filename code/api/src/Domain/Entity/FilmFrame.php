@@ -4,18 +4,11 @@ namespace App\Domain\Entity;
 
 class FilmFrame
 {
-    public const FIELD_SMALL = 'small';
-    public const FIELD_LARGE = 'large';
+    final public const FIELD_SMALL = 'small';
+    final public const FIELD_LARGE = 'large';
 
-    private string $small;
-    private string $large;
-
-    public function __construct(
-        string $small,
-        string $large
-    ) {
-        $this->small = $small;
-        $this->large = $large;
+    public function __construct(private readonly string $small, private readonly string $large)
+    {
     }
 
     public function getSmall(): string

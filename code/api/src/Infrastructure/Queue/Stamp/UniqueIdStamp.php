@@ -6,7 +6,7 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
 
 class UniqueIdStamp implements StampInterface
 {
-    private $uniqueId;
+    private readonly string $uniqueId;
 
     public function __construct()
     {

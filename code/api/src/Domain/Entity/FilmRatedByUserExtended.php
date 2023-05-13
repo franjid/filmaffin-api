@@ -8,26 +8,13 @@ namespace App\Domain\Entity;
  */
 class FilmRatedByUserExtended
 {
-    public const FIELD_FILM = 'film';
-    public const FIELD_USER = 'user';
-    public const FIELD_USER_RATING = 'userRating';
-    public const FIELD_DATE_RATED = 'dateRated';
+    final public const FIELD_FILM = 'film';
+    final public const FIELD_USER = 'user';
+    final public const FIELD_USER_RATING = 'userRating';
+    final public const FIELD_DATE_RATED = 'dateRated';
 
-    private Film $film;
-    private UserFilmaffinity $user;
-    private int $userRating;
-    private \DateTimeImmutable $dateRated;
-
-    public function __construct(
-        Film $film,
-        UserFilmaffinity $user,
-        int $userRating,
-        \DateTimeImmutable $dateRated
-    ) {
-        $this->film = $film;
-        $this->user = $user;
-        $this->userRating = $userRating;
-        $this->dateRated = $dateRated;
+    public function __construct(private readonly Film $film, private readonly UserFilmaffinity $user, private readonly int $userRating, private readonly \DateTimeImmutable $dateRated)
+    {
     }
 
     public function getFilm(): Film

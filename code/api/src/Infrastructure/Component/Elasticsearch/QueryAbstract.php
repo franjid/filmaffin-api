@@ -11,15 +11,8 @@ abstract class QueryAbstract
     protected const TIME_QUERY = 'Time';
     protected const TOTAL_RESULTS = 'RowsAffected';
 
-    private Client $client;
-    private string $elasticsearchIndexName;
-
-    public function __construct(
-        Client $client,
-        string $elasticsearchIndexName
-    ) {
-        $this->client = $client;
-        $this->elasticsearchIndexName = $elasticsearchIndexName;
+    public function __construct(private readonly Client $client, private readonly string $elasticsearchIndexName)
+    {
     }
 
     public function getClient(): Client

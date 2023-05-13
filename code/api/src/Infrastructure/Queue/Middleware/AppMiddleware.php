@@ -11,11 +11,8 @@ use Symfony\Component\Messenger\Stamp\SentStamp;
 
 class AppMiddleware implements MiddlewareInterface
 {
-    private LoggerInterface $logger;
-
-    public function __construct(LoggerInterface $messengerAuditLogger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
-        $this->logger = $messengerAuditLogger;
     }
 
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
@@ -29,7 +26,7 @@ class AppMiddleware implements MiddlewareInterface
 
         $context = [
             'id' => $stamp->getUniqueId(),
-            'class' => get_class($envelope->getMessage()),
+            'class' => $envelope->getMessage()::class,
         ];
 
         $envelope = $stack->next()->handle($envelope, $stack);

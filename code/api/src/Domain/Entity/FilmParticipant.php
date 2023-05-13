@@ -4,13 +4,10 @@ namespace App\Domain\Entity;
 
 class FilmParticipant
 {
-    public const FIELD_NAME = 'name';
+    final public const FIELD_NAME = 'name';
 
-    private string $name;
-
-    public function __construct(string $name)
+    public function __construct(private readonly string $name)
     {
-        $this->name = $name;
     }
 
     public function getName(): string

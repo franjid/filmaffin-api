@@ -4,12 +4,8 @@ namespace App\Domain\Event;
 
 class UserFriendsNewFilmsRatedEvent extends AbstractEvent
 {
-    private int $userIdFilmaffinity;
-
-    public function __construct(
-        int $userIdFilmaffinity
-    ) {
-        $this->userIdFilmaffinity = $userIdFilmaffinity;
+    public function __construct(private readonly int $userIdFilmaffinity)
+    {
     }
 
     public function getUserIdFilmaffinity(): int

@@ -12,16 +12,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class CheckUsersFriendsNewRatingsCommand extends Command
 {
     protected static $defaultName = 'filmaffin:users:check-friends-new-ratings';
-    private UserDatabaseRepositoryInterface $userDatabaseRepository;
-    private MessageBusInterface $bus;
 
     public function __construct(
-        UserDatabaseRepositoryInterface $userDatabaseRepository,
-        MessageBusInterface $bus
+        private readonly UserDatabaseRepositoryInterface $userDatabaseRepository,
+        private readonly MessageBusInterface $bus
     ) {
-        $this->userDatabaseRepository = $userDatabaseRepository;
-        $this->bus = $bus;
-
         parent::__construct();
     }
 

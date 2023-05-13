@@ -9,8 +9,6 @@ class SqlFormatter extends NormalizerFormatter
     private const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 
     protected ?string $format;
-    protected bool $allowInlineLineBreaks;
-    protected bool $ignoreEmptyContextAndExtra;
 
     /**
      * @param string $format                The format of the message
@@ -20,12 +18,10 @@ class SqlFormatter extends NormalizerFormatter
     public function __construct(
         ?string $format = null,
         ?string $dateFormat = null,
-        bool $allowInlineLineBreaks = false,
-        bool $ignoreEmptyContextAndExtra = false
+        protected bool $allowInlineLineBreaks = false,
+        protected bool $ignoreEmptyContextAndExtra = false
     ) {
         $this->format = $format ?: static::SIMPLE_FORMAT;
-        $this->allowInlineLineBreaks = $allowInlineLineBreaks;
-        $this->ignoreEmptyContextAndExtra = $ignoreEmptyContextAndExtra;
         parent::__construct($dateFormat);
     }
 
@@ -48,7 +44,7 @@ class SqlFormatter extends NormalizerFormatter
         $output = str_replace('%context%', $context, $output);
 
         foreach ($formattedRecords as $formattedRecord => $val) {
-            if (false !== strpos($output, '%'.$formattedRecord.'%')) {
+            if (str_contains($output, '%'.$formattedRecord.'%')) {
                 $output = str_replace('%'.$formattedRecord.'%', $this->stringify($val), $output);
             }
         }
@@ -72,7 +68,7 @@ class SqlFormatter extends NormalizerFormatter
         } elseif (PHP_VERSION_ID >= 50400) {
             $stringValue = $this->toJson($data, true);
         } else {
-            $stringValue = str_replace('\\/', '/', json_encode($data));
+            $stringValue = str_replace('\\/', '/', json_encode($data, JSON_THROW_ON_ERROR));
         }
 
         return $stringValue;

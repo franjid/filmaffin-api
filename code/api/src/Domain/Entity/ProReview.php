@@ -4,22 +4,12 @@ namespace App\Domain\Entity;
 
 class ProReview
 {
-    public const FIELD_AUTHOR = 'author';
-    public const FIELD_REVIEW = 'review';
-    public const FIELD_TREND = 'trend';
+    final public const FIELD_AUTHOR = 'author';
+    final public const FIELD_REVIEW = 'review';
+    final public const FIELD_TREND = 'trend';
 
-    private string $author;
-    private string $review;
-    private string $trend;
-
-    public function __construct(
-        string $author,
-        string $review,
-        string $trend
-    ) {
-        $this->author = $author;
-        $this->review = $review;
-        $this->trend = $trend;
+    public function __construct(private readonly string $author, private readonly string $review, private readonly string $trend)
+    {
     }
 
     public function getAuthor(): string

@@ -15,9 +15,7 @@ class GetFilm extends NormalQuery
         bool $includeReviews
     ): array {
         $numResults = count(explode(',', $idFilmList));
-        $reviews = static function (bool $includeReviews) {
-            return $includeReviews ? ',"proReviews", "userReviews"' : '';
-        };
+        $reviews = static fn(bool $includeReviews) => $includeReviews ? ',"proReviews", "userReviews"' : '';
 
         $query = <<<EOT
 {
