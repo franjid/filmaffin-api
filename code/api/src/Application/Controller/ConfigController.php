@@ -2,22 +2,22 @@
 
 namespace App\Application\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 class ConfigController extends AbstractController
 {
     /**
-     * @Operation(
+     * @OA\Get(
+     *     path="/config",
      *     tags={"Config"},
      *     summary="Get config",
-     *
-     *     @SWG\Response(
-     *         response="200",
-     *         description=""
-     *     ),
+     *     description="Retrieves the configuration.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent()
+     *     )
      * )
      */
     public function indexAction(): JsonResponse

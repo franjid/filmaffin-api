@@ -83,9 +83,6 @@
     "elasticsearch/elasticsearch": {
         "version": "v5.5.0"
     },
-    "exsyst/swagger": {
-        "version": "v0.4.1"
-    },
     "ezimuel/guzzlestreams": {
         "version": "3.0.1"
     },
@@ -103,9 +100,6 @@
         "files": [
             ".php-cs-fixer.dist.php"
         ]
-    },
-    "laminas/laminas-code": {
-        "version": "3.4.1"
     },
     "laminas/laminas-eventmanager": {
         "version": "3.2.1"
@@ -245,9 +239,6 @@
     "sebastian/version": {
         "version": "3.0.0"
     },
-    "symfony/amqp-messenger": {
-        "version": "v5.1.0"
-    },
     "symfony/asset": {
         "version": "v5.0.7"
     },
@@ -280,9 +271,6 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v5.0.7"
-    },
-    "symfony/doctrine-messenger": {
-        "version": "v5.1.0"
     },
     "symfony/dotenv": {
         "version": "v5.0.7"
@@ -408,9 +396,6 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.17.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.15.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
     },
@@ -419,9 +404,6 @@
     },
     "symfony/property-info": {
         "version": "v5.0.7"
-    },
-    "symfony/redis-messenger": {
-        "version": "v5.1.0"
     },
     "symfony/routing": {
         "version": "5.4",

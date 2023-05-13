@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Component\Db;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 
 abstract class ReadQueryAbstract extends QueryAbstract
 {
@@ -19,13 +19,13 @@ abstract class ReadQueryAbstract extends QueryAbstract
      *
      * @return array|false|mixed[]
      *
-     * @throws DBALException
+     * @throws Exception
      */
     protected function fetchAssoc(string $query)
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->fetchAssoc($query);
+        $result = $this->getConnection()->executeQuery($query)->fetchAssociative();
 
         $endTimeMs = microtime(true);
 
@@ -43,7 +43,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
      *
      * @return mixed
      *
-     * @throws DBALException
+     * @throws Exception
      */
     protected function fetchObject(string $query, string $class = '\stdClass')
     {
@@ -64,12 +64,14 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
     /**
      * Returns the result as an associative array.
+     *
+     * @throws Exception
      */
     protected function fetchAll(string $query): array
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->fetchAll($query);
+        $result = $this->getConnection()->fetchAllAssociative($query);
 
         $endTimeMs = microtime(true);
 
@@ -87,7 +89,7 @@ abstract class ReadQueryAbstract extends QueryAbstract
      *
      * @param string|null $class full name class (with namespace)
      *
-     * @throws DBALException
+     * @throws Exception
      */
     protected function fetchAllObject(string $query, ?string $class = '\stdClass'): array
     {
@@ -108,12 +110,14 @@ abstract class ReadQueryAbstract extends QueryAbstract
 
     /**
      * @return mixed
+     *
+     * @throws Exception
      */
     protected function fetchColumn(string $query)
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->fetchColumn($query);
+        $result = $this->getConnection()->executeQuery($query)->fetchFirstColumn();
 
         $endTimeMs = microtime(true);
 

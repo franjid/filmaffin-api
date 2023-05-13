@@ -4,8 +4,7 @@ namespace App\Application\Controller;
 
 use App\Domain\Helper\StringHelper;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,62 +12,75 @@ use Symfony\Component\HttpFoundation\Request;
 class FilmsController extends AbstractController
 {
     /**
-     * @Operation(
+     * @OA\Get(
+     *     path="/films",
      *     tags={"Films"},
      *     summary="Search films by title OR team member (if title is provided, team member filter is ignored)",
-     *
-     *     @SWG\Parameter(
+     *     description="Returns a list of films that match the given criteria.",
+     *     @OA\Parameter(
      *         name="title",
      *         in="query",
      *         description="Films with that title. It returns 10 best suggestions",
      *         required=false,
-     *         type="string"
+     *         @OA\Schema(
+     *             type="string"
+     *         )
      *     ),
-     *     @SWG\Parameter(
+     *     @OA\Parameter(
      *         name="teamMemberType",
      *         in="query",
      *         description="[directors, actors, screenplayers]",
      *         required=false,
-     *         type="string"
+     *         @OA\Schema(
+     *             type="string"
+     *         )
      *     ),
-     *     @SWG\Parameter(
+     *     @OA\Parameter(
      *         name="teamMemberName",
      *         in="query",
      *         description="Director's name, actor's name, etc",
      *         required=false,
-     *         type="string"
+     *         @OA\Schema(
+     *             type="string"
+     *         )
      *     ),
-     *     @SWG\Parameter(
+     *     @OA\Parameter(
      *         name="sort",
      *         in="query",
      *         description="(Only when filtering by team member) Sort by [year, rating]",
      *         required=false,
-     *         type="string"
+     *         @OA\Schema(
+     *             type="string"
+     *         )
      *     ),
-     *     @SWG\Parameter(
+     *     @OA\Parameter(
      *         name="numResults",
      *         in="query",
      *         description="(Only when filtering by team member) Maximum amount of results to be returned (10 by default)",
      *         required=false,
-     *         type="integer"
+     *         @OA\Schema(
+     *             type="integer",
+     *             default=10
+     *         )
      *     ),
-     *     @SWG\Parameter(
+     *     @OA\Parameter(
      *         name="offset",
      *         in="query",
      *         description="(Only when filtering by team member) Offset from the first result you want to fetch",
      *         required=false,
-     *         type="integer"
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
      *     ),
-     *
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="200",
      *         description="Returned when successful"
      *     ),
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="400",
-     *         description="Returned if title parameter is not set or lenght is < 3"
+     *         description="Returned if title parameter is not set or length is < 3"
      *     ),
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="404",
      *         description="Returned when there are no films matching the given title"
      *     )
@@ -125,22 +137,34 @@ class FilmsController extends AbstractController
     }
 
     /**
-     * @Operation(
+     * @OA\Get(
+     *     path="/films",
      *     tags={"Films"},
      *     summary="Get films by id",
      *     description="It accepts a film id or a list (separated by commas: 1, 2, 3)",
-     *
-     *     @SWG\Response(
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="Film ID or a list of IDs (comma-separated)",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response="200",
-     *         description="Returned when successful"
+     *         description="Returned when successful",
+     *         @OA\JsonContent()
      *     ),
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="400",
-     *         description="Returned when the ids are not a list of integers"
+     *         description="Returned when the ids are not a list of integers",
+     *         @OA\JsonContent()
      *     ),
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="404",
-     *         description="Returned when the id does not exist"
+     *         description="Returned when the id does not exist",
+     *         @OA\JsonContent()
      *     )
      * )
      */
@@ -160,30 +184,36 @@ class FilmsController extends AbstractController
     }
 
     /**
-     * @Operation(
+     * @OA\Get(
+     *     path="/films",
      *     tags={"Films"},
      *     summary="Get popular films",
-     *
-     *     @SWG\Parameter(
+     *     description="Retrieve a list of popular films.",
+     *     @OA\Parameter(
      *         name="numResults",
      *         in="query",
      *         description="Maximum amount of results to be returned (10 by default)",
      *         required=false,
-     *         type="integer"
+     *         @OA\Schema(
+     *             type="integer",
+     *             default=10
+     *         )
      *     ),
-     *     @SWG\Parameter(
+     *     @OA\Parameter(
      *         name="offset",
      *         in="query",
      *         description="Offset from the first result you want to fetch",
      *         required=false,
-     *         type="integer"
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
      *     ),
-     *
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="200",
-     *         description="Returned when successful"
+     *         description="Returned when successful",
+     *         @OA\JsonContent()
      *     ),
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="404",
      *         description="Returned when the id does not exist"
      *     )
@@ -205,23 +235,26 @@ class FilmsController extends AbstractController
     }
 
     /**
-     * @Operation(
+     * @OA\Get(
+     *     path="/films",
      *     tags={"Films"},
      *     summary="Get current films in theatres",
-     *
-     *     @SWG\Parameter(
+     *     description="Retrieves the list of current films in theatres.",
+     *     @OA\Parameter(
      *         name="sort",
      *         in="query",
      *         description="Sort films by [releaseDate, rating, numRatings]",
      *         required=false,
-     *         type="string"
+     *         @OA\Schema(
+     *             type="string"
+     *         )
      *     ),
-     *
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="200",
-     *         description="Returned when successful"
+     *         description="Returned when successful",
+     *         @OA\JsonContent()
      *     ),
-     *     @SWG\Response(
+     *     @OA\Response(
      *         response="404",
      *         description="Returned when the id does not exist"
      *     )
@@ -250,13 +283,15 @@ class FilmsController extends AbstractController
     }
 
     /**
-     * @Operation(
+     * @OA\Get(
+     *     path="/films",
      *     tags={"Films"},
      *     summary="Get new films by platform",
-     *
-     *     @SWG\Response(
+     *     description="Retrieves new films based on the given platform.",
+     *     @OA\Response(
      *         response="200",
-     *         description="Returned when successful"
+     *         description="Returned when successful",
+     *         @OA\JsonContent()
      *     ),
      * )
      */
