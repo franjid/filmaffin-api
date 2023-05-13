@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class IndexFrequentlyUpdatedFilmsCommand extends Command
 {
+    protected static $defaultName = 'filmaffin:films:index:frequently-updated';
     private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
     private FilmIndexRepositoryInterface $filmIndexRepository;
     private FilmsIndexerInterface $filmsIndexerService;
@@ -36,9 +37,7 @@ class IndexFrequentlyUpdatedFilmsCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('filmaffin:films:index:frequently-updated')
-            ->setDescription('Index frequently updated films in Elasticsearch');
+        $this->setDescription('Index frequently updated films in Elasticsearch');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

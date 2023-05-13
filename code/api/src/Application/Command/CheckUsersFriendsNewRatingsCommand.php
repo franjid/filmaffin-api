@@ -11,6 +11,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class CheckUsersFriendsNewRatingsCommand extends Command
 {
+    protected static $defaultName = 'filmaffin:users:check-friends-new-ratings';
     private UserDatabaseRepositoryInterface $userDatabaseRepository;
     private MessageBusInterface $bus;
 
@@ -27,9 +28,7 @@ class CheckUsersFriendsNewRatingsCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('filmaffin:users:check-friends-new-ratings')
-            ->setDescription('Check if user friends have new ratings');
+        $this->setDescription('Check if user friends have new ratings');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

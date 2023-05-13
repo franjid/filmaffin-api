@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class IndexFilmsCommand extends Command
 {
+    protected static $defaultName = self::COMMAND_NAME;
     public const COMMAND_NAME = 'filmaffin:films:index';
     private const MAX_FILMS_PER_ITERATION = 100;
     private const OPTION_TIMESTAMP = 'timestamp';
@@ -37,9 +38,7 @@ class IndexFilmsCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName(self::COMMAND_NAME)
-            ->setDescription('Get films from DB and index them in Elasticsearch')
+        $this->setDescription('Get films from DB and index them in Elasticsearch')
             ->addOption(
                 self::OPTION_TIMESTAMP,
                 't',
