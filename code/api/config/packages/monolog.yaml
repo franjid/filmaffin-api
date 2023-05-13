@@ -108,3 +108,7 @@ when@prod:
         level: error
       elasticsearch_query:
         level: error
+      deprecation:
+        type: stream
+        channels: [deprecation]
+        path: php://stderr
