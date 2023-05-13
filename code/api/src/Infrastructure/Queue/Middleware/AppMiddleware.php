@@ -11,8 +11,9 @@ use Symfony\Component\Messenger\Stamp\SentStamp;
 
 class AppMiddleware implements MiddlewareInterface
 {
-    public function __construct(private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     public function handle(Envelope $envelope, StackInterface $stack): Envelope

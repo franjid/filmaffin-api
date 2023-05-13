@@ -8,8 +8,11 @@ class PosterImages
     final public const FIELD_MEDIUM = 'medium';
     final public const FIELD_LARGE = 'large';
 
-    public function __construct(private readonly string $small, private readonly string $medium, private readonly string $large)
-    {
+    public function __construct(
+        private readonly string $small,
+        private readonly string $medium,
+        private readonly string $large
+    ) {
     }
 
     public function getSmall(): string

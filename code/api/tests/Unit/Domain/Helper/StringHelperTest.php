@@ -83,7 +83,7 @@ class StringHelperTest extends TestCase
                     'e bella',
                     'bella',
                 ],
-            ]
+            ],
         ];
     }
 }

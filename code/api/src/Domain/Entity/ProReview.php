@@ -8,8 +8,11 @@ class ProReview
     final public const FIELD_REVIEW = 'review';
     final public const FIELD_TREND = 'trend';
 
-    public function __construct(private readonly string $author, private readonly string $review, private readonly string $trend)
-    {
+    public function __construct(
+        private readonly string $author,
+        private readonly string $review,
+        private readonly string $trend
+    ) {
     }
 
     public function getAuthor(): string

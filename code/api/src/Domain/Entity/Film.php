@@ -39,8 +39,34 @@ class Film
     final public const FIELD_PLATFORMS = 'platforms';
     final public const FIELD_NEW_IN_PLATFORM = 'newInPlatform';
 
-    public function __construct(private readonly int $idFilm, private readonly string $title, private readonly string $originalTitle, private readonly ?float $rating, private readonly ?int $numRatings, private readonly ?int $popularityRanking, private readonly int $year, private readonly ?int $duration, private readonly string $country, private readonly bool $inTheatres, private readonly ?string $releaseDate, private readonly ?string $synopsis, private FilmParticipantCollection $directors, private FilmParticipantCollection $actors, private FilmParticipantCollection $screenplayers, private FilmParticipantCollection $musicians, private FilmParticipantCollection $cinematographers, private FilmAttributeCollection $genres, private FilmAttributeCollection $topics, private ProReviewCollection $proReviews, private UserReviewCollection $userReviews, private readonly ?\App\Domain\Entity\PosterImages $posterImages, private readonly int $numFrames, private readonly FilmFramesCollection $frames, private ?\App\Domain\Entity\Collection\PlatformCollection $platforms, private ?string $newInPlatform)
-    {
+    public function __construct(
+        private readonly int $idFilm,
+        private readonly string $title,
+        private readonly string $originalTitle,
+        private readonly ?float $rating,
+        private readonly ?int $numRatings,
+        private readonly ?int $popularityRanking,
+        private readonly int $year,
+        private readonly ?int $duration,
+        private readonly string $country,
+        private readonly bool $inTheatres,
+        private readonly ?string $releaseDate,
+        private readonly ?string $synopsis,
+        private FilmParticipantCollection $directors,
+        private FilmParticipantCollection $actors,
+        private FilmParticipantCollection $screenplayers,
+        private FilmParticipantCollection $musicians,
+        private FilmParticipantCollection $cinematographers,
+        private FilmAttributeCollection $genres,
+        private FilmAttributeCollection $topics,
+        private ProReviewCollection $proReviews,
+        private UserReviewCollection $userReviews,
+        private readonly ?PosterImages $posterImages,
+        private readonly int $numFrames,
+        private readonly FilmFramesCollection $frames,
+        private ?PlatformCollection $platforms,
+        private ?string $newInPlatform
+    ) {
     }
 
     public function getIdFilm(): int
@@ -264,43 +290,43 @@ class Film
     {
         $directors = isset($data[self::FIELD_DIRECTORS]) && is_array($data[self::FIELD_DIRECTORS])
             ? new FilmParticipantCollection(
-                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_DIRECTORS])
+                ...array_map(static fn ($name) => new FilmParticipant($name), $data[self::FIELD_DIRECTORS])
             )
             : new FilmParticipantCollection();
 
         $actors = isset($data[self::FIELD_ACTORS]) && is_array($data[self::FIELD_ACTORS])
             ? new FilmParticipantCollection(
-                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_ACTORS])
+                ...array_map(static fn ($name) => new FilmParticipant($name), $data[self::FIELD_ACTORS])
             )
             : new FilmParticipantCollection();
 
         $screenplayers = isset($data[self::FIELD_SCREENPLAYERS]) && is_array($data[self::FIELD_SCREENPLAYERS])
             ? new FilmParticipantCollection(
-                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_SCREENPLAYERS])
+                ...array_map(static fn ($name) => new FilmParticipant($name), $data[self::FIELD_SCREENPLAYERS])
             )
             : new FilmParticipantCollection();
 
         $musicians = isset($data[self::FIELD_MUSICIANS]) && is_array($data[self::FIELD_MUSICIANS])
             ? new FilmParticipantCollection(
-                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_MUSICIANS])
+                ...array_map(static fn ($name) => new FilmParticipant($name), $data[self::FIELD_MUSICIANS])
             )
             : new FilmParticipantCollection();
 
         $cinematographers = isset($data[self::FIELD_CINEMATOGRAPHERS]) && is_array($data[self::FIELD_CINEMATOGRAPHERS])
             ? new FilmParticipantCollection(
-                ...array_map(static fn($name) => new FilmParticipant($name), $data[self::FIELD_CINEMATOGRAPHERS])
+                ...array_map(static fn ($name) => new FilmParticipant($name), $data[self::FIELD_CINEMATOGRAPHERS])
             )
             : new FilmParticipantCollection();
 
         $genres = isset($data[self::FIELD_GENRES]) && is_array($data[self::FIELD_GENRES])
             ? new FilmAttributeCollection(
-                ...array_map(static fn($name) => new FilmAttribute($name), $data[self::FIELD_GENRES])
+                ...array_map(static fn ($name) => new FilmAttribute($name), $data[self::FIELD_GENRES])
             )
             : new FilmAttributeCollection();
 
         $topics = isset($data[self::FIELD_TOPICS]) && is_array($data[self::FIELD_TOPICS])
             ? new FilmAttributeCollection(
-                ...array_map(static fn($name) => new FilmAttribute($name), $data[self::FIELD_TOPICS])
+                ...array_map(static fn ($name) => new FilmAttribute($name), $data[self::FIELD_TOPICS])
             )
             : new FilmAttributeCollection();
 
@@ -309,7 +335,7 @@ class Film
             if (is_array($data[self::FIELD_PRO_REVIEWS])) {
                 $proReviews = new ProReviewCollection(
                     ...array_map(
-                        static fn($proReview) => ProReview::buildFromArray($proReview), $data[self::FIELD_PRO_REVIEWS]
+                        static fn ($proReview) => ProReview::buildFromArray($proReview), $data[self::FIELD_PRO_REVIEWS]
                     )
                 );
             } else {
@@ -317,7 +343,7 @@ class Film
                     $proReviews = isset($data[self::FIELD_PRO_REVIEWS])
                         ? new ProReviewCollection(
                             ...array_map(
-                                static fn($proReview) => ProReview::buildFromArray($proReview), json_decode((string) $data[self::FIELD_PRO_REVIEWS], true, 512, JSON_THROW_ON_ERROR)
+                                static fn ($proReview) => ProReview::buildFromArray($proReview), json_decode((string) $data[self::FIELD_PRO_REVIEWS], true, 512, JSON_THROW_ON_ERROR)
                             )
                         )
                         : new ProReviewCollection();
@@ -330,7 +356,7 @@ class Film
         $userReviews = isset($data[self::FIELD_USER_REVIEWS]) && is_array($data[self::FIELD_USER_REVIEWS])
             ? new UserReviewCollection(
                 ...array_map(
-                    static fn($userReview) => UserReview::buildFromArray($userReview), $data[self::FIELD_USER_REVIEWS]
+                    static fn ($userReview) => UserReview::buildFromArray($userReview), $data[self::FIELD_USER_REVIEWS]
                 ))
             : new UserReviewCollection();
 
@@ -349,7 +375,7 @@ class Film
         $platforms = isset($data[self::FIELD_PLATFORMS]) && is_array($data[self::FIELD_PLATFORMS])
             ? new PlatformCollection(
                 ...array_map(
-                    static fn($platform) => PlatformAvailability::buildFromArray($platform), $data[self::FIELD_PLATFORMS]
+                    static fn ($platform) => PlatformAvailability::buildFromArray($platform), $data[self::FIELD_PLATFORMS]
                 ))
             : new PlatformCollection();
 

@@ -136,7 +136,7 @@ class FilmsIndexerServiceTest extends TestCase
         ];
 
         $expectedIndexParams = [
-            'index' => self::ELASTIC_SEARCH_INDEX_NAME . '_' . time(),
+            'index' => self::ELASTIC_SEARCH_INDEX_NAME.'_'.time(),
             'body' => [
                 'mappings' => [
                     self::ELASTIC_SEARCH_TYPE_FILM => $expectedMapping,
@@ -232,10 +232,10 @@ class FilmsIndexerServiceTest extends TestCase
         ];
 
         $expectedIndexParams = [
-            'index' => self::ELASTIC_SEARCH_INDEX_NAME . '_' . time(),
+            'index' => self::ELASTIC_SEARCH_INDEX_NAME.'_'.time(),
             'type' => self::ELASTIC_SEARCH_TYPE_FILM,
-            'body' => '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n"
-                . json_encode($filmForIndex, JSON_THROW_ON_ERROR) . "\n",
+            'body' => '{ "index" : { "_id" : "'.$film->getIdFilm().'" } }'."\n"
+                .json_encode($filmForIndex, JSON_THROW_ON_ERROR)."\n",
         ];
 
         $this->elasticsearchClientMock->expects(static::once())
@@ -273,7 +273,7 @@ class FilmsIndexerServiceTest extends TestCase
     public function testCreateIndexAlias(): void
     {
         $expectedAliasParams = [
-            'index' => self::ELASTIC_SEARCH_INDEX_NAME . '_' . time(),
+            'index' => self::ELASTIC_SEARCH_INDEX_NAME.'_'.time(),
             'name' => self::ELASTIC_SEARCH_INDEX_NAME,
         ];
 

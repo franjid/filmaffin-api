@@ -9,8 +9,9 @@ abstract class QueryAbstract
 {
     use LogTrait;
 
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection
+    ) {
     }
 
     abstract public function isReadOnly(): bool;

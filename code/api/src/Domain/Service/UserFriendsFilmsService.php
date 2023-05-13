@@ -14,8 +14,11 @@ use App\Infrastructure\Interfaces\UserDatabaseRepositoryInterface;
 
 class UserFriendsFilmsService implements UserFriendsFilmsInterface
 {
-    public function __construct(private readonly UserDatabaseRepositoryInterface $userDatabaseRepository, private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository, private readonly FilmIndexRepositoryInterface $filmIndexRepository)
-    {
+    public function __construct(
+        private readonly UserDatabaseRepositoryInterface $userDatabaseRepository,
+        private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository,
+        private readonly FilmIndexRepositoryInterface $filmIndexRepository
+    ) {
     }
 
     public function getUserFriendsFilms(
@@ -67,7 +70,7 @@ class UserFriendsFilmsService implements UserFriendsFilmsInterface
             }
         }
 
-        usort($filmsRatedByUserExtendedRaw, static fn($a, $b) => $a['dateRatedTimestamp'] < $b['dateRatedTimestamp']);
+        usort($filmsRatedByUserExtendedRaw, static fn ($a, $b) => $a['dateRatedTimestamp'] < $b['dateRatedTimestamp']);
 
         $filmsRatedByUserExtended = [];
 

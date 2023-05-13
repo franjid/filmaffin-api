@@ -8,8 +8,9 @@ use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 
 class FilmPopulatorService implements FilmPopulatorInterface
 {
-    public function __construct(private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository)
-    {
+    public function __construct(
+        private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository
+    ) {
     }
 
     public function populateFilm(Film $film): Film

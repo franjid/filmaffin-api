@@ -7,8 +7,10 @@ class PlatformAvailability
     final public const FIELD_TYPE = 'type';
     final public const FIELD_NAME = 'name';
 
-    public function __construct(private readonly string $type, private readonly string $name)
-    {
+    public function __construct(
+        private readonly string $type,
+        private readonly string $name
+    ) {
     }
 
     public function getType(): string

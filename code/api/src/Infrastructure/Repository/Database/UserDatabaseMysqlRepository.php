@@ -84,7 +84,7 @@ class UserDatabaseMysqlRepository extends RepositoryAbstract implements UserData
 
         return new UserFilmaffinityCollection(
             ...array_map(
-                static fn($user) => new UserFilmaffinity(
+                static fn ($user) => new UserFilmaffinity(
                     $user['idUser'],
                     $user['name'],
                     $user['cookieFilmaffinity']

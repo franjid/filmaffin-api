@@ -6,8 +6,9 @@ class FilmParticipant
 {
     final public const FIELD_NAME = 'name';
 
-    public function __construct(private readonly string $name)
-    {
+    public function __construct(
+        private readonly string $name
+    ) {
     }
 
     public function getName(): string

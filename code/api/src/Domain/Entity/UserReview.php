@@ -12,8 +12,15 @@ class UserReview
     final public const FIELD_SPOILER = 'spoiler';
     final public const FIELD_DATE_PUBLISHED = 'datePublished';
 
-    public function __construct(private readonly string $username, private readonly int $idUser, private readonly ?int $rating, private readonly string $title, private readonly string $review, private readonly ?string $spoiler, private readonly \DateTimeImmutable $datePublished)
-    {
+    public function __construct(
+        private readonly string $username,
+        private readonly int $idUser,
+        private readonly ?int $rating,
+        private readonly string $title,
+        private readonly string $review,
+        private readonly ?string $spoiler,
+        private readonly \DateTimeImmutable $datePublished
+    ) {
     }
 
     public function getUsername(): string

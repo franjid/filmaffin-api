@@ -8,8 +8,11 @@ class UserFilmaffinity
     final public const FIELD_USER_NAME = 'userName';
     final public const FIELD_COOKIE = 'cookie';
 
-    public function __construct(private readonly int $userId, private readonly string $userName, private readonly ?string $cookie)
-    {
+    public function __construct(
+        private readonly int $userId,
+        private readonly string $userName,
+        private readonly ?string $cookie
+    ) {
     }
 
     public function getUserId(): int

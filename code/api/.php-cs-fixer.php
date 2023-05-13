@@ -1,10 +1,18 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()->in(__DIR__.'/src');
+require __DIR__ . '/vendor/kubawerlos/php-cs-fixer-custom-fixers/bootstrap.php';
 
-$config = new PhpCsFixer\Config();
+$finder = (new PhpCsFixer\Finder())
+    ->in(__DIR__)
+    ->exclude('var');
 
-return $config->setRules([
-    '@Symfony' => true,
-    'yoda_style' => false,
-])->setFinder($finder);
+return (new PhpCsFixer\Config())
+    ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers())
+    ->setRules([
+        '@Symfony' => true,
+        'yoda_style' => false,
+        PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::name() => [
+            'minimum_number_of_parameters' => 3,
+        ],
+    ])
+    ->setFinder($finder);

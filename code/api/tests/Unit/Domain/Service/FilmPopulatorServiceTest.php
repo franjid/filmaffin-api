@@ -13,7 +13,6 @@ use App\Domain\Entity\FilmParticipant;
 use App\Domain\Entity\UserReview;
 use App\Domain\Service\FilmPopulatorService;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class FilmPopulatorServiceTest extends TestCase
@@ -102,8 +101,8 @@ class FilmPopulatorServiceTest extends TestCase
             ->method('getFilmGenres')
             ->willReturn(new FilmAttributeCollection(...[$genre1, $genre2]));
 
-        $userReview1 = new UserReview('username 1', 1, 7, 'Title 1', 'Review 1', null, (new DateTimeImmutable())->setTimestamp(12345));
-        $userReview2 = new UserReview('username 2', 2, 8, 'Title 2', 'Review 2', 'Spoiler 2', (new DateTimeImmutable())->setTimestamp(123456));
+        $userReview1 = new UserReview('username 1', 1, 7, 'Title 1', 'Review 1', null, (new \DateTimeImmutable())->setTimestamp(12345));
+        $userReview2 = new UserReview('username 2', 2, 8, 'Title 2', 'Review 2', 'Spoiler 2', (new \DateTimeImmutable())->setTimestamp(123456));
         $this->filmDatabaseRepositoryMock->expects(static::once())
             ->method('getUserReviews')
             ->willReturn(new UserReviewCollection(...[$userReview1, $userReview2]));

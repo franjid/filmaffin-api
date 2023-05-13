@@ -10,8 +10,13 @@ class FilmRatedByUser
     final public const FIELD_USER_RATING = 'userRating';
     final public const FIELD_DATE_RATED = 'dateRated';
 
-    public function __construct(private readonly int $idUserRating, private readonly int $idFilm, private readonly UserFilmaffinity $user, private readonly int $userRating, private readonly \DateTimeImmutable $dateRated)
-    {
+    public function __construct(
+        private readonly int $idUserRating,
+        private readonly int $idFilm,
+        private readonly UserFilmaffinity $user,
+        private readonly int $userRating,
+        private readonly \DateTimeImmutable $dateRated
+    ) {
     }
 
     public function getIdUserRating(): int
