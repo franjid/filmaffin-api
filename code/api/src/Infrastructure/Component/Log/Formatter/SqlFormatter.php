@@ -7,13 +7,13 @@ use Monolog\Formatter\NormalizerFormatter;
 class SqlFormatter extends NormalizerFormatter
 {
     private const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
-
     protected ?string $format;
 
     /**
-     * @param string $format                The format of the message
-     * @param string $dateFormat            The format of the timestamp: one supported by DateTime::format
-     * @param bool   $allowInlineLineBreaks Whether to allow inline line breaks in log entries
+     * @param string|null $format The format of the message
+     * @param string|null $dateFormat The format of the timestamp: one supported by DateTime::format
+     * @param bool $allowInlineLineBreaks Whether to allow inline line breaks in log entries
+     * @param bool $ignoreEmptyContextAndExtra
      */
     public function __construct(
         ?string $format = null,
@@ -28,13 +28,13 @@ class SqlFormatter extends NormalizerFormatter
     /**
      * Formats a log record.
      *
-     * @param array $records A record to format
+     * @param array $record A record to format
      *
-     * @return mixed The formatted record
+     * @return string|array|null The formatted record
      */
-    public function format(array $records)
+    public function format(array|\Monolog\LogRecord $record): string|array|null
     {
-        $formattedRecords = parent::format($records);
+        $formattedRecords = parent::format($record);
         $contextData = $formattedRecords['context'];
 
         $context = $contextData['Class'].' | '.$contextData['Pool']
