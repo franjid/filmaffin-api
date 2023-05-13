@@ -337,12 +337,12 @@
         "version": "v5.1.0"
     },
     "symfony/messenger": {
-        "version": "4.3",
+        "version": "5.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "4.3",
-            "ref": "8a2675c061737658bed85102e9241c752620e575"
+            "branch": "main",
+            "version": "5.4",
+            "ref": "8bd5f27013fb1d7217191c548e340f0bdb11912c"
         },
         "files": [
             "config/packages/messenger.yaml"
