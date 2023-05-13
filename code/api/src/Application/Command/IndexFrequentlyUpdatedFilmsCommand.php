@@ -30,7 +30,7 @@ class IndexFrequentlyUpdatedFilmsCommand extends Command
         $this->setDescription('Index frequently updated films in Elasticsearch');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $indexName = $this->filmsIndexerService->getLastIndexName();
         $this->filmsIndexerService->setCurrentIndexName($indexName);

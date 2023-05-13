@@ -25,7 +25,7 @@ class CheckUsersFriendsNewRatingsCommand extends Command
         $this->setDescription('Check if user friends have new ratings');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $usersWithFriends = $this->userDatabaseRepository->getUsersWithFriends();
 

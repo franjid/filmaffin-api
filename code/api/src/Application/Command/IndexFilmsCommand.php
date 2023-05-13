@@ -38,7 +38,7 @@ class IndexFilmsCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $timestamp = $input->getOption(self::OPTION_TIMESTAMP);
 
