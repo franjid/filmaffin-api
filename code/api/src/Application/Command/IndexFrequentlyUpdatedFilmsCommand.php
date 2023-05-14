@@ -8,13 +8,17 @@ use App\Domain\Interfaces\FilmPopulatorInterface;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: self::COMMAND_NAME
+)]
 class IndexFrequentlyUpdatedFilmsCommand extends Command
 {
-    protected static $defaultName = 'filmaffin:films:index:frequently-updated';
+    final public const COMMAND_NAME = 'filmaffin:films:index:frequently-updated';
 
     public function __construct(
         private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository,

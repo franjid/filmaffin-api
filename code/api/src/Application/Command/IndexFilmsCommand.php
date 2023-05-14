@@ -6,15 +6,18 @@ use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Interfaces\FilmPopulatorInterface;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: self::COMMAND_NAME
+)]
 class IndexFilmsCommand extends Command
 {
-    protected static $defaultName = self::COMMAND_NAME;
     final public const COMMAND_NAME = 'filmaffin:films:index';
     private const MAX_FILMS_PER_ITERATION = 100;
     private const OPTION_TIMESTAMP = 'timestamp';
