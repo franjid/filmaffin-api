@@ -14,7 +14,7 @@ class GetPlatforms extends GlobalReadQuery
         $query .= ' FROM';
         $query .= ' assocFilmPlatform afp';
         $query .= ' JOIN platform p USING(idPlatform)';
-        $query .= ' WHERE afp.idFilm = ' . $idFilm;
+        $query .= ' WHERE afp.idFilm = '.$idFilm;
         $query .= ' ORDER BY afp.relevancePosition ASC';
 
         return $this->fetchAll($query);

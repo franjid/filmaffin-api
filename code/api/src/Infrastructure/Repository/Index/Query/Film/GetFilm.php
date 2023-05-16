@@ -8,23 +8,14 @@ class GetFilm extends NormalQuery
 {
     /**
      * The script in script_score is there to return films in the same order they were passed
-     * in the $idFilmList parameter
-     *
-     * @param string $idFilmList
-     *
-     * @param bool   $includeReviews
-     *
-     * @return array
+     * in the $idFilmList parameter.
      */
     public function getResult(
         string $idFilmList,
         bool $includeReviews
-    ): array
-    {
+    ): array {
         $numResults = count(explode(',', $idFilmList));
-        $reviews = static function(bool $includeReviews) {
-            return $includeReviews ? ',"proReviews", "userReviews"' : '';
-        };
+        $reviews = static fn (bool $includeReviews) => $includeReviews ? ',"proReviews", "userReviews"' : '';
 
         $query = <<<EOT
 {

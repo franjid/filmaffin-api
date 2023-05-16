@@ -4,6 +4,7 @@ monolog:
         - "write_query"
         - "elasticsearch_query"
         - "messenger_audit"
+        - "deprecation" # Deprecations are logged in the dedicated "deprecation" channel when it exists
     handlers:
         main:
             type:   stream
@@ -50,3 +51,64 @@ monolog:
             channels: ["messenger_audit"]
         console:
             type:   console
+
+when@dev:
+  monolog:
+    handlers:
+      main:
+        type: stream
+        path: "%kernel.logs_dir%/%kernel.environment%.log"
+        level: debug
+        channels: ["!event"]
+      console:
+        type: console
+        process_psr_3_messages: false
+        channels: ["!event", "!doctrine", "!console"]
+      read_query:
+        level: info
+      write_query:
+        level: info
+      elasticsearch_query:
+        level: info
+
+when@test:
+  monolog:
+    handlers:
+      main:
+        type: fingers_crossed
+        action_level: error
+        handler: nested
+        excluded_http_codes: [404, 405]
+        channels: ["!event"]
+      nested:
+        type: stream
+        path: "%kernel.logs_dir%/%kernel.environment%.log"
+        level: debug
+
+when@prod:
+  monolog:
+    handlers:
+      main:
+        type: fingers_crossed
+        action_level: error
+        handler: nested
+        excluded_http_codes: [404, 405]
+        buffer_size: 50 # How many messages should be saved? Prevent memory leaks
+      nested:
+        type: stream
+        path: "%kernel.logs_dir%/%kernel.environment%.log"
+        level: debug
+      console:
+        type: console
+        process_psr_3_messages: false
+        channels: ["!event", "!doctrine"]
+      read_query:
+        level: error
+      write_query:
+        level: error
+      elasticsearch_query:
+        level: error
+      deprecation:
+        type: stream
+        channels: [deprecation]
+        path: php://stderr

@@ -2,35 +2,21 @@
 
 namespace App\Domain\Entity;
 
-use DateTimeImmutable;
-
 class FilmRatedByUser
 {
-    public const FIELD_ID_USER_RATING = 'idUserRating';
-    public const FIELD_ID_FILM = 'idFilm';
-    public const FIELD_USER = 'user';
-    public const FIELD_USER_RATING = 'userRating';
-    public const FIELD_DATE_RATED = 'dateRated';
-
-    private int $idUserRating;
-    private int $idFilm;
-    private UserFilmaffinity $user;
-    private int $userRating;
-    private DateTimeImmutable $dateRated;
+    final public const FIELD_ID_USER_RATING = 'idUserRating';
+    final public const FIELD_ID_FILM = 'idFilm';
+    final public const FIELD_USER = 'user';
+    final public const FIELD_USER_RATING = 'userRating';
+    final public const FIELD_DATE_RATED = 'dateRated';
 
     public function __construct(
-        int $idUserRating,
-        int $idFilm,
-        UserFilmaffinity $user,
-        int $userRating,
-        DateTimeImmutable $dateRated
-    )
-    {
-        $this->idUserRating = $idUserRating;
-        $this->idFilm = $idFilm;
-        $this->user = $user;
-        $this->userRating = $userRating;
-        $this->dateRated = $dateRated;
+        private readonly int $idUserRating,
+        private readonly int $idFilm,
+        private readonly UserFilmaffinity $user,
+        private readonly int $userRating,
+        private readonly \DateTimeImmutable $dateRated
+    ) {
     }
 
     public function getIdUserRating(): int
@@ -53,7 +39,7 @@ class FilmRatedByUser
         return $this->userRating;
     }
 
-    public function getDateRated(): DateTimeImmutable
+    public function getDateRated(): \DateTimeImmutable
     {
         return $this->dateRated;
     }

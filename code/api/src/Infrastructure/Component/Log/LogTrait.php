@@ -4,20 +4,18 @@ namespace App\Infrastructure\Component\Log;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use RuntimeException;
 
 trait LogTrait
 {
     private LoggerInterface $logger;
 
     /**
-     * @return LoggerInterface
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     protected function getLogger(): LoggerInterface
     {
         if (!$this->logger) {
-            throw new RuntimeException('Logger not found');
+            throw new \RuntimeException('Logger not found');
         }
 
         return $this->logger;
@@ -29,21 +27,17 @@ trait LogTrait
     }
 
     /**
-     * @param string $message
-     * @param array  $contextData
      * @param string $level RFC5452 logging levels (debug,info,notice,warning,error,critical,alert,emergency)
      *
-     * @return void
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     protected function writeLog(
         string $message,
         array $contextData = [],
         string $level = LogLevel::INFO
-    ): void
-    {
+    ): void {
         if (!method_exists($this->getLogger(), $level)) {
-            throw new RuntimeException('Method ' . $level . ' does not exit in LoggerInterface');
+            throw new \RuntimeException('Method '.$level.' does not exit in LoggerInterface');
         }
 
         $data = $this->generateData($contextData, $level);

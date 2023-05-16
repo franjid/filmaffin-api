@@ -14,7 +14,7 @@ class GetFilmMusicians extends GlobalReadQuery
         $query .= ' film';
         $query .= ' JOIN assocFilmMusician USING(idFilm)';
         $query .= ' JOIN musician USING(idMusician)';
-        $query .= ' WHERE idFilm = ' . $idFilm;
+        $query .= ' WHERE idFilm = '.$idFilm;
         $query .= ' ORDER BY assocFilmMusician.relevancePosition';
 
         return $this->fetchAll($query);

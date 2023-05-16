@@ -6,8 +6,8 @@ use App\Domain\Entity\FilmRatedByUser;
 
 class FilmRatedByUserCollection
 {
-    /** @var FilmRatedByUser[] $filmsRatedByUser */
-    private array $filmsRatedByUser;
+    /** @var FilmRatedByUser[] */
+    private readonly array $filmsRatedByUser;
 
     public function __construct(?FilmRatedByUser ...$filmsRatedByUsers)
     {

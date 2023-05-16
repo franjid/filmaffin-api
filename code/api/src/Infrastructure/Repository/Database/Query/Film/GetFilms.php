@@ -29,11 +29,11 @@ class GetFilms extends GlobalReadQuery
         $query .= ' LEFT JOIN filmInTheatres USING(idFilm)';
 
         if ($dateUpdatedNewestThanTimestamp !== null) {
-            $query .= ' WHERE dateUpdated >= ' . $dateUpdatedNewestThanTimestamp;
+            $query .= ' WHERE dateUpdated >= '.$dateUpdatedNewestThanTimestamp;
         }
 
         $query .= ' GROUP BY idFilm';
-        $query .= ' LIMIT ' . $offset . ', ' . $limit;
+        $query .= ' LIMIT '.$offset.', '.$limit;
 
         return $this->fetchAll($query);
     }

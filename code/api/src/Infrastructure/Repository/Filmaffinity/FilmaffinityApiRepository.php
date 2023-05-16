@@ -14,22 +14,15 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
 {
-    private HttpClientInterface $client;
-    private string $userAgent;
+    private readonly string $userAgent;
 
     public function __construct(
-        HttpClientInterface $client
-    )
-    {
-        $this->client = $client;
+        private readonly HttpClientInterface $client
+    ) {
         $this->userAgent = UserAgent::random(['device_type' => 'Mobile']);
     }
 
     /**
-     * @param string $user
-     * @param string $password
-     *
-     * @return UserFilmaffinity
      * @throws CookieNotFoundException
      * @throws InvalidUserPasswordException
      * @throws UserIdNotFoundException
@@ -57,7 +50,7 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
             }
 
             $headers = $response->getHeaders();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new InvalidUserPasswordException('Username or password not valid');
         }
 
@@ -71,16 +64,13 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
     }
 
     /**
-     * @param array $headers
-     *
-     * @return string
      * @throws CookieNotFoundException
      */
     private function getUserCookie(array $headers): string
     {
         foreach ($headers['set-cookie'] as $cookieHeader) {
-            if (strpos($cookieHeader, 'FSID=') !== false) {
-                preg_match('/^FSID=[[:alnum:]]+;/', $cookieHeader, $matches);
+            if (str_contains((string) $cookieHeader, 'FSID=')) {
+                preg_match('/^FSID=[[:alnum:]]+;/', (string) $cookieHeader, $matches);
 
                 return $matches[0];
             }
@@ -90,9 +80,6 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
     }
 
     /**
-     * @param string $userTemplateContent
-     *
-     * @return int
      * @throws UserIdNotFoundException
      */
     private function getUserId(string $userTemplateContent): int
@@ -106,15 +93,12 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
             }
 
             return $userId;
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new UserIdNotFoundException('User id not found');
         }
     }
 
     /**
-     * @param string $userTemplateContent
-     *
-     * @return string
      * @throws UserNameNotFoundException
      */
     private function getUserName(string $userTemplateContent): string
@@ -128,15 +112,12 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
             }
 
             return $userName;
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new UserNameNotFoundException('User name not found');
         }
     }
 
     /**
-     * @param string $userCookie
-     *
-     * @return string
      * @throws UserTemplateNotValidException
      */
     private function getUserTemplate(string $userCookie): string
@@ -149,7 +130,7 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
                     'headers' => [
                         'user-agent' => $this->userAgent,
                         'cookie' => $userCookie,
-                    ]
+                    ],
                 ]
             );
 
@@ -159,7 +140,7 @@ class FilmaffinityApiRepository implements FilmaffinityRepositoryInterface
             if ($statusCode !== 200 || !isset($content['html'])) {
                 throw new \Exception();
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new UserTemplateNotValidException('User id not found');
         }
 

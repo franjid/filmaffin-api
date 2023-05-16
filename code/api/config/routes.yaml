@@ -19,3 +19,11 @@ index:
         route: 'app.swagger_ui'
         permanent: true
         keepRequestMethod: true
+
+controllers:
+    resource: ../src/Application/Controller/
+    type: annotation
+
+kernel:
+    resource: ../src/Application/Kernel.php
+    type: annotation

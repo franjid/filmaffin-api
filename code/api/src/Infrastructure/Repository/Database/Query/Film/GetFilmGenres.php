@@ -14,7 +14,7 @@ class GetFilmGenres extends GlobalReadQuery
         $query .= ' film';
         $query .= ' JOIN assocFilmGenre USING(idFilm)';
         $query .= ' JOIN genre USING(idGenre)';
-        $query .= ' WHERE idFilm = ' . $idFilm;
+        $query .= ' WHERE idFilm = '.$idFilm;
         $query .= ' ORDER BY assocFilmGenre.relevancePosition';
 
         return $this->fetchAll($query);

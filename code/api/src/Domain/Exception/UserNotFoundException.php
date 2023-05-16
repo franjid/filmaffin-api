@@ -2,8 +2,6 @@
 
 namespace App\Domain\Exception;
 
-use LogicException;
-
-class UserNotFoundException extends LogicException
+class UserNotFoundException extends \LogicException
 {
 }

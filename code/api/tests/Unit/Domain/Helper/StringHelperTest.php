@@ -18,9 +18,6 @@ class StringHelperTest extends TestCase
 
     /**
      * @dataProvider diacriticsDataProvider
-     *
-     * @param string $originalString
-     * @param string $expectedString
      */
     public function testRemoveDiacritics(string $originalString, string $expectedString): void
     {
@@ -63,9 +60,6 @@ class StringHelperTest extends TestCase
 
     /**
      * @dataProvider wordPermutationsDataProvider
-     *
-     * @param string $originalString
-     * @param array $expectedPermutations
      */
     public function testGetSanitizedWordPermutations(string $originalString, array $expectedPermutations): void
     {
@@ -89,7 +83,7 @@ class StringHelperTest extends TestCase
                     'e bella',
                     'bella',
                 ],
-            ]
+            ],
         ];
     }
 }

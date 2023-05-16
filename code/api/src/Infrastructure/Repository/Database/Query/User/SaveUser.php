@@ -11,8 +11,7 @@ class SaveUser extends GlobalWriteQuery
         string $userNameFilmaffinity,
         string $cookieFilmaffinity,
         ?string $appNotificationsToken
-    ): int
-    {
+    ): int {
         $query = 'INSERT INTO user (';
         $query .= '  `idUser`';
         $query .= ' , `name`';
@@ -27,11 +26,11 @@ class SaveUser extends GlobalWriteQuery
 
         $query .= ' VALUES (';
         $query .= $userIdFilmaffinity;
-        $query .= ' , ' . $this->quote($userNameFilmaffinity);
-        $query .= ' , ' . $this->quote($cookieFilmaffinity);
+        $query .= ' , '.$this->quote($userNameFilmaffinity);
+        $query .= ' , '.$this->quote($cookieFilmaffinity);
 
         if ($appNotificationsToken && $appNotificationsToken !== 'null') {
-            $query .= ' , ' . $this->quote($appNotificationsToken);
+            $query .= ' , '.$this->quote($appNotificationsToken);
         }
 
         $query .= ' , UNIX_TIMESTAMP()';

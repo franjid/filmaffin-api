@@ -6,40 +6,33 @@ use App\Domain\Entity\Collection\FilmCollection;
 use App\Domain\Interfaces\FilmPopulatorInterface;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: self::COMMAND_NAME
+)]
 class IndexFilmsCommand extends Command
 {
-    public const COMMAND_NAME = 'filmaffin:films:index';
+    final public const COMMAND_NAME = 'filmaffin:films:index';
     private const MAX_FILMS_PER_ITERATION = 100;
     private const OPTION_TIMESTAMP = 'timestamp';
 
-    private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
-    private FilmsIndexerInterface $filmsIndexerService;
-    private FilmPopulatorInterface $filmPopulator;
-
     public function __construct(
-        FilmDatabaseRepositoryInterface $filmDatabaseRepository,
-        FilmsIndexerInterface $filmsIndexerService,
-        FilmPopulatorInterface $filmPopulator
-    )
-    {
-        $this->filmDatabaseRepository = $filmDatabaseRepository;
-        $this->filmsIndexerService = $filmsIndexerService;
-        $this->filmPopulator = $filmPopulator;
-
+        private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository,
+        private readonly FilmsIndexerInterface $filmsIndexerService,
+        private readonly FilmPopulatorInterface $filmPopulator
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this
-            ->setName(self::COMMAND_NAME)
-            ->setDescription('Get films from DB and index them in Elasticsearch')
+        $this->setDescription('Get films from DB and index them in Elasticsearch')
             ->addOption(
                 self::OPTION_TIMESTAMP,
                 't',
@@ -48,7 +41,7 @@ class IndexFilmsCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $timestamp = $input->getOption(self::OPTION_TIMESTAMP);
 
@@ -61,8 +54,9 @@ class IndexFilmsCommand extends Command
 
         $totalFilmsToIndex = $this->filmDatabaseRepository->getFilmsCount($timestamp);
 
-        if(!$totalFilmsToIndex) {
+        if (!$totalFilmsToIndex) {
             $output->writeln('Nothing to index');
+
             return 0;
         }
 

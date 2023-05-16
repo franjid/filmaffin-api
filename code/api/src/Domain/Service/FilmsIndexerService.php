@@ -10,31 +10,22 @@ use App\Domain\Helper\StringHelper;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\ElasticsearchServiceInterface;
 use Elasticsearch\Client;
-use Exception;
-use JsonException;
 
 class FilmsIndexerService implements FilmsIndexerInterface
 {
-    private Client $elasticsearchClient;
-    private string $elasticsearchIndexName;
+    private readonly Client $elasticsearchClient;
     private array $indexParams;
-    private StringHelper $stringHelper;
-    private FilmImageHelper $filmImageHelper;
 
     public function __construct(
         ElasticsearchServiceInterface $elasticsearch,
-        string $elasticsearchIndexName,
-        StringHelper $stringHelper,
-        FilmImageHelper $filmImageHelper
-    )
-    {
+        private readonly string $elasticsearchIndexName,
+        private readonly StringHelper $stringHelper,
+        private readonly FilmImageHelper $filmImageHelper
+    ) {
         $this->elasticsearchClient = $elasticsearch->getClient();
-        $this->elasticsearchIndexName = $elasticsearchIndexName;
-        $this->stringHelper = $stringHelper;
-        $this->filmImageHelper = $filmImageHelper;
 
         $this->indexParams = [
-            'index' => $elasticsearchIndexName . '_' . time(),
+            'index' => $elasticsearchIndexName.'_'.time(),
         ];
     }
 
@@ -173,18 +164,18 @@ class FilmsIndexerService implements FilmsIndexerInterface
                 'new_in_platform' => $film->getNewInPlatform(),
             ];
 
-            $this->indexParams['body'] .= '{ "index" : { "_id" : "' . $film->getIdFilm() . '" } }' . "\n";
+            $this->indexParams['body'] .= '{ "index" : { "_id" : "'.$film->getIdFilm().'" } }'."\n";
 
             try {
-                $this->indexParams['body'] .= json_encode($filmForIndex, JSON_THROW_ON_ERROR) . "\n";
-            } catch (JsonException $e) {
-                trigger_error('Json malformed. Film id: ' . $film->getIdFilm());
+                $this->indexParams['body'] .= json_encode($filmForIndex, JSON_THROW_ON_ERROR)."\n";
+            } catch (\JsonException) {
+                trigger_error('Json malformed. Film id: '.$film->getIdFilm());
             }
         }
 
         $result = $this->elasticsearchClient->bulk($this->indexParams);
 
-        if ((boolean) $result['errors'] === true) {
+        if ((bool) $result['errors'] === true) {
             throw new \Exception($result['items'][0]['index']['error']['reason']);
         }
     }
@@ -211,8 +202,8 @@ class FilmsIndexerService implements FilmsIndexerInterface
     {
         try {
             $indexes = $this->elasticsearchClient->indices()->getMapping();
-        } catch (Exception $e) {
-            $indexes = null;
+        } catch (\Exception) {
+            $indexes = [];
         }
 
         return $indexes;
@@ -220,6 +211,7 @@ class FilmsIndexerService implements FilmsIndexerInterface
 
     public function createIndexAlias(): void
     {
+        $aliasParams = [];
         $aliasParams['index'] = $this->indexParams['index'];
         $aliasParams['name'] = $this->elasticsearchIndexName;
         $this->elasticsearchClient->indices()->putAlias($aliasParams);
@@ -229,23 +221,17 @@ class FilmsIndexerService implements FilmsIndexerInterface
     {
         $indexesNames = array_keys($this->getPreviousIndexes());
         $projectIndexes = 0;
-        $lastIndexName = null;
+        $lastIndexName = '';
 
         foreach ($indexesNames as $indexName) {
-            if (strpos($indexName, $this->elasticsearchIndexName) !== false) {
+            if (str_contains((string) $indexName, $this->elasticsearchIndexName)) {
                 $lastIndexName = $indexName;
-                $projectIndexes++;
+                ++$projectIndexes;
             }
         }
 
         if ($projectIndexes > 1) {
-            throw new IndexInconsistencyException(
-                sprintf(
-                    'There are more than 1 %s index, this could cause inconsistency problems. Run %s to clean up',
-                    $this->elasticsearchIndexName,
-                    IndexFilmsCommand::COMMAND_NAME
-                )
-            );
+            throw new IndexInconsistencyException(sprintf('There are more than 1 %s index, this could cause inconsistency problems. Run %s to clean up', $this->elasticsearchIndexName, IndexFilmsCommand::COMMAND_NAME));
         }
 
         return $lastIndexName;

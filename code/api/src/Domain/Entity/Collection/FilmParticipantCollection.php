@@ -6,8 +6,8 @@ use App\Domain\Entity\FilmParticipant;
 
 class FilmParticipantCollection
 {
-    /** @var FilmParticipant[] $participants */
-    private array $participants;
+    /** @var FilmParticipant[] */
+    private readonly array $participants;
 
     public function __construct(?FilmParticipant ...$participants)
     {

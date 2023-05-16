@@ -23,14 +23,13 @@ interface UserDatabaseRepositoryInterface
     ): int;
 
     /**
-     * @param int $userIdFilmaffinity
-     *
-     * @return UserFilmaffinity
      * @throws UserNotFoundException
      */
     public function getUser(int $userIdFilmaffinity): UserFilmaffinity;
 
     public function getUsersWithFriends(): UserFilmaffinityCollection;
+
     public function getLastIdUserRatingNotificated(int $userIdFilmaffinity): ?int;
+
     public function getLastIdUserRatingFromUserFriends(int $userIdFilmaffinity): ?int;
 }

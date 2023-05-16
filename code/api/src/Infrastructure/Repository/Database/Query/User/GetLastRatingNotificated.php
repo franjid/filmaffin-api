@@ -12,7 +12,7 @@ class GetLastRatingNotificated extends GlobalReadQuery
         $query .= '   idUserRating';
         $query .= ' FROM';
         $query .= ' userLastRatingNotificated';
-        $query .= ' WHERE idUser = ' . $idUser;
+        $query .= ' WHERE idUser = '.$idUser;
         $query .= ' LIMIT 1';
 
         return $this->fetchAll($query);

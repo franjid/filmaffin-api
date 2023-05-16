@@ -6,8 +6,8 @@ use App\Domain\Entity\UserReview;
 
 class UserReviewCollection
 {
-    /** @var UserReview[] $userReviews */
-    private array $userReviews;
+    /** @var UserReview[] */
+    private readonly array $userReviews;
 
     public function __construct(UserReview ...$userReviews)
     {

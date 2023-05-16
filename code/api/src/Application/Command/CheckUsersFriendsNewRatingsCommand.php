@@ -11,28 +11,21 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class CheckUsersFriendsNewRatingsCommand extends Command
 {
-    private UserDatabaseRepositoryInterface $userDatabaseRepository;
-    private MessageBusInterface $bus;
+    protected static $defaultName = 'filmaffin:users:check-friends-new-ratings';
 
     public function __construct(
-        UserDatabaseRepositoryInterface $userDatabaseRepository,
-        MessageBusInterface $bus
-    )
-    {
-        $this->userDatabaseRepository = $userDatabaseRepository;
-        $this->bus = $bus;
-
+        private readonly UserDatabaseRepositoryInterface $userDatabaseRepository,
+        private readonly MessageBusInterface $bus
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this
-            ->setName('filmaffin:users:check-friends-new-ratings')
-            ->setDescription('Check if user friends have new ratings');
+        $this->setDescription('Check if user friends have new ratings');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $usersWithFriends = $this->userDatabaseRepository->getUsersWithFriends();
 

@@ -6,8 +6,8 @@ use App\Domain\Entity\Film;
 
 class FilmCollection
 {
-    /** @var Film[] $film */
-    private array $films;
+    /** @var Film[] */
+    private readonly array $films;
 
     public function __construct(Film ...$films)
     {

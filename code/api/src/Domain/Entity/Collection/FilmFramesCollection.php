@@ -6,8 +6,8 @@ use App\Domain\Entity\FilmFrame;
 
 class FilmFramesCollection
 {
-    /** @var FilmFrame[] $filmFrames */
-    private array $filmFrames;
+    /** @var FilmFrame[] */
+    private readonly array $filmFrames;
 
     public function __construct(FilmFrame ...$filmFrames)
     {

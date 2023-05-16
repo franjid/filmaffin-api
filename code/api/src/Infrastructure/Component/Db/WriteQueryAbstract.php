@@ -15,9 +15,6 @@ abstract class WriteQueryAbstract extends QueryAbstract
      * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
      * and returns the number of affected rows.
      *
-     * @param string $query
-     *
-     * @return int
      * @throws DBALException
      */
     protected function executeUpdate(string $query): int
@@ -32,9 +29,6 @@ abstract class WriteQueryAbstract extends QueryAbstract
     }
 
     /**
-     * @param string $query
-     *
-     * @return int
      * @throws DBALException
      */
     protected function insertAndGetLastInsertedId(string $query): int

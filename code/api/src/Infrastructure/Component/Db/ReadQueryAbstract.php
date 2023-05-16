@@ -2,8 +2,7 @@
 
 namespace App\Infrastructure\Component\Db;
 
-use Doctrine\DBAL\DBALException;
-use PDO;
+use Doctrine\DBAL\Exception;
 
 abstract class ReadQueryAbstract extends QueryAbstract
 {
@@ -16,18 +15,17 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * Returns the first row of the result as an associative array
-     *
-     * @param string $query
+     * Returns the first row of the result as an associative array.
      *
      * @return array|false|mixed[]
-     * @throws DBALException
+     *
+     * @throws Exception
      */
     protected function fetchAssoc(string $query)
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->fetchAssoc($query);
+        $result = $this->getConnection()->executeQuery($query)->fetchAssociative();
 
         $endTimeMs = microtime(true);
 
@@ -41,11 +39,11 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * @param string $query
      * @param string $class Full name class (with namespace)
      *
      * @return mixed
-     * @throws DBALException
+     *
+     * @throws Exception
      */
     protected function fetchObject(string $query, string $class = '\stdClass')
     {
@@ -67,15 +65,13 @@ abstract class ReadQueryAbstract extends QueryAbstract
     /**
      * Returns the result as an associative array.
      *
-     * @param string $query
-     *
-     * @return array
+     * @throws Exception
      */
     protected function fetchAll(string $query): array
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->fetchAll($query);
+        $result = $this->getConnection()->fetchAllAssociative($query);
 
         $endTimeMs = microtime(true);
 
@@ -89,19 +85,17 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * Returns the result as an associative array of objects
+     * Returns the result as an associative array of objects.
      *
-     * @param string      $query
-     * @param string|null $class Full name class (with namespace).
+     * @param string|null $class full name class (with namespace)
      *
-     * @return array
-     * @throws DBALException
+     * @throws Exception
      */
     protected function fetchAllObject(string $query, ?string $class = '\stdClass'): array
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->executeQuery($query)->fetchAll(PDO::FETCH_CLASS, $class);
+        $result = $this->getConnection()->executeQuery($query)->fetchAll(\PDO::FETCH_CLASS, $class);
 
         $endTimeMs = microtime(true);
 
@@ -115,21 +109,21 @@ abstract class ReadQueryAbstract extends QueryAbstract
     }
 
     /**
-     * @param string $query
-     *
      * @return mixed
+     *
+     * @throws Exception
      */
     protected function fetchColumn(string $query)
     {
         $startTimeMs = microtime(true);
 
-        $result = $this->getConnection()->fetchColumn($query);
+        $result = $this->getConnection()->executeQuery($query)->fetchFirstColumn();
 
         $endTimeMs = microtime(true);
 
         $extraData = [
             static::TIME_VAR_NAME => $endTimeMs - $startTimeMs,
-            static::ROWS_AFFECTED_VAR_NAME => count($result),
+            static::ROWS_AFFECTED_VAR_NAME => is_countable($result) ? count($result) : 0,
         ];
         $this->writeLog($query, array_merge($this->getExtraDataLog(), $extraData));
 

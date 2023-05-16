@@ -2,43 +2,25 @@
 
 namespace App\Domain\Entity;
 
-use DateTimeImmutable;
-
 class UserReview
 {
-    public const FIELD_USERNAME = 'username';
-    public const FIELD_ID_USER = 'idUser';
-    public const FIELD_RATING = 'rating';
-    public const FIELD_TITLE = 'title';
-    public const FIELD_REVIEW = 'review';
-    public const FIELD_SPOILER = 'spoiler';
-    public const FIELD_DATE_PUBLISHED = 'datePublished';
-
-    private string $username;
-    private int $idUser;
-    private ?int $rating;
-    private string $title;
-    private string $review;
-    private ?string $spoiler;
-    private DateTimeImmutable $datePublished;
+    final public const FIELD_USERNAME = 'username';
+    final public const FIELD_ID_USER = 'idUser';
+    final public const FIELD_RATING = 'rating';
+    final public const FIELD_TITLE = 'title';
+    final public const FIELD_REVIEW = 'review';
+    final public const FIELD_SPOILER = 'spoiler';
+    final public const FIELD_DATE_PUBLISHED = 'datePublished';
 
     public function __construct(
-        string $username,
-        int $idUser,
-        ?int $rating,
-        string $title,
-        string $review,
-        ?string $spoiler,
-        DateTimeImmutable $datePublished
-    )
-    {
-        $this->username = $username;
-        $this->idUser = $idUser;
-        $this->rating = $rating;
-        $this->title = $title;
-        $this->review = $review;
-        $this->spoiler = $spoiler;
-        $this->datePublished = $datePublished;
+        private readonly string $username,
+        private readonly int $idUser,
+        private readonly ?int $rating,
+        private readonly string $title,
+        private readonly string $review,
+        private readonly ?string $spoiler,
+        private readonly \DateTimeImmutable $datePublished
+    ) {
     }
 
     public function getUsername(): string
@@ -71,7 +53,7 @@ class UserReview
         return $this->spoiler;
     }
 
-    public function getDatePublished(): DateTimeImmutable
+    public function getDatePublished(): \DateTimeImmutable
     {
         return $this->datePublished;
     }
@@ -98,7 +80,7 @@ class UserReview
             $data[self::FIELD_TITLE],
             $data[self::FIELD_REVIEW],
             $data[self::FIELD_SPOILER],
-            (new DateTimeImmutable())->setTimestamp($data[self::FIELD_DATE_PUBLISHED]),
+            (new \DateTimeImmutable())->setTimestamp($data[self::FIELD_DATE_PUBLISHED]),
         );
     }
 }

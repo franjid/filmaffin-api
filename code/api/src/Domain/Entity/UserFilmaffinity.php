@@ -4,19 +4,15 @@ namespace App\Domain\Entity;
 
 class UserFilmaffinity
 {
-    public const FIELD_USER_ID = 'userId';
-    public const FIELD_USER_NAME = 'userName';
-    public const FIELD_COOKIE = 'cookie';
+    final public const FIELD_USER_ID = 'userId';
+    final public const FIELD_USER_NAME = 'userName';
+    final public const FIELD_COOKIE = 'cookie';
 
-    private int $userId;
-    private string $userName;
-    private ?string $cookie;
-
-    public function __construct(int $userId, string $userName, ?string $cookie)
-    {
-        $this->userId = $userId;
-        $this->userName = $userName;
-        $this->cookie = $cookie;
+    public function __construct(
+        private readonly int $userId,
+        private readonly string $userName,
+        private readonly ?string $cookie
+    ) {
     }
 
     public function getUserId(): int

@@ -6,12 +6,13 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
 
 class UniqueIdStamp implements StampInterface
 {
-    private $uniqueId;
+    private readonly string $uniqueId;
 
     public function __construct()
     {
         $this->uniqueId = uniqid('', true);
     }
+
     public function getUniqueId(): string
     {
         return $this->uniqueId;

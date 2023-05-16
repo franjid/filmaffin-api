@@ -27,7 +27,7 @@ class GetFilmsById extends GlobalReadQuery
         $query .= ' film';
         $query .= ' LEFT JOIN filmPopular USING(idFilm)';
         $query .= ' LEFT JOIN filmInTheatres USING(idFilm)';
-        $query .= ' WHERE idFilm IN (' . implode(',', $idFilms) . ')';
+        $query .= ' WHERE idFilm IN ('.implode(',', $idFilms).')';
         $query .= ' GROUP BY idFilm';
 
         return $this->fetchAll($query);

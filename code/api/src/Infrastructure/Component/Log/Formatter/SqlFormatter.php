@@ -7,51 +7,45 @@ use Monolog\Formatter\NormalizerFormatter;
 class SqlFormatter extends NormalizerFormatter
 {
     private const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
-
     protected ?string $format;
-    protected bool $allowInlineLineBreaks;
-    protected bool $ignoreEmptyContextAndExtra;
 
     /**
-     * @param string $format                The format of the message
-     * @param string $dateFormat            The format of the timestamp: one supported by DateTime::format
-     * @param bool   $allowInlineLineBreaks Whether to allow inline line breaks in log entries
-     * @param bool   $ignoreEmptyContextAndExtra
+     * @param string|null $format The format of the message
+     * @param string|null $dateFormat The format of the timestamp: one supported by DateTime::format
+     * @param bool $allowInlineLineBreaks Whether to allow inline line breaks in log entries
+     * @param bool $ignoreEmptyContextAndExtra
      */
     public function __construct(
         ?string $format = null,
         ?string $dateFormat = null,
-        bool $allowInlineLineBreaks = false,
-        bool $ignoreEmptyContextAndExtra = false
-    )
-    {
+        protected bool $allowInlineLineBreaks = false,
+        protected bool $ignoreEmptyContextAndExtra = false
+    ) {
         $this->format = $format ?: static::SIMPLE_FORMAT;
-        $this->allowInlineLineBreaks = $allowInlineLineBreaks;
-        $this->ignoreEmptyContextAndExtra = $ignoreEmptyContextAndExtra;
         parent::__construct($dateFormat);
     }
 
     /**
      * Formats a log record.
      *
-     * @param array $records A record to format
+     * @param array $record A record to format
      *
-     * @return mixed The formatted record
+     * @return string|array|null The formatted record
      */
-    public function format(array $records)
+    public function format(array|\Monolog\LogRecord $record): string|array|null
     {
-        $formattedRecords = parent::format($records);
+        $formattedRecords = parent::format($record);
         $contextData = $formattedRecords['context'];
 
-        $context = $contextData['Class'] . ' | ' . $contextData['Pool']
-            . ' | ' . $contextData['Time'] . ' | ' . $contextData['RowsAffected'];
+        $context = $contextData['Class'].' | '.$contextData['Pool']
+            .' | '.$contextData['Time'].' | '.$contextData['RowsAffected'];
 
         $output = $this->format;
         $output = str_replace('%context%', $context, $output);
 
         foreach ($formattedRecords as $formattedRecord => $val) {
-            if (false !== strpos($output, '%' . $formattedRecord . '%')) {
-                $output = str_replace('%' . $formattedRecord . '%', $this->stringify($val), $output);
+            if (str_contains($output, '%'.$formattedRecord.'%')) {
+                $output = str_replace('%'.$formattedRecord.'%', $this->stringify($val), $output);
             }
         }
 
@@ -69,12 +63,12 @@ class SqlFormatter extends NormalizerFormatter
 
         if (null === $data || is_bool($data)) {
             $stringValue = var_export($data, true);
-        } else if (is_scalar($data)) {
+        } elseif (is_scalar($data)) {
             $stringValue = (string) $data;
-        } else if (PHP_VERSION_ID >= 50400) {
+        } elseif (PHP_VERSION_ID >= 50400) {
             $stringValue = $this->toJson($data, true);
         } else {
-            $stringValue = str_replace('\\/', '/', json_encode($data));
+            $stringValue = str_replace('\\/', '/', json_encode($data, JSON_THROW_ON_ERROR));
         }
 
         return $stringValue;

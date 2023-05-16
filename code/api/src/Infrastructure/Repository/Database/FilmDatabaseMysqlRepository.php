@@ -31,7 +31,6 @@ use App\Infrastructure\Repository\Database\Query\Film\GetFrequentlyUpdatedFilms;
 use App\Infrastructure\Repository\Database\Query\Film\GetPlatforms;
 use App\Infrastructure\Repository\Database\Query\Film\GetUserReviews;
 use App\Infrastructure\Repository\RepositoryAbstract;
-use DateTimeImmutable;
 
 class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmDatabaseRepositoryInterface
 {
@@ -220,8 +219,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
         int $idUser,
         int $numResults,
         int $offset
-    ): FilmRatedByUserCollection
-    {
+    ): FilmRatedByUserCollection {
         /** @var GetFilmsRatedByUserFriends $query */
         $query = $this->getQuery(GetFilmsRatedByUserFriends::class);
         $results = $query->getResult($idUser, $numResults, $offset);
@@ -242,7 +240,7 @@ class FilmDatabaseMysqlRepository extends RepositoryAbstract implements FilmData
                     null
                 ),
                 $result['rating'],
-                (new DateTimeImmutable())->setTimestamp($result['dateRated'])
+                (new \DateTimeImmutable())->setTimestamp($result['dateRated'])
             );
         }
 

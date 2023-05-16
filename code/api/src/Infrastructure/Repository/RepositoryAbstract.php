@@ -6,11 +6,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class RepositoryAbstract
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private readonly ContainerInterface $container
+    ) {
     }
 
     protected function getQuery(string $serviceId)

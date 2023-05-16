@@ -8,40 +8,33 @@ use App\Domain\Interfaces\FilmPopulatorInterface;
 use App\Domain\Interfaces\FilmsIndexerInterface;
 use App\Infrastructure\Interfaces\FilmDatabaseRepositoryInterface;
 use App\Infrastructure\Interfaces\FilmIndexRepositoryInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: self::COMMAND_NAME
+)]
 class IndexFrequentlyUpdatedFilmsCommand extends Command
 {
-    private FilmDatabaseRepositoryInterface $filmDatabaseRepository;
-    private FilmIndexRepositoryInterface $filmIndexRepository;
-    private FilmsIndexerInterface $filmsIndexerService;
-    private FilmPopulatorInterface $filmPopulator;
+    final public const COMMAND_NAME = 'filmaffin:films:index:frequently-updated';
 
     public function __construct(
-        FilmDatabaseRepositoryInterface $filmDatabaseRepository,
-        FilmIndexRepositoryInterface $filmIndexRepository,
-        FilmsIndexerInterface $filmsIndexerService,
-        FilmPopulatorInterface $filmPopulator
-    )
-    {
-        $this->filmDatabaseRepository = $filmDatabaseRepository;
-        $this->filmIndexRepository = $filmIndexRepository;
-        $this->filmsIndexerService = $filmsIndexerService;
-        $this->filmPopulator = $filmPopulator;
-
+        private readonly FilmDatabaseRepositoryInterface $filmDatabaseRepository,
+        private readonly FilmIndexRepositoryInterface $filmIndexRepository,
+        private readonly FilmsIndexerInterface $filmsIndexerService,
+        private readonly FilmPopulatorInterface $filmPopulator
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this
-            ->setName('filmaffin:films:index:frequently-updated')
-            ->setDescription('Index frequently updated films in Elasticsearch');
+        $this->setDescription('Index frequently updated films in Elasticsearch');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $indexName = $this->filmsIndexerService->getLastIndexName();
         $this->filmsIndexerService->setCurrentIndexName($indexName);
@@ -55,7 +48,7 @@ class IndexFrequentlyUpdatedFilmsCommand extends Command
     }
 
     /**
-     * We need to reindex "current" frequent films to be sure if they continue to be hot (popular/in theatres)
+     * We need to reindex "current" frequent films to be sure if they continue to be hot (popular/in theatres).
      *
      * One film could have been in theatres, but in a new crawling it is not anymore,
      * so we have to check it and reindex (in this case `inTheatres` will be false)

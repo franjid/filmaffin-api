@@ -2,8 +2,6 @@
 
 namespace App\Infrastructure\Exception\Filmaffinity;
 
-use Exception;
-
-class CookieNotFoundException extends Exception
+class CookieNotFoundException extends \Exception
 {
 }

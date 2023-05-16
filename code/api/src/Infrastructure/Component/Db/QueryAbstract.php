@@ -3,19 +3,15 @@
 namespace App\Infrastructure\Component\Db;
 
 use App\Infrastructure\Component\Log\LogTrait;
-use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
-use Exception;
 
 abstract class QueryAbstract
 {
     use LogTrait;
 
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
+    public function __construct(
+        private Connection $connection
+    ) {
     }
 
     abstract public function isReadOnly(): bool;
@@ -33,16 +29,13 @@ abstract class QueryAbstract
     }
 
     /**
-     * Get DbDate in right format to save in database
+     * Get DbDate in right format to save in database.
      *
-     * @param string $time
-     *
-     * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     protected function getDbDate(string $time = 'now'): string
     {
-        $dateTime = new DateTimeImmutable($time);
+        $dateTime = new \DateTimeImmutable($time);
 
         return $this->quote($dateTime->format('Y-m-d H:i:s'));
     }
@@ -58,9 +51,7 @@ abstract class QueryAbstract
     }
 
     /**
-     * Get custom data for logging
-     *
-     * @return array
+     * Get custom data for logging.
      */
     public function getExtraDataLog(): array
     {
@@ -74,12 +65,12 @@ abstract class QueryAbstract
     /**
      * Quotes a given input parameter.
      *
-     * @param mixed       $input The parameter to be quoted.
-     * @param string|null $type  The type of the parameter.
+     * @param mixed       $input the parameter to be quoted
+     * @param string|null $type  the type of the parameter
      *
-     * @return string The quoted parameter.
+     * @return string the quoted parameter
      */
-    public function quote($input, ?string $type = null): string
+    public function quote(mixed $input, ?string $type = null): string
     {
         return $this->getConnection()->quote($input, $type);
     }
